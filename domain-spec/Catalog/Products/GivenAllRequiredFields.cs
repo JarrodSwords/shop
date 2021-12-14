@@ -2,7 +2,7 @@ using FluentAssertions;
 using Shop.Domain.Catalog;
 using Xunit;
 
-namespace Shop.Domain.Spec.Catalog
+namespace Shop.Domain.Spec.Catalog.Products
 {
     public class GivenAllRequiredFields
     {
