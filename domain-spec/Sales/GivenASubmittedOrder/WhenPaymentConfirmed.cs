@@ -26,6 +26,12 @@ namespace Shop.Domain.Spec.Sales.GivenASubmittedOrder
             _order.IsAwaitingFulfillment.Should().BeTrue();
         }
 
+        [Fact]
+        public void ThenOrderIsNotAwaitingPayment()
+        {
+            _order.IsAwaitingPayment.Should().BeFalse();
+        }
+
         #endregion
     }
 }

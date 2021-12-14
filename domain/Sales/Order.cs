@@ -38,6 +38,7 @@ namespace Shop.Domain.Sales
         public Order ConfirmPayment()
         {
             IsAwaitingFulfillment = true;
+            IsAwaitingPayment = false;
             return this;
         }
 
