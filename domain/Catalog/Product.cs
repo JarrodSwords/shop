@@ -23,10 +23,16 @@ namespace Shop.Domain.Catalog
 
         #region Public Interface
 
-        public Description Description { get; }
+        public Description Description { get; private set; }
         public Name Name { get; }
         public Serves Serves { get; }
         public Sku Sku { get; }
+
+        public Product Update(Description description)
+        {
+            Description = description;
+            return this;
+        }
 
         #endregion
     }

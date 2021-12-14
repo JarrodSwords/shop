@@ -14,7 +14,7 @@ namespace Shop.Domain
 
         #region Static Interface
 
-        public static implicit operator Name(string name) => new(name);
+        public static implicit operator Name(string value) => new(value);
 
         #endregion
     }

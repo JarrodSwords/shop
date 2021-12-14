@@ -11,5 +11,11 @@ namespace Shop.Domain
         }
 
         #endregion
+
+        #region Static Interface
+
+        public static implicit operator Description(string value) => new(value);
+
+        #endregion
     }
 }
