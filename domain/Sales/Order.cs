@@ -18,6 +18,7 @@ namespace Shop.Domain.Sales
 
         public DateTime? CancellationDate { get; private set; }
         public OrderDetails Details { get; private set; }
+        public bool IsAwaitingFulfillment { get; private set; }
         public bool IsAwaitingPayment { get; private set; }
         public bool IsCancelled { get; private set; }
 
@@ -31,6 +32,12 @@ namespace Shop.Domain.Sales
         public Order ConfirmDetails()
         {
             IsAwaitingPayment = true;
+            return this;
+        }
+
+        public Order ConfirmPayment()
+        {
+            IsAwaitingFulfillment = true;
             return this;
         }
 
