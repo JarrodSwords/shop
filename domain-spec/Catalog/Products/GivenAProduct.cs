@@ -8,7 +8,7 @@ namespace Shop.Domain.Spec.Catalog.Products
     {
         #region Core
 
-        private readonly Product _product = ObjectProvider.LunchBox;
+        private readonly Product _product = ObjectProvider.CreateLunchBox();
 
         #endregion
 

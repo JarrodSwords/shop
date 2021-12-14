@@ -12,11 +12,18 @@ namespace Shop.Domain.Sales
             Details = details ?? OrderDetails.Default;
         }
 
+        private Order(IOrderBuilder builder)
+        {
+            Customer = builder.GetCustomer();
+            Details = builder.GetDetails();
+        }
+
         #endregion
 
         #region Public Interface
 
         public DateTime? CancellationDate { get; private set; }
+        public Customer Customer { get; }
         public OrderDetails Details { get; private set; }
         public bool IsAwaitingFulfillment { get; private set; }
         public bool IsAwaitingPayment { get; private set; }
@@ -49,6 +56,12 @@ namespace Shop.Domain.Sales
             Details = details;
             return this;
         }
+
+        #endregion
+
+        #region Static Interface
+
+        public static Order From(IOrderBuilder builder) => new(builder);
 
         #endregion
     }

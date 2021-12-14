@@ -1,7 +1,6 @@
 ﻿using System;
 using FluentAssertions;
 using Shop.Domain.Fulfillment;
-using Shop.Domain.Spec.Catalog;
 using Xunit;
 
 namespace Shop.Domain.Spec.Fulfillment.GivenAnOrder
@@ -11,7 +10,7 @@ namespace Shop.Domain.Spec.Fulfillment.GivenAnOrder
         #region Core
 
         private readonly DateTime _deliveryTime = DateTime.Now;
-        private readonly Order _order = ObjectProvider.OrderPendingDelivery;
+        private readonly Order _order = ObjectProvider.CreateOrderPendingDelivery();
 
         public WhenDeliveryScheduled()
         {
