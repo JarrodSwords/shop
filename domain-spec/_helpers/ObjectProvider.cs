@@ -1,5 +1,6 @@
-using Shop.Domain.Catalog;
+using Shop.Domain.Sales;
 using FulfillmentOrder = Shop.Domain.Fulfillment.Order;
+using Product = Shop.Domain.Catalog.Product;
 using SalesOrder = Shop.Domain.Sales.Order;
 
 namespace Shop.Domain.Spec
@@ -19,6 +20,13 @@ namespace Shop.Domain.Spec
         public static FulfillmentOrder CreateOrderPendingDelivery() => new();
 
         public static SalesOrder CreateSubmittedOrder() => new();
+
+        public static Customer CreateJohnDoe() =>
+            new(
+                "john.doe@gmail.com",
+                "John",
+                "Doe"
+            );
 
         #endregion
     }

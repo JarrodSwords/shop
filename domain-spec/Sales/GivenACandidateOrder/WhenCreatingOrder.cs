@@ -21,7 +21,7 @@ namespace Shop.Domain.Spec.Sales.GivenACandidateOrder
         #region Test Methods
 
         [Fact]
-        public void WithoutCustomer_ThenCustomerIsCreated()
+        public void ThenCustomerIsSet()
         {
             _order.Customer.Should().NotBeNull();
         }
@@ -32,12 +32,7 @@ namespace Shop.Domain.Spec.Sales.GivenACandidateOrder
         {
             #region IOrderBuilder Implementation
 
-            public Customer GetCustomer() =>
-                new(
-                    "john.doe@gmail.com",
-                    "John",
-                    "Doe"
-                );
+            public Customer GetCustomer() => ObjectProvider.CreateJohnDoe();
 
             #endregion
         }
