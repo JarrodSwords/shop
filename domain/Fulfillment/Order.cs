@@ -1,7 +1,7 @@
 ﻿using System;
 using Jgs.Ddd;
 
-namespace Shop.Domain.Sales
+namespace Shop.Domain.Fulfillment
 {
     public class Order : Entity
     {

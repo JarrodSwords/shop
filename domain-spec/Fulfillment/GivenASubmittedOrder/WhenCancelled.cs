@@ -1,19 +1,19 @@
 ﻿using FluentAssertions;
-using Shop.Domain.Sales;
+using Shop.Domain.Fulfillment;
 using Shop.Domain.Spec.Catalog;
 using Xunit;
 
-namespace Shop.Domain.Spec.Sales.GivenASubmittedOrder
+namespace Shop.Domain.Spec.Fulfillment.GivenASubmittedOrder
 {
     public class WhenCancelled
     {
         #region Core
 
-        private readonly Order Order = ObjectProvider.SubmittedOrder;
+        private readonly Order _order = ObjectProvider.SubmittedOrder;
 
         public WhenCancelled()
         {
-            Order.Cancel();
+            _order.Cancel();
         }
 
         #endregion
@@ -23,13 +23,13 @@ namespace Shop.Domain.Spec.Sales.GivenASubmittedOrder
         [Fact]
         public void ThenCancellationDateIsSet()
         {
-            Order.CancellationDate.Should().NotBeNull();
+            _order.CancellationDate.Should().NotBeNull();
         }
 
         [Fact]
         public void ThenOrderIsCancelled()
         {
-            Order.IsCancelled.Should().BeTrue();
+            _order.IsCancelled.Should().BeTrue();
         }
 
         #endregion

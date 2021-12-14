@@ -1,9 +1,9 @@
 ﻿using FluentAssertions;
-using Shop.Domain.Sales;
+using Shop.Domain.Fulfillment;
 using Shop.Domain.Spec.Catalog;
 using Xunit;
 
-namespace Shop.Domain.Spec.Sales.GivenASubmittedOrder
+namespace Shop.Domain.Spec.Fulfillment.GivenASubmittedOrder
 {
     #region Test Methods
 
@@ -11,7 +11,7 @@ namespace Shop.Domain.Spec.Sales.GivenASubmittedOrder
     {
         #region Core
 
-        private readonly Order Order = ObjectProvider.SubmittedOrder;
+        private readonly Order _order = ObjectProvider.SubmittedOrder;
 
         #endregion
 
@@ -20,8 +20,8 @@ namespace Shop.Domain.Spec.Sales.GivenASubmittedOrder
         [Fact]
         public void WhenDetailsAreConfirmed_ThenOrderIsAwaitingPayment()
         {
-            Order.ConfirmDetails();
-            Order.IsAwaitingPayment.Should().BeTrue();
+            _order.ConfirmDetails();
+            _order.IsAwaitingPayment.Should().BeTrue();
         }
 
         #endregion
