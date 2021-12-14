@@ -8,6 +8,9 @@ namespace Shop.Domain.Spec.Catalog.Products
     {
         #region Core
 
+        private readonly Description _description =
+            new("Each Lunch Box serves one and comes with one meat, one cheese, and accoutrements.");
+
         private readonly Name _name = "Lunch Box";
         private readonly Product _product;
         private readonly Serves _serves = new(1);
@@ -15,12 +18,18 @@ namespace Shop.Domain.Spec.Catalog.Products
 
         public GivenAllRequiredFields()
         {
-            _product = new Product(_name, _serves, _sku);
+            _product = new Product(_description, _name, _serves, _sku);
         }
 
         #endregion
 
         #region Test Methods
+
+        [Fact]
+        public void WhenCreating_ThenDescriptionIsSet()
+        {
+            _product.Description.Should().Be(_description);
+        }
 
         [Fact]
         public void WhenCreating_ThenNameIsSet()
