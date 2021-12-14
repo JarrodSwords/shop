@@ -1,5 +1,5 @@
-using Shop.Domain.Catalog;
-using Shop.Domain.Fulfillment;
+using Shop.Domain.Sales;
+using Product = Shop.Domain.Catalog.Product;
 
 namespace Shop.Domain.Spec.Catalog
 {

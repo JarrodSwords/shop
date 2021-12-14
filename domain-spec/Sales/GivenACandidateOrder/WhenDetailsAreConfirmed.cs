@@ -1,12 +1,10 @@
 ﻿using FluentAssertions;
-using Shop.Domain.Fulfillment;
+using Shop.Domain.Sales;
 using Shop.Domain.Spec.Catalog;
 using Xunit;
 
-namespace Shop.Domain.Spec.Fulfillment.GivenASubmittedOrder
+namespace Shop.Domain.Spec.Sales.GivenACandidateOrder
 {
-    #region Test Methods
-
     public class WhenDetailsAreConfirmed
     {
         #region Core
@@ -26,6 +24,4 @@ namespace Shop.Domain.Spec.Fulfillment.GivenASubmittedOrder
 
         #endregion
     }
-
-    #endregion
 }

@@ -1,9 +1,9 @@
 ﻿using FluentAssertions;
-using Shop.Domain.Fulfillment;
+using Shop.Domain.Sales;
 using Shop.Domain.Spec.Catalog;
 using Xunit;
 
-namespace Shop.Domain.Spec.Fulfillment.GivenASubmittedOrder
+namespace Shop.Domain.Spec.Sales.GivenACandidateOrder
 {
     public class WhenCancelled
     {
