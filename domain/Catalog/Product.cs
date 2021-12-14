@@ -6,10 +6,11 @@ namespace Shop.Domain.Catalog
     {
         #region Creation
 
-        public Product(Name name, Serves serves)
+        public Product(Name name, Serves serves, Sku sku)
         {
             Name = name;
             Serves = serves;
+            Sku = sku;
         }
 
         #endregion
@@ -18,6 +19,7 @@ namespace Shop.Domain.Catalog
 
         public Name Name { get; }
         public Serves Serves { get; }
+        public Sku Sku { get; }
 
         #endregion
     }
