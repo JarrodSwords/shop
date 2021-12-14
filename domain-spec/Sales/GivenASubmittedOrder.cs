@@ -16,6 +16,14 @@ namespace Shop.Domain.Spec.Sales
         #region Test Methods
 
         [Fact]
+        public void WhenCancelled_ThenCancellationDateIsSet()
+        {
+            _order.Cancel();
+
+            _order.CancellationDate.Should().NotBeNull();
+        }
+
+        [Fact]
         public void WhenCancelled_ThenOrderIsCancelled()
         {
             _order.Cancel();
