@@ -25,6 +25,7 @@ namespace Shop.Domain.Sales
         public Order Cancel()
         {
             IsCancelled = true;
+            IsAwaitingPayment = false;
             CancellationDate = DateTime.Now;
             return this;
         }

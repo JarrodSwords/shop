@@ -32,6 +32,12 @@ namespace Shop.Domain.Spec.Sales.GivenASubmittedOrder
             _order.IsCancelled.Should().BeTrue();
         }
 
+        [Fact]
+        public void ThenOrderIsNotAwaitingPayment()
+        {
+            _order.IsAwaitingPayment.Should().BeFalse();
+        }
+
         #endregion
     }
 }
