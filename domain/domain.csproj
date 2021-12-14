@@ -10,8 +10,4 @@
     <PackageReference Include="jgs.ddd" Version="0.1.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Fulfillment\" />
-  </ItemGroup>
-
 </Project>

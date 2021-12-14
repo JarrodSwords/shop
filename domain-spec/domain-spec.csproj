@@ -27,8 +27,4 @@
     <ProjectReference Include="..\domain\domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Fulfillment\" />
-  </ItemGroup>
-
 </Project>
