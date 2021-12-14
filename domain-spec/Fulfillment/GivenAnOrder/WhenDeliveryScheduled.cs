@@ -1,7 +1,6 @@
 ﻿using System;
 using FluentAssertions;
 using Shop.Domain.Fulfillment;
-using Shop.Domain.Spec.Catalog;
 using Xunit;
 
 namespace Shop.Domain.Spec.Fulfillment.GivenAnOrder
