@@ -3,5 +3,6 @@
     public interface IOrderBuilder
     {
         Customer GetCustomer();
+        OrderDetails GetDetails();
     }
 }

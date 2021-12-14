@@ -15,6 +15,7 @@ namespace Shop.Domain.Sales
         private Order(IOrderBuilder builder)
         {
             Customer = builder.GetCustomer();
+            Details = builder.GetDetails();
         }
 
         #endregion

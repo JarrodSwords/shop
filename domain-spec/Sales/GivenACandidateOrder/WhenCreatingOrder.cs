@@ -23,16 +23,25 @@ namespace Shop.Domain.Spec.Sales.GivenACandidateOrder
         [Fact]
         public void ThenCustomerIsSet()
         {
-            _order.Customer.Should().NotBeNull();
+            _order.Customer.Should().Be(_candidateOrder.GetCustomer());
+        }
+
+        [Fact]
+        public void ThenDetailsAreSet()
+        {
+            _order.Details.Should().Be(_candidateOrder.GetDetails());
         }
 
         #endregion
 
         public record CandidateOrderDto : IOrderBuilder
         {
+            private Customer _customer;
+
             #region IOrderBuilder Implementation
 
-            public Customer GetCustomer() => ObjectProvider.CreateJohnDoe();
+            public Customer GetCustomer() => _customer ??= ObjectProvider.CreateJohnDoe();
+            public OrderDetails GetDetails() => new(familyBoxes: 1);
 
             #endregion
         }
