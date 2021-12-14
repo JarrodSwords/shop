@@ -5,10 +5,6 @@ using Xunit;
 
 namespace Shop.Domain.Spec.Sales.GivenASubmittedOrder
 {
-    #region Core
-
-    #endregion
-
     #region Test Methods
 
     public class WhenDetailsAreConfirmed
