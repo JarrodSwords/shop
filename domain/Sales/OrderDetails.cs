@@ -10,15 +10,18 @@ namespace Shop.Domain.Sales
         #region Creation
 
         public OrderDetails(
+            ushort baguettes = default,
             ushort couplesBoxes = default,
             ushort dessertBoxes = default,
             ushort familyBoxes = default,
             bool isGift = default,
             bool isSpecialOccasion = default,
             ushort lunchBoxes = default,
-            ushort partyBoxes = default
+            ushort partyBoxes = default,
+            ushort strawberries = default
         )
         {
+            Baguettes = baguettes;
             CouplesBoxes = couplesBoxes;
             DessertBoxes = dessertBoxes;
             FamilyBoxes = familyBoxes;
@@ -26,12 +29,14 @@ namespace Shop.Domain.Sales
             IsSpecialOccasion = isSpecialOccasion;
             LunchBoxes = lunchBoxes;
             PartyBoxes = partyBoxes;
+            Strawberries = strawberries;
         }
 
         #endregion
 
         #region Public Interface
 
+        public ushort Baguettes { get; }
         public ushort CouplesBoxes { get; }
         public ushort DessertBoxes { get; }
         public ushort FamilyBoxes { get; }
@@ -39,6 +44,7 @@ namespace Shop.Domain.Sales
         public bool IsSpecialOccasion { get; }
         public ushort LunchBoxes { get; }
         public ushort PartyBoxes { get; }
+        public ushort Strawberries { get; }
 
         #endregion
 
@@ -46,6 +52,7 @@ namespace Shop.Domain.Sales
 
         public override IEnumerable<object> GetEqualityComponents()
         {
+            yield return Baguettes;
             yield return CouplesBoxes;
             yield return DessertBoxes;
             yield return FamilyBoxes;
@@ -53,6 +60,7 @@ namespace Shop.Domain.Sales
             yield return IsSpecialOccasion;
             yield return LunchBoxes;
             yield return PartyBoxes;
+            yield return Strawberries;
         }
 
         #endregion
