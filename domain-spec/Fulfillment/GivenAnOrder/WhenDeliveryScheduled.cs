@@ -10,7 +10,7 @@ namespace Shop.Domain.Spec.Fulfillment.GivenAnOrder
         #region Core
 
         private readonly DateTime _deliveryTime = DateTime.Now;
-        private readonly Order _order = ObjectProvider.OrderPendingDelivery;
+        private readonly Order _order = ObjectProvider.CreateOrderPendingDelivery();
 
         public WhenDeliveryScheduled()
         {

@@ -4,7 +4,12 @@
     {
         #region IOrderBuilder Implementation
 
-        public Customer GetCustomer() => new();
+        public Customer GetCustomer() =>
+            new(
+                "john.doe@gmail.com",
+                "John",
+                "Doe"
+            );
 
         #endregion
     }

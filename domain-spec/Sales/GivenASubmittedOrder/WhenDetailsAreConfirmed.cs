@@ -8,7 +8,7 @@ namespace Shop.Domain.Spec.Sales.GivenASubmittedOrder
     {
         #region Core
 
-        private readonly Order _order = ObjectProvider.SubmittedOrder;
+        private readonly Order _order = ObjectProvider.CreateSubmittedOrder();
 
         #endregion
 

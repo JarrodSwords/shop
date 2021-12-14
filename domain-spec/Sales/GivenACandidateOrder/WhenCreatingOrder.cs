@@ -8,7 +8,7 @@ namespace Shop.Domain.Spec.Sales.GivenACandidateOrder
     {
         #region Core
 
-        private readonly CandidateOrderDto _candidateOrder = ObjectProvider.CandidateOrder;
+        private readonly CandidateOrderDto _candidateOrder = ObjectProvider.CreateCandidateOrder();
         private readonly Order _order;
 
         public WhenCreatingOrder()
