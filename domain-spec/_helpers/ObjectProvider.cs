@@ -1,6 +1,5 @@
-using Shop.Domain.Sales;
+using Shop.Domain.Catalog;
 using FulfillmentOrder = Shop.Domain.Fulfillment.Order;
-using Product = Shop.Domain.Catalog.Product;
 using SalesOrder = Shop.Domain.Sales.Order;
 
 namespace Shop.Domain.Spec
@@ -8,8 +7,6 @@ namespace Shop.Domain.Spec
     public class ObjectProvider
     {
         #region Static Interface
-
-        public static CandidateOrderDto CreateCandidateOrder() => new();
 
         public static Product CreateLunchBox() =>
             new(
