@@ -3,7 +3,7 @@ using Shop.Domain.Sales;
 using Shop.Domain.Spec.Catalog;
 using Xunit;
 
-namespace Shop.Domain.Spec.Sales.GivenACandidateOrder
+namespace Shop.Domain.Spec.Sales.GivenASubmittedOrder
 {
     public class WhenCancelled
     {

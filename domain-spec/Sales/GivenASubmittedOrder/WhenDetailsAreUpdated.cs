@@ -3,11 +3,13 @@ using Shop.Domain.Sales;
 using Shop.Domain.Spec.Catalog;
 using Xunit;
 
-namespace Shop.Domain.Spec.Sales.GivenACandidateOrder
+namespace Shop.Domain.Spec.Sales.GivenASubmittedOrder
 {
-    public class WhenDetailsAreConfirmed
+    public class WhenDetailsAreUpdated
     {
         #region Core
+
+        private readonly OrderDetails _details = new(true, true);
 
         private readonly Order _order = ObjectProvider.SubmittedOrder;
 
@@ -16,10 +18,11 @@ namespace Shop.Domain.Spec.Sales.GivenACandidateOrder
         #region Test Methods
 
         [Fact]
-        public void WhenDetailsAreConfirmed_ThenOrderIsAwaitingPayment()
+        public void ThenDetailsAreUpdated()
         {
-            _order.ConfirmDetails();
-            _order.IsAwaitingPayment.Should().BeTrue();
+            _order.Update(_details);
+
+            _order.Details.Should().Be(_details);
         }
 
         #endregion

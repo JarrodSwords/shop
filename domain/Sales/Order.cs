@@ -5,9 +5,19 @@ namespace Shop.Domain.Sales
 {
     public class Order : Entity
     {
+        #region Creation
+
+        public Order(OrderDetails details = default)
+        {
+            Details = details ?? OrderDetails.Default;
+        }
+
+        #endregion
+
         #region Public Interface
 
         public DateTime? CancellationDate { get; private set; }
+        public OrderDetails Details { get; private set; }
         public bool IsAwaitingPayment { get; private set; }
         public bool IsCancelled { get; private set; }
 
@@ -21,6 +31,12 @@ namespace Shop.Domain.Sales
         public Order ConfirmDetails()
         {
             IsAwaitingPayment = true;
+            return this;
+        }
+
+        public Order Update(OrderDetails details)
+        {
+            Details = details;
             return this;
         }
 
