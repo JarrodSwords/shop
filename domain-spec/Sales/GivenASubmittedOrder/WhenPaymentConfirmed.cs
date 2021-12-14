@@ -5,15 +5,15 @@ using Xunit;
 
 namespace Shop.Domain.Spec.Sales.GivenASubmittedOrder
 {
-    public class WhenCancelled
+    public class WhenPaymentConfirmed
     {
         #region Core
 
         private readonly Order _order = ObjectProvider.SubmittedOrder;
 
-        public WhenCancelled()
+        public WhenPaymentConfirmed()
         {
-            _order.Cancel();
+            _order.ConfirmPayment();
         }
 
         #endregion
@@ -21,21 +21,9 @@ namespace Shop.Domain.Spec.Sales.GivenASubmittedOrder
         #region Test Methods
 
         [Fact]
-        public void ThenCancellationDateIsSet()
+        public void ThenOrderIsAwaitingFulfillment()
         {
-            _order.CancellationDate.Should().NotBeNull();
-        }
-
-        [Fact]
-        public void ThenOrderIsCancelled()
-        {
-            _order.IsCancelled.Should().BeTrue();
-        }
-
-        [Fact]
-        public void ThenOrderIsNotAwaitingFulfillment()
-        {
-            _order.IsAwaitingFulfillment.Should().BeFalse();
+            _order.IsAwaitingFulfillment.Should().BeTrue();
         }
 
         [Fact]

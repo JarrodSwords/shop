@@ -5,10 +5,11 @@ using Xunit;
 
 namespace Shop.Domain.Spec.Sales.GivenASubmittedOrder
 {
-    public class WhenDetailsAreConfirmed
+    public class WhenDetailsAreUpdated
     {
         #region Core
 
+        private readonly OrderDetails _details = new(1, isGift: true);
         private readonly Order _order = ObjectProvider.SubmittedOrder;
 
         #endregion
@@ -16,10 +17,11 @@ namespace Shop.Domain.Spec.Sales.GivenASubmittedOrder
         #region Test Methods
 
         [Fact]
-        public void ThenOrderIsAwaitingPayment()
+        public void ThenDetailsAreUpdated()
         {
-            _order.ConfirmDetails();
-            _order.IsAwaitingPayment.Should().BeTrue();
+            _order.Update(_details);
+
+            _order.Details.Should().Be(_details);
         }
 
         #endregion

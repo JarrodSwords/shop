@@ -1,5 +1,6 @@
-using Shop.Domain.Sales;
-using Product = Shop.Domain.Catalog.Product;
+using Shop.Domain.Catalog;
+using FulfillmentOrder = Shop.Domain.Fulfillment.Order;
+using SalesOrder = Shop.Domain.Sales.Order;
 
 namespace Shop.Domain.Spec.Catalog
 {
@@ -12,6 +13,8 @@ namespace Shop.Domain.Spec.Catalog
             "MLC-LB-1"
         );
 
-        public static Order SubmittedOrder = new();
+        public static FulfillmentOrder OrderPendingDelivery = new();
+
+        public static SalesOrder SubmittedOrder = new();
     }
 }
