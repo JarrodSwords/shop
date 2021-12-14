@@ -10,7 +10,6 @@ namespace Shop.Domain.Spec.Sales.GivenASubmittedOrder
         #region Core
 
         private readonly OrderDetails _details = new(true, true);
-
         private readonly Order _order = ObjectProvider.SubmittedOrder;
 
         #endregion
