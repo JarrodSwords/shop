@@ -3,7 +3,7 @@ using Jgs.Ddd;
 
 namespace Shop.Domain.Sales
 {
-    public class Order : Entity
+    public class Order : Aggregate
     {
         #region Creation
 
