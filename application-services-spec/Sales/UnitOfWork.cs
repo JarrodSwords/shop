@@ -1,3 +1,4 @@
+using System;
 using Shop.Domain.Sales;
 
 namespace Shop.ApplicationServices.Spec.Sales
@@ -9,6 +10,11 @@ namespace Shop.ApplicationServices.Spec.Sales
         #region IUnitOfWork Implementation
 
         public IOrderRepository Orders => _orders ??= new OrderRepository();
+
+        public void Commit()
+        {
+            throw new NotImplementedException();
+        }
 
         #endregion
     }

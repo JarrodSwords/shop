@@ -20,7 +20,7 @@ namespace Shop.Infrastructure.Sales
 
         public Id Create(Domain.Sales.Order order)
         {
-            _context.Orders.Add(order);
+            _context.Order.Add(order);
             return order.Id;
         }
 

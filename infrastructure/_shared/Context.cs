@@ -15,8 +15,8 @@ namespace Shop.Infrastructure
 
         #region Public Interface
 
-        public DbSet<Customer> Customers { get; set; }
-        public DbSet<Order> Orders { get; set; }
+        public DbSet<Customer> Customer { get; set; }
+        public DbSet<Order> Order { get; set; }
 
         #endregion
     }
