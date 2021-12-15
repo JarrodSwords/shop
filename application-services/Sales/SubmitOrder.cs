@@ -45,7 +45,12 @@ namespace Shop.ApplicationServices.Sales
 
             #region ICommandHandler<SubmitOrder,Guid> Implementation
 
-            public Guid Handle(SubmitOrder command) => _uow.Orders.Create(Order.From(command));
+            public Guid Handle(SubmitOrder command)
+            {
+                var id = _uow.Orders.Create(Order.From(command));
+                _uow.Commit();
+                return id;
+            }
 
             #endregion
         }
