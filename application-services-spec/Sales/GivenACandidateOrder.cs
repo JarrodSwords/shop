@@ -19,7 +19,7 @@ namespace Shop.ApplicationServices.Spec.Sales
                 new OrderDetailsDto(LunchBoxes: 1)
             );
 
-            _submitOrderHandler = new SubmitOrder.Handler(new UnitOfWork());
+            _submitOrderHandler = new SubmitOrder.Handler(ObjectProvider.CreateUnitOfWork());
         }
 
         #endregion

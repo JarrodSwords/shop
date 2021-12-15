@@ -6,6 +6,6 @@ namespace Shop.ApplicationServices.Sales
         string Email,
         string FirstName,
         string LastName,
-        Guid id = default
+        Guid Id = default
     );
 }
