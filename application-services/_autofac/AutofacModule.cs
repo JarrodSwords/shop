@@ -1,6 +1,6 @@
 ﻿using Autofac;
 
-namespace Shop.Infrastructure
+namespace Shop.ApplicationServices._autofac
 {
     public class AutofacModule : Module
     {
@@ -10,6 +10,8 @@ namespace Shop.Infrastructure
         {
             builder
                 .RegisterAssemblyTypes(typeof(AutofacModule).Assembly)
+
+                //.Where(x => x.Name.EndsWith("Command"))
                 .AsImplementedInterfaces();
         }
 

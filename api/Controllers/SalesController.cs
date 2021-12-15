@@ -1,4 +1,5 @@
 ﻿using System;
+using Jgs.Cqrs;
 using Microsoft.AspNetCore.Mvc;
 using Shop.ApplicationServices.Sales;
 
@@ -8,14 +9,14 @@ namespace Shop.Api.Controllers
     [ApiController]
     public class SalesController : ControllerBase
     {
-        private readonly FindOrder.Handler _findOrderHandler;
-        private readonly SubmitOrder.Handler _submitOrderHandler;
+        private readonly IQueryHandler<FindOrder, OrderDto> _findOrderHandler;
+        private readonly ICommandHandler<SubmitOrder, Guid> _submitOrderHandler;
 
         #region Creation
 
         public SalesController(
-            FindOrder.Handler findOrderHandler,
-            SubmitOrder.Handler submitOrderHandler
+            IQueryHandler<FindOrder, OrderDto> findOrderHandler,
+            ICommandHandler<SubmitOrder, Guid> submitOrderHandler
         )
         {
             _findOrderHandler = findOrderHandler;
