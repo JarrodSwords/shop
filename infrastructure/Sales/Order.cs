@@ -1,8 +1,9 @@
 ﻿using System;
+using DomainOrder = Shop.Domain.Sales.Order;
 
 namespace Shop.Infrastructure.Sales
 {
-    public class Order : Entity
+    public partial class Order : Entity
     {
         #region Creation
 
@@ -10,11 +11,11 @@ namespace Shop.Infrastructure.Sales
         {
         }
 
-        public Order(Domain.Sales.Order order) : base(order.Id)
+        public Order(DomainOrder order) : base(order.Id)
         {
             Baguettes = order.Details.Baguettes;
             CouplesBoxes = order.Details.CouplesBoxes;
-            CustomerId = order.Customer.Id;
+            CustomerId = order.CustomerId;
             DessertBoxes = order.Details.DessertBoxes;
             FamilyBoxes = order.Details.FamilyBoxes;
             IsGift = order.Details.IsGift;
@@ -43,7 +44,7 @@ namespace Shop.Infrastructure.Sales
 
         #region Static Interface
 
-        public static implicit operator Order(Domain.Sales.Order source) => new(source);
+        public static implicit operator Order(DomainOrder source) => new(source);
 
         #endregion
     }

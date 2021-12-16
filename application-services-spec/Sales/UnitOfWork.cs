@@ -9,6 +9,7 @@ namespace Shop.ApplicationServices.Spec.Sales
 
         #region IUnitOfWork Implementation
 
+        public ICustomerRepository Customers => null;
         public IOrderRepository Orders => _orders ??= new OrderRepository();
 
         public void Commit()

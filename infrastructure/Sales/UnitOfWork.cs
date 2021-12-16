@@ -5,6 +5,7 @@ namespace Shop.Infrastructure.Sales
     public class UnitOfWork : IUnitOfWork
     {
         private readonly Context _context;
+        private ICustomerRepository _customers;
         private IOrderRepository _orders;
 
         #region Creation
@@ -18,7 +19,8 @@ namespace Shop.Infrastructure.Sales
 
         #region IUnitOfWork Implementation
 
-        public IOrderRepository Orders => _orders ??= new OrderRepository(_context);
+        public ICustomerRepository Customers => _customers ??= new Customer.Repository(_context);
+        public IOrderRepository Orders => _orders ??= new Order.Repository(_context);
 
         public void Commit()
         {

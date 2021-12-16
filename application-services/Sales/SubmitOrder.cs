@@ -1,19 +1,21 @@
 ﻿using System;
 using Jgs.Cqrs;
+using Jgs.Ddd;
 using Shop.Domain.Sales;
 
 namespace Shop.ApplicationServices.Sales
 {
     public record SubmitOrder(CustomerDto Customer, OrderDetailsDto Details) : ICommand, IOrderBuilder
     {
+        #region Internal Interface
+
+        internal Id CustomerId { get; set; }
+
+        #endregion
+
         #region IOrderBuilder Implementation
 
-        public Customer GetCustomer() =>
-            new(
-                Customer.Email,
-                Customer.FirstName,
-                Customer.LastName
-            );
+        public Id GetCustomerId() => CustomerId;
 
         public OrderDetails GetDetails() =>
             new(
@@ -47,8 +49,23 @@ namespace Shop.ApplicationServices.Sales
 
             public Guid Handle(SubmitOrder command)
             {
+                var email = command.Customer.Email;
+
+                if (_uow.Customers.Exists(email))
+                {
+                    command.CustomerId = _uow.Customers.Find(email).Id;
+                }
+                else
+                {
+                    var customer = Domain.Sales.Customer.From(command.Customer);
+                    _uow.Customers.Create(customer);
+                    command.CustomerId = customer.Id;
+                }
+
                 var id = _uow.Orders.Create(Order.From(command));
+
                 _uow.Commit();
+
                 return id;
             }
 

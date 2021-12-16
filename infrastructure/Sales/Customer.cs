@@ -1,8 +1,9 @@
 ﻿using System;
+using DomainCustomer = Shop.Domain.Sales.Customer;
 
 namespace Shop.Infrastructure.Sales
 {
-    public class Customer : Entity
+    public partial class Customer : Entity
     {
         #region Creation
 
@@ -10,7 +11,7 @@ namespace Shop.Infrastructure.Sales
         {
         }
 
-        public Customer(Domain.Sales.Customer source) : this(source.Id)
+        public Customer(DomainCustomer source) : this(source.Id)
         {
             Email = source.Email;
             FirstName = source.FirstName;
@@ -29,7 +30,15 @@ namespace Shop.Infrastructure.Sales
 
         #region Static Interface
 
-        public static implicit operator Customer(Domain.Sales.Customer source) => new(source);
+        public static implicit operator Customer(DomainCustomer source) => new(source);
+
+        public static implicit operator DomainCustomer(Customer source) =>
+            new(
+                source.Email,
+                source.FirstName,
+                source.LastName,
+                source.Id
+            );
 
         #endregion
     }

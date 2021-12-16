@@ -14,7 +14,7 @@ namespace Shop.Domain.Sales
 
         private Order(IOrderBuilder builder)
         {
-            Customer = builder.GetCustomer();
+            CustomerId = builder.GetCustomerId();
             Details = builder.GetDetails();
         }
 
@@ -23,7 +23,7 @@ namespace Shop.Domain.Sales
         #region Public Interface
 
         public DateTime? CancellationDate { get; private set; }
-        public Customer Customer { get; }
+        public Id CustomerId { get; }
         public OrderDetails Details { get; private set; }
         public bool IsAwaitingFulfillment { get; private set; }
         public bool IsAwaitingPayment { get; private set; }

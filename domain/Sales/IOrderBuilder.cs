@@ -1,8 +1,10 @@
-﻿namespace Shop.Domain.Sales
+﻿using Jgs.Ddd;
+
+namespace Shop.Domain.Sales
 {
     public interface IOrderBuilder
     {
-        Customer GetCustomer();
+        Id GetCustomerId();
         OrderDetails GetDetails();
     }
 }

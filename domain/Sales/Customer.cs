@@ -2,7 +2,7 @@
 
 namespace Shop.Domain.Sales
 {
-    public class Customer : Entity
+    public class Customer : Aggregate
     {
         #region Creation
 
@@ -18,6 +18,14 @@ namespace Shop.Domain.Sales
             LastName = lastName;
         }
 
+        private Customer(ICustomerBuilder builder) : this(
+            builder.GetEmail(),
+            builder.GetFirstName(),
+            builder.GetLastName()
+        )
+        {
+        }
+
         #endregion
 
         #region Public Interface
@@ -27,5 +35,18 @@ namespace Shop.Domain.Sales
         public LastName LastName { get; }
 
         #endregion
+
+        #region Static Interface
+
+        public static Customer From(ICustomerBuilder builder) => new(builder);
+
+        #endregion
+    }
+
+    public interface ICustomerBuilder
+    {
+        Email GetEmail();
+        FirstName GetFirstName();
+        LastName GetLastName();
     }
 }
