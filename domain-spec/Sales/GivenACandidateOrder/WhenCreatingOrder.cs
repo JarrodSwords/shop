@@ -1,4 +1,6 @@
-﻿using FluentAssertions;
+﻿using System;
+using FluentAssertions;
+using Jgs.Ddd;
 using Shop.Domain.Sales;
 using Xunit;
 
@@ -21,12 +23,6 @@ namespace Shop.Domain.Spec.Sales.GivenACandidateOrder
         #region Test Methods
 
         [Fact]
-        public void ThenCustomerIsSet()
-        {
-            _order.Customer.Should().Be(_candidateOrder.GetCustomer());
-        }
-
-        [Fact]
         public void ThenDetailsAreSet()
         {
             _order.Details.Should().Be(_candidateOrder.GetDetails());
@@ -38,9 +34,16 @@ namespace Shop.Domain.Spec.Sales.GivenACandidateOrder
         {
             private Customer _customer;
 
-            #region IOrderBuilder Implementation
+            #region Public Interface
 
             public Customer GetCustomer() => _customer ??= ObjectProvider.CreateJohnDoe();
+
+            #endregion
+
+            #region IOrderBuilder Implementation
+
+            public Id GetCustomerId() => throw new NotImplementedException();
+
             public OrderDetails GetDetails() => new(familyBoxes: 1);
 
             #endregion

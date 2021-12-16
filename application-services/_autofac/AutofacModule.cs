@@ -10,8 +10,6 @@ namespace Shop.ApplicationServices._autofac
         {
             builder
                 .RegisterAssemblyTypes(typeof(AutofacModule).Assembly)
-
-                //.Where(x => x.Name.EndsWith("Command"))
                 .AsImplementedInterfaces();
         }
 

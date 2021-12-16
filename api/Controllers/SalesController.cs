@@ -1,5 +1,4 @@
 ﻿using System;
-using Jgs.Cqrs;
 using Microsoft.AspNetCore.Mvc;
 using Shop.ApplicationServices.Sales;
 
@@ -9,18 +8,13 @@ namespace Shop.Api.Controllers
     [ApiController]
     public class SalesController : ControllerBase
     {
-        private readonly IQueryHandler<FindOrder, OrderDto> _findOrderHandler;
-        private readonly ICommandHandler<SubmitOrder, Guid> _submitOrderHandler;
+        private readonly ISalesService _salesService;
 
         #region Creation
 
-        public SalesController(
-            IQueryHandler<FindOrder, OrderDto> findOrderHandler,
-            ICommandHandler<SubmitOrder, Guid> submitOrderHandler
-        )
+        public SalesController(ISalesService salesService)
         {
-            _findOrderHandler = findOrderHandler;
-            _submitOrderHandler = submitOrderHandler;
+            _salesService = salesService;
         }
 
         #endregion
@@ -28,14 +22,10 @@ namespace Shop.Api.Controllers
         #region Public Interface
 
         [HttpGet("{id:guid}")]
-        public OrderDto FindOrder(Guid id) => _findOrderHandler.Handle(id);
+        public OrderDto FindOrder(Guid id) => _salesService.FindOrder(id);
 
         [HttpPost("submit-order")]
-        public Guid SubmitOrder([FromBody] SubmitOrder command)
-        {
-            var id = _submitOrderHandler.Handle(command);
-            return id;
-        }
+        public Guid SubmitOrder([FromBody] SubmitOrder command) => _salesService.SubmitOrder(command);
 
         #endregion
     }
