@@ -7,7 +7,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Shop.Infrastructure;
-using Shop.Sales.Services;
 
 namespace Shop.Api
 {
@@ -55,10 +54,7 @@ namespace Shop.Api
 
         public void ConfigureContainer(ContainerBuilder builder)
         {
-            builder.RegisterAssemblyModules(
-                typeof(Context).Assembly,
-                typeof(SubmitOrder).Assembly
-            );
+            builder.RegisterAssemblyModules();
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
