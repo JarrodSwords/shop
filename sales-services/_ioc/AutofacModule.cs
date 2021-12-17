@@ -1,15 +1,19 @@
-﻿using Autofac;
+﻿using System.Reflection;
+using Autofac;
+using Module = Autofac.Module;
 
 namespace Shop.Sales.Services
 {
     public class AutofacModule : Module
     {
+        private readonly Assembly _assembly = typeof(AutofacModule).Assembly;
+
         #region Protected Interface
 
         protected override void Load(ContainerBuilder builder)
         {
             builder
-                .RegisterAssemblyTypes(typeof(AutofacModule).Assembly)
+                .RegisterAssemblyTypes(_assembly)
                 .AsImplementedInterfaces();
         }
 
