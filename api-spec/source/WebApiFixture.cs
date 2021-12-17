@@ -1,5 +1,6 @@
 using System;
 using System.Net.Http;
+using Microsoft.AspNetCore.Mvc.Testing;
 using Xunit;
 
 namespace Shop.Api.Spec
@@ -9,13 +10,12 @@ namespace Shop.Api.Spec
         #region Creation
 
         protected WebApiFixture(
-            TestWebApplicationFactory<Startup> factory,
+            WebApplicationFactory<Startup> factory,
             string uri = default
         )
         {
             if (uri != default)
                 factory.ClientOptions.BaseAddress = new Uri($"http://localhost/{uri}/");
-
 
             HttpClient = factory.CreateClient();
         }
