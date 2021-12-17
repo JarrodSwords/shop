@@ -2,15 +2,16 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <RootNamespace>Shop.Shared</RootNamespace>
+    <RootNamespace>Shop.Shared.Spec</RootNamespace>
 
     <IsPackable>false</IsPackable>
 
-    <AssemblyName>Shop.Shared</AssemblyName>
+    <AssemblyName>Shop.Shared.Spec</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="fluentassertions" Version="6.2.0" />
+    <PackageReference Include="jgs.ddd" Version="0.1.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.4" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
@@ -24,7 +25,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\domain\shared-kernel.csproj" />
     <ProjectReference Include="..\shared-kernel\shared-kernel.csproj" />
   </ItemGroup>
 
