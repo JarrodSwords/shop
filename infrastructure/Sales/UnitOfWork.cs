@@ -1,6 +1,6 @@
 ﻿using Shop.Sales;
 
-namespace Shop.Infrastructure.Sales
+namespace Shop.Write.Sales
 {
     public class UnitOfWork : IUnitOfWork
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Shop.Infrastructure
+namespace Shop.Write
 {
     public abstract class Entity
     {

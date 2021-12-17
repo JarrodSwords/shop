@@ -3,7 +3,7 @@ using Shop.Sales;
 using Shop.Shared;
 using DomainCustomer = Shop.Sales.Customer;
 
-namespace Shop.Infrastructure.Sales
+namespace Shop.Write.Sales
 {
     public class CustomerRepository : Repository<Customer>, ICustomerRepository
     {

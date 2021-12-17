@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "api", "api\api.csproj", "{E
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "storage", "storage", "{66C1B633-07F7-4226-82A4-8F9993FE5E2D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "infrastructure", "infrastructure\infrastructure.csproj", "{78D874F2-78D9-427D-A7B3-D2B890C87F61}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "write", "infrastructure\write.csproj", "{78D874F2-78D9-427D-A7B3-D2B890C87F61}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "sales", "sales\sales.csproj", "{408E925F-F364-4D20-A6C0-F8FE63D7767F}"
 EndProject

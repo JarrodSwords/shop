@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace Shop.Infrastructure
+namespace Shop.Write
 {
     public class Context : DbContext
     {

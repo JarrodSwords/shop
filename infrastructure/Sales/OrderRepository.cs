@@ -2,7 +2,7 @@
 using Shop.Sales;
 using DomainOrder = Shop.Sales.Order;
 
-namespace Shop.Infrastructure.Sales
+namespace Shop.Write.Sales
 {
     public class OrderRepository : Repository<Order>, IOrderRepository
     {

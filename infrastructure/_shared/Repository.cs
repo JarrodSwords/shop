@@ -3,7 +3,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using Jgs.Ddd;
 
-namespace Shop.Infrastructure
+namespace Shop.Write
 {
     public class Repository<T> : IRepository<T> where T : Entity
     {

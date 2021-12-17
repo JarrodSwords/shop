@@ -2,7 +2,7 @@
 using System.Linq.Expressions;
 using Jgs.Ddd;
 
-namespace Shop.Infrastructure
+namespace Shop.Write
 {
     public interface IRepository<T> where T : Entity
     {

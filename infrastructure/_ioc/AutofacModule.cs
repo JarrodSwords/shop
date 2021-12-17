@@ -1,6 +1,6 @@
 ﻿using Autofac;
 
-namespace Shop.Infrastructure
+namespace Shop.Write
 {
     public class AutofacModule : Module
     {

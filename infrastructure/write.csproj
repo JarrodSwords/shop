@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <AssemblyName>Shop.Infrastructure</AssemblyName>
-    <RootNamespace>Shop.Infrastructure</RootNamespace>
+    <AssemblyName>Shop.Write</AssemblyName>
+    <RootNamespace>Shop.Write</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

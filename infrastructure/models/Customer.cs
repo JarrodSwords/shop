@@ -1,7 +1,7 @@
 ﻿using System;
 using DomainCustomer = Shop.Sales.Customer;
 
-namespace Shop.Infrastructure
+namespace Shop.Write
 {
     public class Customer : Entity
     {

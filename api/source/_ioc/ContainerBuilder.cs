@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using Autofac;
-using Shop.Infrastructure;
 using Shop.Sales.Services;
+using Shop.Write;
 
 namespace Shop.Api
 {
