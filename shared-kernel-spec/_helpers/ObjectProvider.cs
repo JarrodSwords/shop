@@ -1,7 +1,7 @@
 using Shop.Shared.Catalog;
 using Shop.Shared.Fulfillment;
 
-namespace Shop.Shared
+namespace Shop.Shared.Spec
 {
     public class ObjectProvider
     {
