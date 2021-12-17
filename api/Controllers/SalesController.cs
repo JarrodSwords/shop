@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Shop.Sales.Services;
 
@@ -21,11 +22,14 @@ namespace Shop.Api.Controllers
 
         #region Public Interface
 
-        [HttpGet("{id:guid}")]
-        public OrderDto FindOrder(Guid id) => _salesService.FindOrder(id);
+        [HttpGet("orders")]
+        public ActionResult<IEnumerable<OrderDto>> FetchOrders() => new List<OrderDto>();
 
-        [HttpPost("submit-order")]
-        public Guid SubmitOrder([FromBody] SubmitOrder command) => _salesService.SubmitOrder(command);
+        [HttpGet("orders/{id:guid}")]
+        public ActionResult<OrderDto> FindOrder(Guid id) => _salesService.FindOrder(id);
+
+        [HttpPost("orders")]
+        public ActionResult<Guid> SubmitOrder([FromBody] SubmitOrder command) => _salesService.SubmitOrder(command);
 
         #endregion
     }

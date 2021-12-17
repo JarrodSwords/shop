@@ -1,6 +1,4 @@
-using System.Net;
 using System.Threading.Tasks;
-using FluentAssertions;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Xunit;
 
@@ -24,7 +22,7 @@ namespace Shop.Api.Spec
         {
             var response = await HttpClient.GetAsync("");
 
-            response.StatusCode.Should().Be(HttpStatusCode.OK);
+            response.EnsureSuccessStatusCode();
         }
 
         #endregion
