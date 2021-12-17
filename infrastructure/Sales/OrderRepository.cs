@@ -16,7 +16,7 @@ namespace Shop.Infrastructure.Sales
 
         #region IOrderRepository Implementation
 
-        public Id Create(DomainOrder order) => Create(order);
+        public Id Create(DomainOrder order) => base.Create(order);
 
         #endregion
     }
