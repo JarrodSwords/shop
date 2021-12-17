@@ -56,6 +56,8 @@ namespace Shop.Api
         public void ConfigureContainer(ContainerBuilder builder)
         {
             builder.RegisterAssemblyModules();
+            builder.RegisterAssemblyTypes(typeof(Startup).Assembly)
+                .AsImplementedInterfaces();
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -70,6 +72,8 @@ namespace Shop.Api
             services.AddDbContext<Context>(
                 o => { o.UseSqlServer(Configuration.GetConnectionString("Shop")); }
             );
+
+            services.AddSingleton<IConfiguration>(Configuration);
         }
 
         #endregion

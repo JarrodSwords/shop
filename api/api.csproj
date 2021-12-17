@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\read\read.csproj" />
     <ProjectReference Include="..\sales-services\sales-services.csproj" />
     <ProjectReference Include="..\write\write.csproj" />
   </ItemGroup>

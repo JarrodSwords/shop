@@ -9,10 +9,7 @@ namespace Shop.Api.Spec.Sales
         public SalesSpec(
             TestWebApplicationFactory<Startup> factory,
             string uri = default
-        ) : base(
-            factory,
-            "api/sales"
-        )
+        ) : base(factory, "api/sales")
         {
         }
 
