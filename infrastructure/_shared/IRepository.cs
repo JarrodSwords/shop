@@ -4,7 +4,7 @@ using Jgs.Ddd;
 
 namespace Shop.Infrastructure
 {
-    internal interface IRepository<T> where T : Entity
+    public interface IRepository<T> where T : Entity
     {
         Id Create(T entity);
         bool Exists(Expression<Func<T, bool>> predicate);

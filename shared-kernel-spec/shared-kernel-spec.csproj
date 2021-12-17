@@ -2,11 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <RootNamespace>Shop.ApplicationServices.Spec</RootNamespace>
+    <RootNamespace>Shop.Shared</RootNamespace>
 
     <IsPackable>false</IsPackable>
 
-    <AssemblyName>Shop.ApplicationServices.Spec</AssemblyName>
+    <AssemblyName>Shop.Shared</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
@@ -21,6 +21,11 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\domain\shared-kernel.csproj" />
+    <ProjectReference Include="..\shared-kernel\shared-kernel.csproj" />
   </ItemGroup>
 
 </Project>

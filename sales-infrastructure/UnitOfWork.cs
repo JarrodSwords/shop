@@ -1,6 +1,6 @@
-﻿using Shop.Sales;
+﻿using Shop.Infrastructure;
 
-namespace Shop.Infrastructure.Sales
+namespace Shop.Sales.Infrastructure
 {
     public class UnitOfWork : IUnitOfWork
     {
@@ -19,8 +19,8 @@ namespace Shop.Infrastructure.Sales
 
         #region IUnitOfWork Implementation
 
-        public ICustomerRepository Customers => _customers ??= new CustomerRepository(_context);
-        public IOrderRepository Orders => _orders ??= new OrderRepository(_context);
+        public ICustomerRepository Customers => _customers ??= new Customer.Repository(_context);
+        public IOrderRepository Orders => _orders ??= new Order.Repository(_context);
 
         public void Commit()
         {
