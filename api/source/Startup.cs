@@ -68,7 +68,7 @@ namespace Shop.Api
             );
 
             services.AddDbContext<Context>(
-                o => { o.UseSqlServer(Configuration.GetConnectionString("Write")); }
+                o => { o.UseSqlServer(Configuration.GetConnectionString("Shop")); }
             );
         }
 

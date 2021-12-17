@@ -20,15 +20,12 @@ namespace Shop.Api.Spec
                     using var scope = services.BuildServiceProvider().CreateScope();
 
                     services.AddDbContext<Context>(
-                        o => { o.UseSqlServer("Write"); }
+                        o => { o.UseSqlServer("Shop"); }
                     );
 
                     var context = scope.ServiceProvider.GetRequiredService<Context>();
 
-                    //context.Database.EnsureDeleted();
                     context.Database.EnsureCreated();
-
-                    //context.Database.Migrate();
                 }
             );
         }
