@@ -5,7 +5,7 @@ using Jgs.Ddd;
 
 namespace Shop.Infrastructure
 {
-    internal class Repository<T> : IRepository<T> where T : Entity
+    public class Repository<T> : IRepository<T> where T : Entity
     {
         private readonly Context _context;
 

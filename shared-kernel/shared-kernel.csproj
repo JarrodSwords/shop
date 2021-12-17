@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <AssemblyName>Shop.Shared</AssemblyName>
+    <RootNamespace>Shop.Shared</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="jgs.ddd" Version="0.1.0" />
+  </ItemGroup>
+
+</Project>

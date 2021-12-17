@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Shop.Infrastructure.Sales;
 
 namespace Shop.Infrastructure
 {

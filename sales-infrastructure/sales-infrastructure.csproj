@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\sales\sales.csproj" />
+    <ProjectReference Include="..\infrastructure\infrastructure.csproj" />
+    <ProjectReference Include="..\shared-kernel\shared-kernel.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <RootNamespace>Shop.Sales.Infrastructure</RootNamespace>
+    <AssemblyName>Shop.Sales.Infrastructure</AssemblyName>
+  </PropertyGroup>
+
+</Project>

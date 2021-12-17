@@ -6,8 +6,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using Shop.ApplicationServices.Sales;
 using Shop.Infrastructure;
+using Shop.Sales.Services;
 
 namespace Shop.Api
 {

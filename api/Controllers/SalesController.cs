@@ -1,6 +1,6 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
-using Shop.ApplicationServices.Sales;
+using Shop.Sales.Services;
 
 namespace Shop.Api.Controllers
 {
