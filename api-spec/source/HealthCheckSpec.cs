@@ -1,5 +1,4 @@
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc.Testing;
 using Xunit;
 
 namespace Shop.Api.Spec
@@ -8,7 +7,7 @@ namespace Shop.Api.Spec
     {
         #region Core
 
-        public HealthCheckSpec(WebApplicationFactory<Startup> factory)
+        public HealthCheckSpec(TestWebApplicationFactory<Startup> factory)
             : base(factory, "healthcheck")
         {
         }

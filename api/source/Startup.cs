@@ -18,8 +18,9 @@ namespace Shop.Api
         {
             Configuration = new ConfigurationBuilder()
                 .SetBasePath(environment.ContentRootPath)
+                .AddJsonFile("appsettings.json", true)
+                .AddJsonFile($"appsettings.{environment.EnvironmentName}.json", true)
                 .AddEnvironmentVariables()
-                .AddJsonFile("appsettings.json")
                 .Build();
         }
 

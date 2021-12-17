@@ -1,21 +1,21 @@
 using System;
 using System.Net.Http;
-using Microsoft.AspNetCore.Mvc.Testing;
 using Xunit;
 
 namespace Shop.Api.Spec
 {
-    public abstract class WebApiFixture : IClassFixture<WebApplicationFactory<Startup>>
+    public abstract class WebApiFixture : IClassFixture<TestWebApplicationFactory<Startup>>
     {
         #region Creation
 
         protected WebApiFixture(
-            WebApplicationFactory<Startup> factory,
+            TestWebApplicationFactory<Startup> factory,
             string uri = default
         )
         {
             if (uri != default)
                 factory.ClientOptions.BaseAddress = new Uri($"http://localhost/{uri}/");
+
 
             HttpClient = factory.CreateClient();
         }

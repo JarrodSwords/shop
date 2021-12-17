@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.Testing;
-using Xunit;
+﻿using Xunit;
 
 namespace Shop.Api.Spec.Sales
 {
@@ -8,7 +7,7 @@ namespace Shop.Api.Spec.Sales
         #region Core
 
         public SalesSpec(
-            WebApplicationFactory<Startup> factory,
+            TestWebApplicationFactory<Startup> factory,
             string uri = default
         ) : base(
             factory,
