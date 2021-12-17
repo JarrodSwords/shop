@@ -1,3 +1,4 @@
+using FluentAssertions;
 using Xunit;
 
 namespace Shop.Shared.Catalog.Products

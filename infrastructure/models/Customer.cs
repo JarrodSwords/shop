@@ -3,7 +3,7 @@ using DomainCustomer = Shop.Sales.Customer;
 
 namespace Shop.Infrastructure
 {
-    public class Customer : Jgs.Ddd.Entity
+    public class Customer : Entity
     {
         #region Creation
 

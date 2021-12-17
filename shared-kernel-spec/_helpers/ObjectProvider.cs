@@ -1,5 +1,5 @@
 using Shop.Shared.Catalog;
-using FulfillmentOrder = Shop.Shared.Fulfillment.Order;
+using Shop.Shared.Fulfillment;
 
 namespace Shop.Shared
 {
@@ -15,16 +15,9 @@ namespace Shop.Shared
                 "MLC-LB-1"
             );
 
-        public static FulfillmentOrder CreateOrderPendingDelivery() => new();
+        public static Order CreateOrderPendingDelivery() => new();
 
         public static Order CreateSubmittedOrder() => new();
-
-        public static Customer CreateJohnDoe() =>
-            new(
-                "john.doe@gmail.com",
-                "John",
-                "Doe"
-            );
 
         #endregion
     }
