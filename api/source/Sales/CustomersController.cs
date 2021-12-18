@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Microsoft.AspNetCore.Mvc;
 using Shop.Sales.Services;
 
 namespace Shop.Api.Sales
@@ -19,6 +21,9 @@ namespace Shop.Api.Sales
         #endregion
 
         #region Public Interface
+
+        [HttpGet]
+        public ActionResult<IEnumerable<CustomerDto>> FetchCustomers() => _salesService.FetchCustomers(new()).ToList();
 
         [HttpGet("{email}")]
         public ActionResult<CustomerDto> FindCustomer(string email) => _salesService.FindCustomer(email);

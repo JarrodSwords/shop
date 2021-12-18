@@ -1,11 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Shop.Sales.Services
 {
     public interface ISalesService
     {
+        IEnumerable<CustomerDto> FetchCustomers(FetchCustomers command);
         CustomerDto FindCustomer(FindCustomer command);
-        public OrderDto FindOrder(FindOrder command);
-        public Guid SubmitOrder(SubmitOrder command);
+        OrderDto FindOrder(FindOrder command);
+        Guid SubmitOrder(SubmitOrder command);
     }
 }
