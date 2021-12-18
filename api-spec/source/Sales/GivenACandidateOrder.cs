@@ -36,7 +36,7 @@ namespace Shop.Api.Spec.Sales
 
             var order = await HttpClient.GetFromJsonAsync<OrderDto>($"orders/{orderId}");
 
-            order.Should().NotBeNull();
+            order.Email.Should().Be("jon.doe@gmail.com");
         }
 
         #endregion
