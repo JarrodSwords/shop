@@ -6,13 +6,6 @@ namespace Shop.Api.Spec.Sales
     {
         #region Static Interface
 
-        public static CustomerDto GetJamesDoe() =>
-            new(
-                "james.doe@gmail.com",
-                "james",
-                "Doe"
-            );
-
         public static CustomerDto GetJaneDoe() =>
             new(
                 "jane.doe@gmail.com",
@@ -26,6 +19,8 @@ namespace Shop.Api.Spec.Sales
                 "Jon",
                 "Doe"
             );
+
+        public static OrderDetailsDto GetLunchBox() => new(LunchBoxes: 1);
 
         #endregion
     }

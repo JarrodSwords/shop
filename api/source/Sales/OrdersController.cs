@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Shop.Sales.Services;
 
-namespace Shop.Api.Controllers
+namespace Shop.Api.Sales
 {
-    [Route("api/[controller]")]
+    [Route("api/sales/[controller]")]
     [ApiController]
-    public class SalesController : ControllerBase
+    public class OrdersController : ControllerBase
     {
         private readonly ISalesService _salesService;
 
         #region Creation
 
-        public SalesController(ISalesService salesService)
+        public OrdersController(ISalesService salesService)
         {
             _salesService = salesService;
         }
@@ -22,13 +22,13 @@ namespace Shop.Api.Controllers
 
         #region Public Interface
 
-        [HttpGet("orders")]
+        [HttpGet]
         public ActionResult<IEnumerable<OrderDto>> FetchOrders() => new List<OrderDto>();
 
-        [HttpGet("orders/{id:guid}")]
+        [HttpGet("{id:guid}")]
         public ActionResult<OrderDto> FindOrder(Guid id) => _salesService.FindOrder(id);
 
-        [HttpPost("orders")]
+        [HttpPost]
         public ActionResult<Guid> SubmitOrder([FromBody] SubmitOrder command) => _salesService.SubmitOrder(command);
 
         #endregion
