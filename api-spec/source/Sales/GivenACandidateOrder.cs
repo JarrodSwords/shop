@@ -23,11 +23,7 @@ namespace Shop.Api.Spec.Sales
         public async void WhenSubmittingAnOrder_ThenOrderIsRetrievable()
         {
             var candidateOrder = new SubmitOrder(
-                new CustomerDto(
-                    "jon.doe@gmail.com",
-                    "Jon",
-                    "Doe"
-                ),
+                ObjectProvider.GetJonDoe(),
                 new OrderDetailsDto(LunchBoxes: 1)
             );
 
