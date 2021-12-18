@@ -62,7 +62,7 @@ namespace Shop.Api.Spec.Sales
 
             var order = await HttpClient.GetFromJsonAsync<OrderDto>($"orders/{orderId}");
 
-            order.Email.Should().Be(chaseElliott.Email);
+            order.LunchBoxes.Should().Be(1);
         }
 
         #endregion
