@@ -5,7 +5,7 @@ using Xunit;
 
 namespace Shop.Api.Spec
 {
-    public abstract class WebApiFixture : IClassFixture<TestWebApplicationFactory<Startup>>
+    public abstract class WebApiFixture : IClassFixture<IntegrationTestingFactory<Startup>>
     {
         #region Creation
 

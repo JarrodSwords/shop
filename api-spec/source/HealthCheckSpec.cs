@@ -7,7 +7,7 @@ namespace Shop.Api.Spec
     {
         #region Core
 
-        public HealthCheckSpec(TestWebApplicationFactory<Startup> factory)
+        public HealthCheckSpec(IntegrationTestingFactory<Startup> factory)
             : base(factory, "healthcheck")
         {
         }

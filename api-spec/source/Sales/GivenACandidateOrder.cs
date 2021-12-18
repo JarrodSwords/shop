@@ -6,11 +6,12 @@ using Xunit;
 
 namespace Shop.Api.Spec.Sales
 {
+    [Collection("storage")]
     public class GivenACandidateOrder : WebApiFixture
     {
         #region Core
 
-        public GivenACandidateOrder(TestWebApplicationFactory<Startup> factory) : base(factory, "api/sales")
+        public GivenACandidateOrder(IntegrationTestingFactory<Startup> factory) : base(factory, "api/sales")
         {
         }
 

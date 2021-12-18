@@ -7,7 +7,7 @@ namespace Shop.Api.Spec.Sales
         #region Core
 
         public SalesSpec(
-            TestWebApplicationFactory<Startup> factory,
+            IntegrationTestingFactory<Startup> factory,
             string uri = default
         ) : base(factory, "api/sales")
         {
