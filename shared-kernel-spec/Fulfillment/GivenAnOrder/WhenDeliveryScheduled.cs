@@ -1,8 +1,9 @@
 ﻿using System;
 using FluentAssertions;
+using Shop.Shared.Fulfillment;
 using Xunit;
 
-namespace Shop.Shared.Fulfillment.GivenAnOrder
+namespace Shop.Shared.Spec.Fulfillment.GivenAnOrder
 {
     public class WhenDeliveryScheduled
     {

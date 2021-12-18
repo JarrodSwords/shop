@@ -31,17 +31,9 @@ namespace Shop.Sales.Spec.GivenACandidateOrder
 
         public record CandidateOrderDto : IOrderBuilder
         {
-            private Customer _customer;
-
-            #region Public Interface
-
-            public Customer GetCustomer() => _customer ??= ObjectProvider.CreateJohnDoe();
-
-            #endregion
-
             #region IOrderBuilder Implementation
 
-            public Id GetCustomerId() => throw new NotImplementedException();
+            public Id GetCustomerId() => Guid.NewGuid();
 
             public OrderDetails GetDetails() => new(familyBoxes: 1);
 
