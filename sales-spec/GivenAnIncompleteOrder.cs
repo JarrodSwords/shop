@@ -33,6 +33,12 @@ namespace Shop.Sales.Spec
             #region Test Methods
 
             [Fact]
+            public void ThenCustomerIdIsRequired()
+            {
+                _result.Message.Should().Contain(@"Could not assign customer.");
+            }
+
+            [Fact]
             public void ThenResultIsFailure()
             {
                 _result.IsFailure.Should().BeTrue();
