@@ -5,18 +5,8 @@ using Xunit;
 
 namespace Shop.Sales.Spec
 {
-    public class GivenAnIncompleteCandidateOrder
+    public class GivenACandidateOrder_WithIncompleteInformation
     {
-        internal record IncompleteOrder : IOrderBuilder
-        {
-            #region IOrderBuilder Implementation
-
-            public Id GetCustomerId() => default;
-            public OrderDetails GetDetails() => default;
-
-            #endregion
-        }
-
         public class WhenCreatingTheOrder
         {
             #region Core
@@ -25,7 +15,7 @@ namespace Shop.Sales.Spec
 
             public WhenCreatingTheOrder()
             {
-                _result = Order.From(new IncompleteOrder());
+                _result = Order.From(new IncompleteSubmission());
             }
 
             #endregion
@@ -35,7 +25,7 @@ namespace Shop.Sales.Spec
             [Fact]
             public void ThenCustomerIdIsRequired()
             {
-                _result.Message.Should().Contain(@"Could not assign customer.");
+                _result.Message.Should().Contain("Could not assign customer.");
             }
 
             [Fact]
@@ -45,6 +35,15 @@ namespace Shop.Sales.Spec
             }
 
             #endregion
+
+            private record IncompleteSubmission : IOrderBuilder
+            {
+                #region IOrderBuilder Implementation
+
+                public Id GetCustomerId() => default;
+
+                #endregion
+            }
         }
     }
 }

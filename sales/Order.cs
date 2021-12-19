@@ -18,6 +18,7 @@ namespace Shop.Sales
         #region Public Interface
 
         public Id CustomerId { get; }
+        public OrderDetails Details { get; }
 
         #endregion
 

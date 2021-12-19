@@ -6,15 +6,7 @@ namespace Shop.Sales.Services
 {
     public record SubmitOrder(CustomerDto Customer, OrderDetailsDto Details) : ICommand, IOrderBuilder
     {
-        #region Internal Interface
-
-        internal Id CustomerId { get; set; }
-
-        #endregion
-
-        #region IOrderBuilder Implementation
-
-        public Id GetCustomerId() => CustomerId;
+        #region Public Interface
 
         public OrderDetails GetDetails() =>
             new(
@@ -28,6 +20,18 @@ namespace Shop.Sales.Services
                 Details.PartyBoxes,
                 Details.Strawberries
             );
+
+        #endregion
+
+        #region Internal Interface
+
+        internal Id CustomerId { get; set; }
+
+        #endregion
+
+        #region IOrderBuilder Implementation
+
+        public Id GetCustomerId() => CustomerId;
 
         #endregion
 
