@@ -61,7 +61,12 @@ namespace Shop.Sales.Services
                     command.CustomerId = customer.Id;
                 }
 
-                var id = _uow.Orders.Create(Order.From(command));
+                var createOrderResult = Order.From(command);
+
+                if (createOrderResult.IsFailure)
+                    return Guid.Empty;
+
+                var id = _uow.Orders.Create(createOrderResult.Value);
 
                 _uow.Commit();
 

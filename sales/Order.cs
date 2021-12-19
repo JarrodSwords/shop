@@ -1,16 +1,13 @@
 ﻿using System;
+using FluentValidation;
 using Jgs.Ddd;
+using Jgs.Functional;
 
 namespace Shop.Sales
 {
     public class Order : Aggregate
     {
         #region Creation
-
-        public Order(OrderDetails details = default)
-        {
-            Details = details ?? OrderDetails.Default;
-        }
 
         private Order(IOrderBuilder builder)
         {
@@ -61,8 +58,28 @@ namespace Shop.Sales
 
         #region Static Interface
 
-        public static Order From(IOrderBuilder builder) => new(builder);
+        public static Result<Order> From(IOrderBuilder builder)
+        {
+            var order = new Order(builder);
+            var validation = new Validator().Validate(order);
+
+            return validation.IsValid
+                ? Result.Success(order)
+                : Result.Failure<Order>(validation.ToString());
+        }
 
         #endregion
+
+        private class Validator : AbstractValidator<Order>
+        {
+            #region Creation
+
+            public Validator()
+            {
+                RuleFor(x => x.CustomerId).NotEmpty();
+            }
+
+            #endregion
+        }
     }
 }
