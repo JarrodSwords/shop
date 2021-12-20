@@ -20,12 +20,15 @@ namespace Shop.Api.Sales
 
         #region Public Interface
 
-        [HttpGet("{sku}")]
+        [HttpGet("{sku}", Name = "FindProduct")]
         public ActionResult<ProductDto> FindProduct(string sku) => _salesService.FindProduct(sku);
 
         [HttpPost]
-        public ActionResult<string> RegisterProduct([FromBody] RegisterProduct command) =>
-            _salesService.RegisterProduct(command);
+        public ActionResult<string> RegisterProduct([FromBody] RegisterProduct command)
+        {
+            var sku = _salesService.RegisterProduct(command);
+            return CreatedAtRoute(nameof(FindProduct), new { sku }, null);
+        }
 
         #endregion
     }
