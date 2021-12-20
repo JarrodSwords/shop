@@ -27,6 +27,8 @@ namespace Shop.Sales
         {
         }
 
+        public static Customer From(ICustomerBuilder builder) => new(builder);
+
         #endregion
 
         #region Public Interface
@@ -34,12 +36,6 @@ namespace Shop.Sales
         public Email Email { get; }
         public FirstName FirstName { get; }
         public LastName LastName { get; }
-
-        #endregion
-
-        #region Static Interface
-
-        public static Customer From(ICustomerBuilder builder) => new(builder);
 
         #endregion
     }

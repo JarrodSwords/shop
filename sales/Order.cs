@@ -1,13 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using FluentValidation;
 using Jgs.Ddd;
 using Jgs.Functional;
 using Shop.Shared;
 
 namespace Shop.Sales
 {
-    public class Order : Aggregate
+    public partial class Order : Aggregate
     {
         private readonly List<LineItem> _lineItems = new();
 
@@ -18,6 +17,16 @@ namespace Shop.Sales
             CustomerId = builder.GetCustomerId();
             _lineItems.AddRange(builder.GetLineItems());
             Tip = builder.GetTip();
+        }
+
+        public static Result<Order> From(IOrderBuilder builder)
+        {
+            var order = new Order(builder);
+            var validationResult = new Validator().Validate(order);
+
+            return validationResult.IsValid
+                ? Result.Success(order)
+                : Result.Failure<Order>(validationResult.ToString());
         }
 
         #endregion
@@ -32,32 +41,5 @@ namespace Shop.Sales
         public Money Total => Subtotal + Tip;
 
         #endregion
-
-        #region Static Interface
-
-        public static Result<Order> From(IOrderBuilder builder)
-        {
-            var order = new Order(builder);
-            var validationResult = new Validator().Validate(order);
-
-            return validationResult.IsValid
-                ? Result.Success(order)
-                : Result.Failure<Order>(validationResult.ToString());
-        }
-
-        #endregion
-
-        private class Validator : AbstractValidator<Order>
-        {
-            #region Creation
-
-            public Validator()
-            {
-                RuleFor(x => x.CustomerId).NotEmpty().WithMessage("Could not assign customer.");
-                RuleFor(x => x.LineItems).NotEmpty().WithMessage("Cannot process empty order.");
-            }
-
-            #endregion
-        }
     }
 }
