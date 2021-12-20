@@ -1,3 +1,4 @@
+using Jgs.Ddd;
 using Shop.Shared;
 
 namespace Shop.Sales.Services
@@ -12,6 +13,7 @@ namespace Shop.Sales.Services
 
         public Email GetEmail() => Email;
         public FirstName GetFirstName() => FirstName;
+        public Id GetId() => default;
         public LastName GetLastName() => LastName;
 
         #endregion
