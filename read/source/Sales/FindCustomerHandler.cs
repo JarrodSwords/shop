@@ -8,8 +8,6 @@ namespace Shop.Read.Sales
     {
         private const string FindCustomer = @"
 select Email
-     , FirstName
-     , LastName
   from customer
  where Email = @Email";
 

@@ -34,7 +34,6 @@ namespace Shop.Sales
         #region Public Interface
 
         public Id CustomerId { get; }
-        public OrderDetails Details { get; }
         public IReadOnlyCollection<LineItem> LineItems => _lineItems.AsReadOnly();
         public Money Subtotal => _lineItems.Aggregate(Money.Zero, (current, li) => current + li.Total);
         public Money Tip { get; }

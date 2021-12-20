@@ -6,8 +6,6 @@ namespace Shop.Sales
     public interface ICustomerBuilder
     {
         Email GetEmail();
-        FirstName GetFirstName();
         Id GetId();
-        LastName GetLastName();
     }
 }

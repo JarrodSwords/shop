@@ -23,15 +23,11 @@ namespace Shop.Api.Spec.Sales
         [Fact]
         public async void WhenSubmittingAnOrder_ThenTheCustomerIsNotSaved()
         {
-            var williamByron = new CustomerDto(
-                "william.byron@hms.com",
-                "William",
-                "Byron"
-            );
+            var williamByron = new CustomerDto("william.byron@hms.com");
 
             var candidateOrder = new SubmitOrder(
                 williamByron,
-                ObjectProvider.GetLunchBox()
+                LunchBoxes: 1
             );
 
             await HttpClient

@@ -17,8 +17,6 @@ namespace Shop.Write
         public Customer(DomainCustomer source) : this(source.Id)
         {
             Email = source.Email;
-            FirstName = source.FirstName;
-            LastName = source.LastName;
         }
 
         #endregion
@@ -26,17 +24,13 @@ namespace Shop.Write
         #region Public Interface
 
         public string Email { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
 
         #endregion
 
         #region ICustomerBuilder Implementation
 
         public Email GetEmail() => Email;
-        public FirstName GetFirstName() => FirstName;
         public Id GetId() => Id;
-        public LastName GetLastName() => LastName;
 
         #endregion
 

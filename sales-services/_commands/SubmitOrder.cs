@@ -6,25 +6,17 @@ using Shop.Shared;
 
 namespace Shop.Sales.Services
 {
-    public record SubmitOrder(CustomerDto Customer, OrderDetailsDto Details) : ICommand, IOrderBuilder
+    public record SubmitOrder(
+        CustomerDto Customer,
+        ushort Baguettes = default,
+        ushort CouplesBoxes = default,
+        ushort DessertBoxes = default,
+        ushort FamilyBoxes = default,
+        ushort LunchBoxes = default,
+        ushort PartyBoxes = default,
+        decimal Tip = default
+    ) : ICommand, IOrderBuilder
     {
-        #region Public Interface
-
-        public OrderDetails GetDetails() =>
-            new(
-                Details.Baguettes,
-                Details.CouplesBoxes,
-                Details.DessertBoxes,
-                Details.FamilyBoxes,
-                Details.IsGift,
-                Details.IsSpecialOccasion,
-                Details.LunchBoxes,
-                Details.PartyBoxes,
-                Details.Strawberries
-            );
-
-        #endregion
-
         #region Internal Interface
 
         internal Id CustomerId { get; set; }
@@ -34,8 +26,33 @@ namespace Shop.Sales.Services
         #region IOrderBuilder Implementation
 
         public Id GetCustomerId() => CustomerId;
-        public IEnumerable<LineItem> GetLineItems() => throw new NotImplementedException();
-        public Money GetTip() => throw new NotImplementedException();
+
+        public IEnumerable<LineItem> GetLineItems()
+        {
+            var lineItems = new List<LineItem>();
+
+            if (Baguettes > 0)
+                lineItems.Add(new(4, new(), Baguettes));
+
+            if (CouplesBoxes > 0)
+                lineItems.Add(new(39, new(), CouplesBoxes));
+
+            if (DessertBoxes > 0)
+                lineItems.Add(new(20, new(), DessertBoxes));
+
+            if (FamilyBoxes > 0)
+                lineItems.Add(new(69, new(), FamilyBoxes));
+
+            if (LunchBoxes > 0)
+                lineItems.Add(new(25, new(), LunchBoxes));
+
+            if (PartyBoxes > 0)
+                lineItems.Add(new(99, new(), PartyBoxes));
+
+            return lineItems;
+        }
+
+        public Money GetTip() => Tip;
 
         #endregion
 

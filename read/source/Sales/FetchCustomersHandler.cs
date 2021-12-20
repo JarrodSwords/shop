@@ -9,8 +9,6 @@ namespace Shop.Read.Sales
     {
         private const string FetchCustomers = @"
 select Email
-     , FirstName
-     , LastName
   from customer";
 
         #region Creation

@@ -9,15 +9,9 @@ namespace Shop.Read.Sales
         private const string FindOrder = @"
 select o.Id
      , c.Email
-     , o.LunchBoxes
-	 , o.CouplesBoxes
-	 , o.FamilyBoxes
-	 , o.PartyBoxes
-	 , o.DessertBoxes
-     , o.Baguettes
-	 , o.Strawberries
-	 , o.IsGift
-	 , o.IsSpecialOccasion
+     , o.Subtotal
+     , o.Tip
+     , o.Total
   from [order] o
   join customer c
     on c.Id = o.CustomerId
