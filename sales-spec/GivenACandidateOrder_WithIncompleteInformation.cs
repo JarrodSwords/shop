@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using System.Collections.Generic;
+using FluentAssertions;
 using Jgs.Ddd;
 using Jgs.Functional;
 using Xunit;
@@ -29,6 +30,12 @@ namespace Shop.Sales.Spec
             }
 
             [Fact]
+            public void ThenOneOrMoreLineItemsAreRequired()
+            {
+                _result.Message.Should().Contain("Cannot process empty order.");
+            }
+
+            [Fact]
             public void ThenResultIsFailure()
             {
                 _result.IsFailure.Should().BeTrue();
@@ -41,6 +48,7 @@ namespace Shop.Sales.Spec
                 #region IOrderBuilder Implementation
 
                 public Id GetCustomerId() => default;
+                public IEnumerable<LineItem> GetLineItems() => new List<LineItem>();
 
                 #endregion
             }

@@ -1,4 +1,6 @@
-﻿using FluentAssertions;
+﻿using System;
+using System.Collections.Generic;
+using FluentAssertions;
 using Jgs.Ddd;
 using Jgs.Functional;
 using Xunit;
@@ -56,6 +58,12 @@ namespace Shop.Sales.Spec
                 #region IOrderBuilder Implementation
 
                 public Id GetCustomerId() => _customerId;
+
+                public IEnumerable<LineItem> GetLineItems() =>
+                    new List<LineItem>
+                    {
+                        new(1m, Guid.NewGuid(), 1)
+                    };
 
                 #endregion
             }
