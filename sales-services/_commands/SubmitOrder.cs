@@ -6,6 +6,51 @@ using Shop.Shared;
 
 namespace Shop.Sales.Services
 {
+    public record RegisterProduct(
+        string Description,
+        string Name,
+        decimal Price,
+        string Sku
+    ) : ICommand, IProductBuilder
+    {
+        #region IProductBuilder Implementation
+
+        public Description GetDescription() => Description;
+        public Name GetName() => Name;
+        public Money GetPrice() => Price;
+        public Sku GetSku() => Sku;
+
+        #endregion
+
+        public class Handler : ICommandHandler<RegisterProduct, Sku>
+        {
+            private readonly IUnitOfWork _uow;
+
+            #region Creation
+
+            public Handler(IUnitOfWork uow)
+            {
+                _uow = uow;
+            }
+
+            #endregion
+
+            #region ICommandHandler<RegisterProduct,Sku> Implementation
+
+            public Sku Handle(RegisterProduct command)
+            {
+                var product = Product.From(command).Value;
+
+                _uow.Products.Create(product);
+                _uow.Commit();
+
+                return product.Sku;
+            }
+
+            #endregion
+        }
+    }
+
     public record SubmitOrder(
         CustomerDto Customer,
         ushort Baguettes = default,

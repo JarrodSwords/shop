@@ -4,7 +4,7 @@ using Shop.Shared;
 
 namespace Shop.Sales
 {
-    public partial class Product : Entity
+    public partial class Product : Aggregate
     {
         #region Creation
 
