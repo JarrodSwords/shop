@@ -68,6 +68,18 @@ namespace Shop.Sales.Spec
 
             [Theory]
             [InlineData(0)]
+            [InlineData(5)]
+            public void ThenTipIsAssigned(decimal tip)
+            {
+                var candidateOrder = new CandidateOrder(null, tip);
+
+                var order = Order.From(candidateOrder).Value;
+
+                order.Tip.Should().Be((Money) tip);
+            }
+
+            [Theory]
+            [InlineData(0)]
             [InlineData(0.99)]
             [InlineData(1)]
             public void ThenTotalIsSubtotalPlusTip(decimal tip)
