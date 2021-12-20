@@ -1,30 +1,39 @@
 ﻿using Jgs.Ddd;
+using Jgs.Functional;
 using Shop.Shared;
 
 namespace Shop.Sales
 {
-    public class Product : Entity
+    public partial class Product : Entity
     {
         #region Creation
 
-        public Product(Sku sku, Money price = default)
+        private Product(IProductBuilder builder)
         {
-            Sku = sku;
-            Price = price ?? Money.Zero;
+            Description = builder.GetDescription();
+            Name = builder.GetName();
+            Price = builder.GetPrice();
+            Sku = builder.GetSku();
+        }
+
+        public static Result<Product> From(IProductBuilder builder)
+        {
+            var product = new Product(builder);
+            var validator = new Validator().Validate(product);
+
+            return validator.IsValid
+                ? Result.Success(product)
+                : Result.Failure<Product>(validator.ToString());
         }
 
         #endregion
 
         #region Public Interface
 
-        public Money Price { get; private set; }
+        public Description Description { get; }
+        public Name Name { get; }
+        public Money Price { get; }
         public Sku Sku { get; }
-
-        public Product Set(Money price)
-        {
-            Price = price;
-            return this;
-        }
 
         #endregion
     }

@@ -7,6 +7,45 @@ using Xunit;
 
 namespace Shop.Sales.Spec
 {
+    public class GivenACandidateProduct_WithIncompleteInformation
+    {
+        public class WhenCreatingTheProduct
+        {
+            #region Core
+
+            private readonly Result<Product> _result;
+
+            public WhenCreatingTheProduct()
+            {
+                _result = Product.From(new IncompleteProduct());
+            }
+
+            #endregion
+
+            #region Test Methods
+
+            [Fact]
+            public void WhenCreatingTheProduct_ThenResultIsFailure()
+            {
+                _result.IsFailure.Should().BeTrue();
+            }
+
+            #endregion
+
+            private record IncompleteProduct : IProductBuilder
+            {
+                #region IProductBuilder Implementation
+
+                public Description GetDescription() => default;
+                public Name GetName() => default;
+                public Money GetPrice() => default;
+                public Sku GetSku() => default;
+
+                #endregion
+            }
+        }
+    }
+
     public class GivenACandidateOrder_WithIncompleteInformation
     {
         public class WhenCreatingTheOrder
