@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using FluentAssertions;
 using Jgs.Ddd;
 using Jgs.Functional;
+using Shop.Shared;
 using Xunit;
 
 namespace Shop.Sales.Spec
@@ -64,6 +65,8 @@ namespace Shop.Sales.Spec
                     {
                         new(1m, Guid.NewGuid(), 1)
                     };
+
+                public Money GetSubtotal() => 1m;
 
                 #endregion
             }

@@ -2,6 +2,7 @@
 using FluentValidation;
 using Jgs.Ddd;
 using Jgs.Functional;
+using Shop.Shared;
 
 namespace Shop.Sales
 {
@@ -15,6 +16,7 @@ namespace Shop.Sales
         {
             CustomerId = builder.GetCustomerId();
             _lineItems.AddRange(builder.GetLineItems());
+            Subtotal = builder.GetSubtotal();
         }
 
         #endregion
@@ -24,6 +26,7 @@ namespace Shop.Sales
         public Id CustomerId { get; }
         public OrderDetails Details { get; }
         public IReadOnlyCollection<LineItem> LineItems => _lineItems.AsReadOnly();
+        public Money Subtotal { get; }
 
         #endregion
 
@@ -49,6 +52,7 @@ namespace Shop.Sales
             {
                 RuleFor(x => x.CustomerId).NotEmpty().WithMessage("Could not assign customer.");
                 RuleFor(x => x.LineItems).NotEmpty().WithMessage("Cannot process empty order.");
+                RuleFor(x => x.Subtotal).NotNull().WithMessage("Could not calculate subtotal.");
             }
 
             #endregion

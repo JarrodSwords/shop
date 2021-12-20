@@ -2,6 +2,7 @@
 using FluentAssertions;
 using Jgs.Ddd;
 using Jgs.Functional;
+using Shop.Shared;
 using Xunit;
 
 namespace Shop.Sales.Spec
@@ -41,6 +42,12 @@ namespace Shop.Sales.Spec
                 _result.IsFailure.Should().BeTrue();
             }
 
+            [Fact]
+            public void ThenSubtotalIsRequired()
+            {
+                _result.Message.Should().Contain("Could not calculate subtotal.");
+            }
+
             #endregion
 
             private record IncompleteSubmission : IOrderBuilder
@@ -49,6 +56,7 @@ namespace Shop.Sales.Spec
 
                 public Id GetCustomerId() => default;
                 public IEnumerable<LineItem> GetLineItems() => new List<LineItem>();
+                public Money GetSubtotal() => default;
 
                 #endregion
             }
