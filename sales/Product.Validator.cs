@@ -10,7 +10,9 @@ namespace Shop.Sales
 
             public Validator()
             {
-                RuleFor(x => x.Name).NotEmpty();
+                RuleFor(x => x.Name).NotEmpty().WithMessage("Name is required.");
+                RuleFor(x => x.Price).NotEmpty().WithMessage("Price is required.");
+                RuleFor(x => x.Sku).NotEmpty().WithMessage("SKU is required.");
             }
 
             #endregion
