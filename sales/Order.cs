@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using FluentValidation;
 using Jgs.Ddd;
 using Jgs.Functional;
@@ -16,7 +17,6 @@ namespace Shop.Sales
         {
             CustomerId = builder.GetCustomerId();
             _lineItems.AddRange(builder.GetLineItems());
-            Subtotal = builder.GetSubtotal();
         }
 
         #endregion
@@ -26,7 +26,7 @@ namespace Shop.Sales
         public Id CustomerId { get; }
         public OrderDetails Details { get; }
         public IReadOnlyCollection<LineItem> LineItems => _lineItems.AsReadOnly();
-        public Money Subtotal { get; }
+        public Money Subtotal => _lineItems.Aggregate(Money.Zero, (current, li) => current + li.Total);
 
         #endregion
 
@@ -52,7 +52,6 @@ namespace Shop.Sales
             {
                 RuleFor(x => x.CustomerId).NotEmpty().WithMessage("Could not assign customer.");
                 RuleFor(x => x.LineItems).NotEmpty().WithMessage("Cannot process empty order.");
-                RuleFor(x => x.Subtotal).NotNull().WithMessage("Could not calculate subtotal.");
             }
 
             #endregion

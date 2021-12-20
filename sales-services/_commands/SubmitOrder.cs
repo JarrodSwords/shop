@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Jgs.Cqrs;
 using Jgs.Ddd;
 
@@ -32,6 +33,7 @@ namespace Shop.Sales.Services
         #region IOrderBuilder Implementation
 
         public Id GetCustomerId() => CustomerId;
+        public IEnumerable<LineItem> GetLineItems() => throw new NotImplementedException();
 
         #endregion
 

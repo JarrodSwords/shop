@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Jgs.Ddd;
+using Shop.Shared;
 
 namespace Shop.Sales
 {
@@ -7,7 +8,7 @@ namespace Shop.Sales
     {
         #region Creation
 
-        public LineItem(decimal price, Id productId, ushort quantity)
+        public LineItem(Money price, Id productId, Quantity quantity)
         {
             Price = price;
             ProductId = productId;
@@ -18,9 +19,10 @@ namespace Shop.Sales
 
         #region Public Interface
 
-        public decimal Price { get; }
+        public Money Price { get; }
         public Id ProductId { get; }
-        public ushort Quantity { get; }
+        public Quantity Quantity { get; }
+        public Money Total => Price * Quantity;
 
         #endregion
 

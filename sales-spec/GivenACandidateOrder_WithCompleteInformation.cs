@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using FluentAssertions;
 using Jgs.Ddd;
 using Jgs.Functional;
@@ -41,17 +41,45 @@ namespace Shop.Sales.Spec
                 _result.IsSuccess.Should().BeTrue();
             }
 
+            [Theory]
+            [InlineData(1, 1, 0, 0, 1)]
+            [InlineData(0, 0, 1, 1, 1)]
+            [InlineData(1, 2, 3, 4, 14)]
+            [InlineData(0.99, 1, 9, 1, 9.99)]
+            public void ThenSubtotalIsAggregateOfLineItems(
+                decimal p1,
+                ushort q1,
+                decimal p2,
+                ushort q2,
+                decimal expectedSubtotal
+            )
+            {
+                var candidateOrder = new CandidateOrder(
+                    null,
+                    new LineItem(p1, new(), q1),
+                    new LineItem(p2, new(), q2)
+                );
+
+                var order = Order.From(candidateOrder).Value;
+
+                order.Subtotal.Should().Be((Money) expectedSubtotal);
+            }
+
             #endregion
 
             private record CandidateOrder : IOrderBuilder
             {
                 private readonly Id _customerId;
+                private readonly List<LineItem> _lineItems;
 
                 #region Creation
 
-                public CandidateOrder(Id customerId = default)
+                public CandidateOrder(Id customerId = default, params LineItem[] lineItems)
                 {
                     _customerId = customerId ?? new Id();
+                    _lineItems = lineItems.Length > 0
+                        ? lineItems.ToList()
+                        : new() { new LineItem(1m, new(), 1) };
                 }
 
                 #endregion
@@ -59,14 +87,7 @@ namespace Shop.Sales.Spec
                 #region IOrderBuilder Implementation
 
                 public Id GetCustomerId() => _customerId;
-
-                public IEnumerable<LineItem> GetLineItems() =>
-                    new List<LineItem>
-                    {
-                        new(1m, Guid.NewGuid(), 1)
-                    };
-
-                public Money GetSubtotal() => 1m;
+                public IEnumerable<LineItem> GetLineItems() => _lineItems;
 
                 #endregion
             }
