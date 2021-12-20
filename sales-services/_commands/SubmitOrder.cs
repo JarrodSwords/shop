@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Jgs.Cqrs;
 using Jgs.Ddd;
+using Shop.Shared;
 
 namespace Shop.Sales.Services
 {
@@ -34,6 +35,7 @@ namespace Shop.Sales.Services
 
         public Id GetCustomerId() => CustomerId;
         public IEnumerable<LineItem> GetLineItems() => throw new NotImplementedException();
+        public Money GetTip() => throw new NotImplementedException();
 
         #endregion
 

@@ -17,6 +17,7 @@ namespace Shop.Sales
         {
             CustomerId = builder.GetCustomerId();
             _lineItems.AddRange(builder.GetLineItems());
+            Tip = builder.GetTip();
         }
 
         #endregion
@@ -27,6 +28,8 @@ namespace Shop.Sales
         public OrderDetails Details { get; }
         public IReadOnlyCollection<LineItem> LineItems => _lineItems.AsReadOnly();
         public Money Subtotal => _lineItems.Aggregate(Money.Zero, (current, li) => current + li.Total);
+        public Money Tip { get; }
+        public Money Total => Subtotal + Tip;
 
         #endregion
 

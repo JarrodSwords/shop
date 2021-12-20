@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Jgs.Ddd;
+using Shop.Shared;
 
 namespace Shop.Sales
 {
@@ -7,5 +8,6 @@ namespace Shop.Sales
     {
         Id GetCustomerId();
         IEnumerable<LineItem> GetLineItems();
+        Money GetTip();
     }
 }

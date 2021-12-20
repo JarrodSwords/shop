@@ -2,6 +2,7 @@
 using FluentAssertions;
 using Jgs.Ddd;
 using Jgs.Functional;
+using Shop.Shared;
 using Xunit;
 
 namespace Shop.Sales.Spec
@@ -49,6 +50,7 @@ namespace Shop.Sales.Spec
 
                 public Id GetCustomerId() => default;
                 public IEnumerable<LineItem> GetLineItems() => new List<LineItem>();
+                public Money GetTip() => default;
 
                 #endregion
             }

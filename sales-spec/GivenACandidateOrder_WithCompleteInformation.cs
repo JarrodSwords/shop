@@ -56,6 +56,7 @@ namespace Shop.Sales.Spec
             {
                 var candidateOrder = new CandidateOrder(
                     null,
+                    null,
                     new LineItem(p1, new(), q1),
                     new LineItem(p2, new(), q2)
                 );
@@ -65,21 +66,44 @@ namespace Shop.Sales.Spec
                 order.Subtotal.Should().Be((Money) expectedSubtotal);
             }
 
+            [Theory]
+            [InlineData(0)]
+            [InlineData(0.99)]
+            [InlineData(1)]
+            public void ThenTotalIsSubtotalPlusTip(decimal tip)
+            {
+                var candidateOrder = new CandidateOrder(tip: tip);
+
+                var order = Order.From(candidateOrder).Value;
+
+                order.Total.Should().Be(order.Subtotal + tip);
+            }
+
             #endregion
 
             private record CandidateOrder : IOrderBuilder
             {
                 private readonly Id _customerId;
                 private readonly List<LineItem> _lineItems;
+                private readonly Money _tip;
 
                 #region Creation
 
-                public CandidateOrder(Id customerId = default, params LineItem[] lineItems)
+                public CandidateOrder(
+                    Id customerId = default,
+                    Money tip = default,
+                    params LineItem[] lineItems
+                )
                 {
                     _customerId = customerId ?? new Id();
+                    _tip = tip ?? Money.Zero;
                     _lineItems = lineItems.Length > 0
                         ? lineItems.ToList()
-                        : new() { new LineItem(1m, new(), 1) };
+                        : new()
+                        {
+                            new LineItem(1m, new(), 2),
+                            new LineItem(3m, new(), 4)
+                        };
                 }
 
                 #endregion
@@ -88,6 +112,7 @@ namespace Shop.Sales.Spec
 
                 public Id GetCustomerId() => _customerId;
                 public IEnumerable<LineItem> GetLineItems() => _lineItems;
+                public Money GetTip() => _tip;
 
                 #endregion
             }
