@@ -1,10 +1,21 @@
 ﻿using System;
+using System.Collections.Generic;
 using Jgs.Cqrs;
 using Jgs.Ddd;
+using Shop.Shared;
 
 namespace Shop.Sales.Services
 {
-    public record SubmitOrder(CustomerDto Customer, OrderDetailsDto Details) : ICommand, IOrderBuilder
+    public record SubmitOrder(
+        CustomerDto Customer,
+        ushort Baguettes = default,
+        ushort CouplesBoxes = default,
+        ushort DessertBoxes = default,
+        ushort FamilyBoxes = default,
+        ushort LunchBoxes = default,
+        ushort PartyBoxes = default,
+        decimal Tip = default
+    ) : ICommand, IOrderBuilder
     {
         #region Internal Interface
 
@@ -16,18 +27,32 @@ namespace Shop.Sales.Services
 
         public Id GetCustomerId() => CustomerId;
 
-        public OrderDetails GetDetails() =>
-            new(
-                Details.Baguettes,
-                Details.CouplesBoxes,
-                Details.DessertBoxes,
-                Details.FamilyBoxes,
-                Details.IsGift,
-                Details.IsSpecialOccasion,
-                Details.LunchBoxes,
-                Details.PartyBoxes,
-                Details.Strawberries
-            );
+        public IEnumerable<LineItem> GetLineItems()
+        {
+            var lineItems = new List<LineItem>();
+
+            if (Baguettes > 0)
+                lineItems.Add(new(4, new(), Baguettes));
+
+            if (CouplesBoxes > 0)
+                lineItems.Add(new(39, new(), CouplesBoxes));
+
+            if (DessertBoxes > 0)
+                lineItems.Add(new(20, new(), DessertBoxes));
+
+            if (FamilyBoxes > 0)
+                lineItems.Add(new(69, new(), FamilyBoxes));
+
+            if (LunchBoxes > 0)
+                lineItems.Add(new(25, new(), LunchBoxes));
+
+            if (PartyBoxes > 0)
+                lineItems.Add(new(99, new(), PartyBoxes));
+
+            return lineItems;
+        }
+
+        public Money GetTip() => Tip;
 
         #endregion
 
@@ -61,7 +86,12 @@ namespace Shop.Sales.Services
                     command.CustomerId = customer.Id;
                 }
 
-                var id = _uow.Orders.Create(Order.From(command));
+                var createOrderResult = Order.From(command);
+
+                if (createOrderResult.IsFailure)
+                    return Guid.Empty;
+
+                var id = _uow.Orders.Create(createOrderResult.Value);
 
                 _uow.Commit();
 

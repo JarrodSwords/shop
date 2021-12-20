@@ -1,67 +1,43 @@
-﻿using System;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Jgs.Ddd;
+using Jgs.Functional;
+using Shop.Shared;
 
 namespace Shop.Sales
 {
-    public class Order : Aggregate
+    public partial class Order : Aggregate
     {
-        #region Creation
+        private readonly List<LineItem> _lineItems = new();
 
-        public Order(OrderDetails details = default)
-        {
-            Details = details ?? OrderDetails.Default;
-        }
+        #region Creation
 
         private Order(IOrderBuilder builder)
         {
             CustomerId = builder.GetCustomerId();
-            Details = builder.GetDetails();
+            _lineItems.AddRange(builder.GetLineItems());
+            Tip = builder.GetTip();
+        }
+
+        public static Result<Order> From(IOrderBuilder builder)
+        {
+            var order = new Order(builder);
+            var validationResult = new Validator().Validate(order);
+
+            return validationResult.IsValid
+                ? Result.Success(order)
+                : Result.Failure<Order>(validationResult.ToString());
         }
 
         #endregion
 
         #region Public Interface
 
-        public DateTime? CancellationDate { get; private set; }
         public Id CustomerId { get; }
-        public OrderDetails Details { get; private set; }
-        public bool IsAwaitingFulfillment { get; private set; }
-        public bool IsAwaitingPayment { get; private set; }
-        public bool IsCancelled { get; private set; }
-
-        public Order Cancel()
-        {
-            IsCancelled = true;
-            IsAwaitingFulfillment = false;
-            IsAwaitingPayment = false;
-            CancellationDate = DateTime.Now;
-            return this;
-        }
-
-        public Order ConfirmDetails()
-        {
-            IsAwaitingPayment = true;
-            return this;
-        }
-
-        public Order ConfirmPayment()
-        {
-            IsAwaitingFulfillment = true;
-            IsAwaitingPayment = false;
-            return this;
-        }
-
-        public Order Update(OrderDetails details)
-        {
-            Details = details;
-            return this;
-        }
-
-        #endregion
-
-        #region Static Interface
-
-        public static Order From(IOrderBuilder builder) => new(builder);
+        public IReadOnlyCollection<LineItem> LineItems => _lineItems.AsReadOnly();
+        public Money Subtotal => _lineItems.Aggregate(Money.Zero, (current, li) => current + li.Total);
+        public Money Tip { get; }
+        public Money Total => Subtotal + Tip;
 
         #endregion
     }

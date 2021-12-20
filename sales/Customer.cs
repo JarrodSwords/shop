@@ -7,47 +7,19 @@ namespace Shop.Sales
     {
         #region Creation
 
-        public Customer(
-            Email email,
-            FirstName firstName,
-            LastName lastName,
-            Id id = default
-        ) : base(id)
+        private Customer(ICustomerBuilder builder) : base(builder.GetId())
         {
-            Email = email;
-            FirstName = firstName;
-            LastName = lastName;
+            Email = builder.GetEmail();
         }
 
-        private Customer(ICustomerBuilder builder) : this(
-            builder.GetEmail(),
-            builder.GetFirstName(),
-            builder.GetLastName()
-        )
-        {
-        }
+        public static Customer From(ICustomerBuilder builder) => new(builder);
 
         #endregion
 
         #region Public Interface
 
         public Email Email { get; }
-        public FirstName FirstName { get; }
-        public LastName LastName { get; }
 
         #endregion
-
-        #region Static Interface
-
-        public static Customer From(ICustomerBuilder builder) => new(builder);
-
-        #endregion
-    }
-
-    public interface ICustomerBuilder
-    {
-        Email GetEmail();
-        FirstName GetFirstName();
-        LastName GetLastName();
     }
 }

@@ -22,15 +22,11 @@ namespace Shop.Api.Spec.Sales
         [Fact]
         public async void WhenSubmittingAnOrder_ThenTheCustomerIsSaved()
         {
-            var kyleLarson = new CustomerDto(
-                "kyle.larson@hms.com",
-                "Kyle",
-                "Larson"
-            );
+            var kyleLarson = new CustomerDto("kyle.larson@hms.com");
 
             var candidateOrder = new SubmitOrder(
                 kyleLarson,
-                ObjectProvider.GetLunchBox()
+                LunchBoxes: 1
             );
 
             await HttpClient
@@ -45,15 +41,11 @@ namespace Shop.Api.Spec.Sales
         [Fact]
         public async void WhenSubmittingAnOrder_ThenTheOrderIsSaved()
         {
-            var chaseElliott = new CustomerDto(
-                "chase.elliott@hms.com",
-                "Chase",
-                "Elliott"
-            );
+            var chaseElliott = new CustomerDto("chase.elliott@hms.com");
 
             var candidateOrder = new SubmitOrder(
                 chaseElliott,
-                ObjectProvider.GetLunchBox()
+                LunchBoxes: 1
             );
 
             var orderId = await HttpClient
@@ -62,7 +54,7 @@ namespace Shop.Api.Spec.Sales
 
             var order = await HttpClient.GetFromJsonAsync<OrderDto>($"orders/{orderId}");
 
-            order.LunchBoxes.Should().Be(1);
+            order.Should().NotBeNull();
         }
 
         #endregion

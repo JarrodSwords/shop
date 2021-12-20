@@ -1,10 +1,13 @@
-﻿using Jgs.Ddd;
+﻿using System.Collections.Generic;
+using Jgs.Ddd;
+using Shop.Shared;
 
 namespace Shop.Sales
 {
     public interface IOrderBuilder
     {
         Id GetCustomerId();
-        OrderDetails GetDetails();
+        IEnumerable<LineItem> GetLineItems();
+        Money GetTip();
     }
 }

@@ -1,18 +1,14 @@
+using Jgs.Ddd;
 using Shop.Shared;
 
 namespace Shop.Sales.Services
 {
-    public record CustomerDto(
-        string Email,
-        string FirstName,
-        string LastName
-    ) : ICustomerBuilder
+    public record CustomerDto(string Email) : ICustomerBuilder
     {
         #region ICustomerBuilder Implementation
 
         public Email GetEmail() => Email;
-        public FirstName GetFirstName() => FirstName;
-        public LastName GetLastName() => LastName;
+        public Id GetId() => default;
 
         #endregion
     }
