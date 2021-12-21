@@ -11,6 +11,8 @@ namespace Shop.Api.Spec.Sales
     {
         #region Core
 
+        private const string Resource = "products";
+
         private readonly RegisterProduct _command = new(
             "Each Lunch Box serves one and comes with one meat, one cheese, and accoutrements.",
             "Lunch Box",
@@ -33,13 +35,13 @@ namespace Shop.Api.Spec.Sales
 
         public override async Task InitializeAsync()
         {
-            Result = await HttpClient.PostAsJsonAsync("products", _command);
+            Result = await HttpClient.PostAsJsonAsync(Resource, _command);
         }
 
         [Fact]
         public async void ThenTheProductIsRetrievable()
         {
-            var product = await HttpClient.GetFromJsonAsync<ProductDto>($"products/{_command.Sku}");
+            var product = await HttpClient.GetFromJsonAsync<ProductDto>($"{Resource}/{_command.Sku}");
 
             product.Should().NotBeNull();
         }
