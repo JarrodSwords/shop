@@ -24,10 +24,14 @@ namespace Shop.Api.Sales
         public ActionResult<ProductDto> FindProduct(string sku) => _salesService.FindProduct(sku);
 
         [HttpPost]
-        public ActionResult<string> RegisterProduct([FromBody] RegisterProduct command)
+        public ActionResult<ProductDto> RegisterProduct([FromBody] RegisterProduct command)
         {
-            var sku = _salesService.RegisterProduct(command);
-            return CreatedAtRoute(nameof(FindProduct), new { sku }, null);
+            var product = _salesService.RegisterProduct(command);
+            return CreatedAtRoute(
+                nameof(FindProduct),
+                new { product.Sku },
+                product
+            );
         }
 
         #endregion

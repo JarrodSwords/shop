@@ -9,7 +9,7 @@ namespace Shop.Sales.Services
         CustomerDto FindCustomer(FindCustomer command);
         OrderDto FindOrder(FindOrder command);
         ProductDto FindProduct(FindProduct command);
-        string RegisterProduct(RegisterProduct command);
+        ProductDto RegisterProduct(RegisterProduct command);
         Guid SubmitOrder(SubmitOrder command);
     }
 }

@@ -25,18 +25,21 @@ namespace Shop.Api.Spec.Sales
         public async void ThenTheProductIsRetrievable()
         {
             var lunchBox = new RegisterProduct(
-                "Lunch Box serves one and comes with one meat, one cheese, and accoutrements.",
+                "Each Lunch Box serves one and comes with one meat, one cheese, and accoutrements.",
                 "Lunch Box",
                 25,
                 "MLC-LB-STD"
             );
 
-            var sku = await HttpClient.PostAsJsonAsync("products", lunchBox)
-                .Result.Content.ReadFromJsonAsync<string>();
+            var result = await HttpClient.PostAsJsonAsync("products", lunchBox);
 
-            var product = await HttpClient.GetFromJsonAsync<ProductDto>($"products/{sku}");
+            result.Headers.Location.Should().NotBeNull();
 
-            product.Should().NotBeNull();
+            var returnedProduct = result.Content.ReadFromJsonAsync<ProductDto>().Result;
+
+            var storedProduct = await HttpClient.GetFromJsonAsync<ProductDto>($"products/{returnedProduct.Sku}");
+
+            returnedProduct.Should().Be(storedProduct);
         }
 
         #endregion

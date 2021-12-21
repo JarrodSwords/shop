@@ -22,7 +22,7 @@ namespace Shop.Sales.Services
 
         #endregion
 
-        public class Handler : ICommandHandler<RegisterProduct, Sku>
+        public class Handler : ICommandHandler<RegisterProduct, ProductDto>
         {
             private readonly IUnitOfWork _uow;
 
@@ -35,16 +35,16 @@ namespace Shop.Sales.Services
 
             #endregion
 
-            #region ICommandHandler<RegisterProduct,Sku> Implementation
+            #region ICommandHandler<RegisterProduct,ProductDto> Implementation
 
-            public Sku Handle(RegisterProduct command)
+            public ProductDto Handle(RegisterProduct command)
             {
                 var product = Product.From(command).Value;
 
                 _uow.Products.Create(product);
                 _uow.Commit();
 
-                return product.Sku;
+                return ProductDto.From(product);
             }
 
             #endregion

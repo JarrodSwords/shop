@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Jgs.Cqrs;
-using Shop.Shared;
 
 namespace Shop.Sales.Services
 {
@@ -11,7 +10,7 @@ namespace Shop.Sales.Services
         private readonly IQueryHandler<FindCustomer, CustomerDto> _findCustomerHandler;
         private readonly IQueryHandler<FindOrder, OrderDto> _findOrderHandler;
         private readonly IQueryHandler<FindProduct, ProductDto> _findProductHandler;
-        private readonly ICommandHandler<RegisterProduct, Sku> _registerProductHandler;
+        private readonly ICommandHandler<RegisterProduct, ProductDto> _registerProductHandler;
         private readonly ICommandHandler<SubmitOrder, Guid> _submitOrderHandler;
 
         #region Creation
@@ -21,7 +20,7 @@ namespace Shop.Sales.Services
             IQueryHandler<FindCustomer, CustomerDto> findCustomerHandler,
             IQueryHandler<FindOrder, OrderDto> findOrderHandler,
             IQueryHandler<FindProduct, ProductDto> findProductHandler,
-            ICommandHandler<RegisterProduct, Sku> registerProductHandler,
+            ICommandHandler<RegisterProduct, ProductDto> registerProductHandler,
             ICommandHandler<SubmitOrder, Guid> submitOrderHandler
         )
         {
@@ -43,7 +42,7 @@ namespace Shop.Sales.Services
         public CustomerDto FindCustomer(FindCustomer command) => _findCustomerHandler.Handle(command);
         public OrderDto FindOrder(FindOrder command) => _findOrderHandler.Handle(command);
         public ProductDto FindProduct(FindProduct command) => _findProductHandler.Handle(command);
-        public string RegisterProduct(RegisterProduct command) => _registerProductHandler.Handle(command);
+        public ProductDto RegisterProduct(RegisterProduct command) => _registerProductHandler.Handle(command);
         public Guid SubmitOrder(SubmitOrder command) => _submitOrderHandler.Handle(command);
 
         #endregion
