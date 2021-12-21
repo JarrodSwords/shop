@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Jgs.Cqrs;
-using Shop.Catalog.Services;
 
 namespace Shop.Sales.Services
 {
@@ -18,8 +17,6 @@ namespace Shop.Sales.Services
             IQueryHandler<FetchCustomers, IEnumerable<CustomerDto>> fetchCustomersHandler,
             IQueryHandler<FindCustomer, CustomerDto> findCustomerHandler,
             IQueryHandler<FindOrder, OrderDto> findOrderHandler,
-            IQueryHandler<FindProduct, ProductDto> findProductHandler,
-            ICommandHandler<RegisterProduct, ProductDto> registerProductHandler,
             ICommandHandler<SubmitOrder, Guid> submitOrderHandler
         )
         {
