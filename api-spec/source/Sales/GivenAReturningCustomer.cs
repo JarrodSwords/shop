@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Net.Http.Json;
 using FluentAssertions;
 using Shop.Sales.Services;
@@ -12,7 +11,10 @@ namespace Shop.Api.Spec.Sales
     {
         #region Core
 
-        public GivenAReturningCustomer(IntegrationTestingFactory<Startup> factory) : base(factory, "api/sales")
+        public GivenAReturningCustomer(IntegrationTestingFactory<Startup> factory) : base(
+            factory,
+            "api/sales"
+        )
         {
         }
 
@@ -30,13 +32,8 @@ namespace Shop.Api.Spec.Sales
                 LunchBoxes: 1
             );
 
-            await HttpClient
-                .PostAsJsonAsync("orders", candidateOrder)
-                .Result.Content.ReadFromJsonAsync<Guid>();
-
-            await HttpClient
-                .PostAsJsonAsync("orders", candidateOrder)
-                .Result.Content.ReadFromJsonAsync<Guid>();
+            await HttpClient.PostAsJsonAsync("orders", candidateOrder);
+            await HttpClient.PostAsJsonAsync("orders", candidateOrder);
 
             var customers = await HttpClient.GetFromJsonAsync<IEnumerable<CustomerDto>>("customers");
 

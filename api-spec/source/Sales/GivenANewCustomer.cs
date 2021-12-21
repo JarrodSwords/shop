@@ -11,7 +11,10 @@ namespace Shop.Api.Spec.Sales
     {
         #region Core
 
-        public GivenANewCustomer(IntegrationTestingFactory<Startup> factory) : base(factory, "api/sales")
+        public GivenANewCustomer(IntegrationTestingFactory<Startup> factory) : base(
+            factory,
+            "api/sales"
+        )
         {
         }
 
@@ -29,9 +32,7 @@ namespace Shop.Api.Spec.Sales
                 LunchBoxes: 1
             );
 
-            await HttpClient
-                .PostAsJsonAsync("orders", candidateOrder)
-                .Result.Content.ReadFromJsonAsync<Guid>();
+            await HttpClient.PostAsJsonAsync("orders", candidateOrder);
 
             var customer = await HttpClient.GetFromJsonAsync<CustomerDto>($@"customers/{kyleLarson.Email}");
 

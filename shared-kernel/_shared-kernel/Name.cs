@@ -14,7 +14,7 @@ namespace Shop.Shared
 
         #region Static Interface
 
-        public static implicit operator Name(string value) => new(value);
+        public static implicit operator Name(string source) => new(source);
 
         #endregion
     }
