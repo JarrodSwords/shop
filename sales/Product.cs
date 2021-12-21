@@ -13,7 +13,6 @@ namespace Shop.Sales
             Description = builder.GetDescription();
             Name = builder.GetName();
             Price = builder.GetPrice();
-            Sku = builder.GetSku();
         }
 
         public static Result<Product> From(IProductBuilder builder)
@@ -33,7 +32,7 @@ namespace Shop.Sales
         public Description Description { get; }
         public Name Name { get; }
         public Money Price { get; }
-        public Sku Sku { get; }
+        public RecordName RecordName => Name.Value.Trim().Replace(' ', '-').ToLower();
 
         #endregion
     }

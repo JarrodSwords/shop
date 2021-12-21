@@ -7,6 +7,5 @@ namespace Shop.Sales
         Description GetDescription();
         Name GetName();
         Money GetPrice();
-        Sku GetSku();
     }
 }

@@ -14,10 +14,9 @@ namespace Shop.Api.Spec.Sales
         private const string Resource = "products";
 
         private readonly RegisterProduct _command = new(
-            "Each Lunch Box serves one and comes with one meat, one cheese, and accoutrements.",
-            "Lunch Box",
-            25,
-            $"MLC-LB{++_count:000}-STD"
+            "A Foo description",
+            $"Foo {++_count}",
+            25
         );
 
         private static ushort _count;
@@ -41,7 +40,8 @@ namespace Shop.Api.Spec.Sales
         [Fact]
         public async void ThenTheProductIsRetrievable()
         {
-            var product = await HttpClient.GetFromJsonAsync<ProductDto>($"{Resource}/{_command.Sku}");
+            var recordName = _command.Name.Trim().Replace(' ', '-').ToLower();
+            var product = await HttpClient.GetFromJsonAsync<ProductDto>($"{Resource}/{recordName}");
 
             product.Should().NotBeNull();
         }

@@ -2,7 +2,7 @@
 
 namespace Shop.Sales.Services
 {
-    public record FindProduct(string Sku) : IQuery
+    public record FindProduct(string RecordName) : IQuery
     {
         #region Static Interface
 

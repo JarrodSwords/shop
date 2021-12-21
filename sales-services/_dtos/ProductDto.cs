@@ -4,7 +4,7 @@
         string Description,
         string Name,
         decimal Price,
-        string Sku
+        string RecordName
     )
     {
         #region Creation
@@ -13,7 +13,7 @@
             source.Description,
             source.Name,
             source.Price,
-            source.Sku
+            source.RecordName
         )
         {
         }

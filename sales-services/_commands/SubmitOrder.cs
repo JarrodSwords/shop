@@ -9,8 +9,7 @@ namespace Shop.Sales.Services
     public record RegisterProduct(
         string Description,
         string Name,
-        decimal Price,
-        string Sku
+        decimal Price
     ) : ICommand, IProductBuilder
     {
         #region IProductBuilder Implementation
@@ -18,7 +17,6 @@ namespace Shop.Sales.Services
         public Description GetDescription() => Description;
         public Name GetName() => Name;
         public Money GetPrice() => Price;
-        public Sku GetSku() => Sku;
 
         #endregion
 

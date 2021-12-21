@@ -10,9 +10,9 @@ namespace Shop.Read.Sales
 select Description
      , Name
      , Price
-     , Sku
+     , RecordName
   from Product
- where Sku = @Sku";
+ where RecordName = @RecordName";
 
         #region Creation
 
