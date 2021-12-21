@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace Shop.Sales
+namespace Shop.Catalog
 {
     public partial class Product
     {

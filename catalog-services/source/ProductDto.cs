@@ -1,4 +1,4 @@
-﻿namespace Shop.Sales.Services
+﻿namespace Shop.Catalog.Services
 {
     public record ProductDto(
         string Description,

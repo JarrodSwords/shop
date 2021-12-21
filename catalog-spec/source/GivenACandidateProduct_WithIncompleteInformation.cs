@@ -3,7 +3,7 @@ using Jgs.Functional;
 using Shop.Shared;
 using Xunit;
 
-namespace Shop.Sales.Spec
+namespace Shop.Catalog.Spec
 {
     public class GivenACandidateProduct_WithIncompleteInformation
     {

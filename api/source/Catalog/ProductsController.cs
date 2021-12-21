@@ -1,19 +1,19 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Shop.Sales.Services;
+using Shop.Catalog.Services;
 
-namespace Shop.Api.Sales
+namespace Shop.Api.Catalog
 {
-    [Route("api/sales/[controller]")]
+    [Route("api/catalog/[controller]")]
     [ApiController]
     public class ProductsController : ControllerBase
     {
-        private readonly ISalesService _salesService;
+        private readonly ICatalogService _catalogService;
 
         #region Creation
 
-        public ProductsController(ISalesService salesService)
+        public ProductsController(ICatalogService catalogService)
         {
-            _salesService = salesService;
+            _catalogService = catalogService;
         }
 
         #endregion
@@ -21,12 +21,12 @@ namespace Shop.Api.Sales
         #region Public Interface
 
         [HttpGet("{recordName}", Name = "FindProduct")]
-        public ActionResult<ProductDto> FindProduct(string recordName) => _salesService.FindProduct(recordName);
+        public ActionResult<ProductDto> FindProduct(string recordName) => _catalogService.FindProduct(recordName);
 
         [HttpPost]
         public ActionResult<ProductDto> RegisterProduct([FromBody] RegisterProduct command)
         {
-            var product = _salesService.RegisterProduct(command);
+            var product = _catalogService.RegisterProduct(command);
             return CreatedAtRoute(
                 nameof(FindProduct),
                 new { product.RecordName },

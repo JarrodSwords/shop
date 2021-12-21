@@ -1,6 +1,6 @@
 ﻿using Shop.Shared;
 
-namespace Shop.Sales.Spec
+namespace Shop.Catalog.Spec
 {
     internal class ProductBuilder : IProductBuilder
     {

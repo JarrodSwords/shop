@@ -1,8 +1,8 @@
 ﻿using System;
-using Shop.Sales;
-using DomainProduct = Shop.Sales.Product;
+using Shop.Catalog;
+using DomainProduct = Shop.Catalog.Product;
 
-namespace Shop.Write.Sales
+namespace Shop.Write.Catalog
 {
     public class ProductRepository : Repository<Product>, IProductRepository
     {

@@ -8,8 +8,6 @@ namespace Shop.Sales.Services
         IEnumerable<CustomerDto> FetchCustomers(FetchCustomers command);
         CustomerDto FindCustomer(FindCustomer command);
         OrderDto FindOrder(FindOrder command);
-        ProductDto FindProduct(FindProduct command);
-        ProductDto RegisterProduct(RegisterProduct command);
         Guid SubmitOrder(SubmitOrder command);
     }
 }

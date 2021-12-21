@@ -1,7 +1,7 @@
 ﻿using System;
 using Shop.Shared;
 
-namespace Shop.Sales
+namespace Shop.Catalog
 {
     public interface IProductRepository : IRepository<Product>
     {

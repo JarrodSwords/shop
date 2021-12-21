@@ -1,5 +1,5 @@
 ﻿using System;
-using DomainProduct = Shop.Sales.Product;
+using DomainProduct = Shop.Catalog.Product;
 
 namespace Shop.Write
 {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Jgs.Cqrs;
+using Shop.Catalog.Services;
 
 namespace Shop.Sales.Services
 {
@@ -9,8 +10,6 @@ namespace Shop.Sales.Services
         private readonly IQueryHandler<FetchCustomers, IEnumerable<CustomerDto>> _fetchCustomersHandler;
         private readonly IQueryHandler<FindCustomer, CustomerDto> _findCustomerHandler;
         private readonly IQueryHandler<FindOrder, OrderDto> _findOrderHandler;
-        private readonly IQueryHandler<FindProduct, ProductDto> _findProductHandler;
-        private readonly ICommandHandler<RegisterProduct, ProductDto> _registerProductHandler;
         private readonly ICommandHandler<SubmitOrder, Guid> _submitOrderHandler;
 
         #region Creation
@@ -27,8 +26,6 @@ namespace Shop.Sales.Services
             _fetchCustomersHandler = fetchCustomersHandler;
             _findCustomerHandler = findCustomerHandler;
             _findOrderHandler = findOrderHandler;
-            _findProductHandler = findProductHandler;
-            _registerProductHandler = registerProductHandler;
             _submitOrderHandler = submitOrderHandler;
         }
 
@@ -41,8 +38,6 @@ namespace Shop.Sales.Services
 
         public CustomerDto FindCustomer(FindCustomer command) => _findCustomerHandler.Handle(command);
         public OrderDto FindOrder(FindOrder command) => _findOrderHandler.Handle(command);
-        public ProductDto FindProduct(FindProduct command) => _findProductHandler.Handle(command);
-        public ProductDto RegisterProduct(RegisterProduct command) => _registerProductHandler.Handle(command);
         public Guid SubmitOrder(SubmitOrder command) => _submitOrderHandler.Handle(command);
 
         #endregion

@@ -1,8 +1,12 @@
-﻿using Shop.Sales;
+﻿using Shop.Catalog;
+using Shop.Sales;
+using Shop.Write.Catalog;
+using Shop.Write.Sales;
+using IUnitOfWork = Shop.Catalog.IUnitOfWork;
 
-namespace Shop.Write.Sales
+namespace Shop.Write
 {
-    public class UnitOfWork : IUnitOfWork
+    public class UnitOfWork : IUnitOfWork, Shop.Sales.IUnitOfWork
     {
         private readonly Context _context;
         private ICustomerRepository _customers;

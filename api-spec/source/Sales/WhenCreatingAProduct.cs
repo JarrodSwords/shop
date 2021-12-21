@@ -1,7 +1,7 @@
 ﻿using System.Net.Http.Json;
 using System.Threading.Tasks;
 using FluentAssertions;
-using Shop.Sales.Services;
+using Shop.Catalog.Services;
 using Xunit;
 
 namespace Shop.Api.Spec.Sales
@@ -23,7 +23,7 @@ namespace Shop.Api.Spec.Sales
 
         public WhenCreatingAProduct(IntegrationTestingFactory<Startup> factory) : base(
             factory,
-            "api/sales"
+            "api/catalog"
         )
         {
         }

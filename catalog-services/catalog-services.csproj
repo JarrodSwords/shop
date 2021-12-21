@@ -2,20 +2,18 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <RootNamespace>Shop.Sales.Services</RootNamespace>
-    <AssemblyName>Shop.Sales.Services</AssemblyName>
+    <RootNamespace>Shop.Catalog.Services</RootNamespace>
+    <AssemblyName>Shop.Catalog.Services</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Autofac" Version="6.3.0" />
     <PackageReference Include="jgs.cqrs" Version="0.2.0" />
-    <PackageReference Include="jgs.ddd" Version="0.1.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\catalog-services\catalog-services.csproj" />
+    <ProjectReference Include="..\catalog\catalog.csproj" />
     <ProjectReference Include="..\sales\sales.csproj" />
-    <ProjectReference Include="..\shared-kernel\shared-kernel.csproj" />
   </ItemGroup>
 
 </Project>

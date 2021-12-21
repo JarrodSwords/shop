@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using Autofac;
+using Shop.Catalog.Services;
 using Shop.Read.Sales;
 using Shop.Sales.Services;
 using Shop.Write;
@@ -12,7 +13,8 @@ namespace Shop.Api
         {
             typeof(Context).Assembly,
             typeof(SubmitOrder).Assembly,
-            typeof(FindOrderHandler).Assembly
+            typeof(FindOrderHandler).Assembly,
+            typeof(RegisterProduct).Assembly
         };
 
         #region Static Interface

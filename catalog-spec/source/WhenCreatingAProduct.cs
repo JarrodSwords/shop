@@ -2,7 +2,7 @@
 using Shop.Shared;
 using Xunit;
 
-namespace Shop.Sales.Spec
+namespace Shop.Catalog.Spec
 {
     public class WhenCreatingAProduct
     {

@@ -2,7 +2,7 @@
 using Jgs.Functional;
 using Shop.Shared;
 
-namespace Shop.Sales
+namespace Shop.Catalog
 {
     public partial class Product : Aggregate
     {

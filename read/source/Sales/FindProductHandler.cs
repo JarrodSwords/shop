@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using Shop.Catalog.Services;
 using Shop.Sales.Services;
 using Shop.Shared;
 
