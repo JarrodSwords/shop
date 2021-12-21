@@ -1,9 +1,8 @@
 ﻿using Dapper;
 using Shop.Catalog.Services;
-using Shop.Sales.Services;
 using Shop.Shared;
 
-namespace Shop.Read.Sales
+namespace Shop.Read.Catalog
 {
     public class FindProductHandler : Handler<FindProduct, ProductDto>
     {

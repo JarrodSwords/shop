@@ -4,7 +4,7 @@ using FluentAssertions;
 using Shop.Catalog.Services;
 using Xunit;
 
-namespace Shop.Api.Spec.Sales
+namespace Shop.Api.Spec.Catalog
 {
     [Collection("storage")]
     public class WhenCreatingAProduct : PostFixture<ProductDto>
