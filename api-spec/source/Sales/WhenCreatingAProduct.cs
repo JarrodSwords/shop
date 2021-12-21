@@ -15,10 +15,10 @@ namespace Shop.Api.Spec.Sales
             "Each Lunch Box serves one and comes with one meat, one cheese, and accoutrements.",
             "Lunch Box",
             25,
-            $"MLC-LB{++Count:000}-STD"
+            $"MLC-LB{++_count:000}-STD"
         );
 
-        private static ushort Count;
+        private static ushort _count;
 
         public WhenCreatingAProduct(IntegrationTestingFactory<Startup> factory) : base(
             factory,
