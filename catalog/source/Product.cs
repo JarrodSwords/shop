@@ -29,6 +29,7 @@ namespace Shop.Catalog
 
         #region Public Interface
 
+        public ProductCategory Category { get; set; }
         public Description Description { get; }
         public Name Name { get; }
         public Money Price { get; }
