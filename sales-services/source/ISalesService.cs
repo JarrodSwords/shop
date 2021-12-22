@@ -5,9 +5,10 @@ namespace Shop.Sales.Services
 {
     public interface ISalesService
     {
-        IEnumerable<CustomerDto> FetchCustomers(FetchCustomers command);
-        CustomerDto FindCustomer(FindCustomer command);
-        OrderDto FindOrder(FindOrder command);
+        IEnumerable<CustomerDto> FetchCustomers(FetchCustomers query);
+        CustomerDto FindCustomer(FindCustomer query);
+        OrderDto FindOrder(FindOrder query);
+        ProductDto FindProduct(FindProduct query);
         Guid SubmitOrder(SubmitOrder command);
     }
 }

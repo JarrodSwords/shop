@@ -23,7 +23,7 @@ namespace Shop.Api.Spec.Catalog
 
         public WhenCreatingAProduct(IntegrationTestingFactory<Startup> factory) : base(
             factory,
-            "api/catalog"
+            "api"
         )
         {
         }
@@ -34,14 +34,23 @@ namespace Shop.Api.Spec.Catalog
 
         public override async Task InitializeAsync()
         {
-            Result = await HttpClient.PostAsJsonAsync(Resource, _command);
+            Result = await HttpClient.PostAsJsonAsync($"catalog/{Resource}", _command);
+        }
+
+        [Fact]
+        public async void ThenProductExistsInSales()
+        {
+            var recordName = _command.Name.Trim().Replace(' ', '-').ToLower();
+            var product = await HttpClient.GetFromJsonAsync<ProductDto>($"sales/{Resource}/{recordName}");
+
+            product.Should().NotBeNull();
         }
 
         [Fact]
         public async void ThenTheProductIsRetrievable()
         {
             var recordName = _command.Name.Trim().Replace(' ', '-').ToLower();
-            var product = await HttpClient.GetFromJsonAsync<ProductDto>($"{Resource}/{recordName}");
+            var product = await HttpClient.GetFromJsonAsync<ProductDto>($"catalog/{Resource}/{recordName}");
 
             product.Should().NotBeNull();
         }
