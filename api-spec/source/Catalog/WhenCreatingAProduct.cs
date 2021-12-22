@@ -14,9 +14,11 @@ namespace Shop.Api.Spec.Catalog
         private const string Resource = "products";
 
         private readonly RegisterProduct _command = new(
+            "Bar",
             "A Foo description",
             $"Foo {++_count}",
-            25
+            25,
+            "SM"
         );
 
         private static ushort _count;

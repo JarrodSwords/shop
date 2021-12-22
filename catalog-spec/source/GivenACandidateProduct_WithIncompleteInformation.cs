@@ -46,6 +46,12 @@ namespace Shop.Catalog.Spec
                 _result.IsFailure.Should().BeTrue();
             }
 
+            [Fact]
+            public void ThenSizeIsRequired()
+            {
+                _result.Message.Should().Contain("Size is required.");
+            }
+
             #endregion
 
             private record IncompleteProduct : IProductBuilder
@@ -56,6 +62,7 @@ namespace Shop.Catalog.Spec
                 public Description GetDescription() => default;
                 public Name GetName() => default;
                 public Money GetPrice() => default;
+                public Size GetSize() => default;
 
                 #endregion
             }

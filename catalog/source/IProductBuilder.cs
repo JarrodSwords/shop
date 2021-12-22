@@ -8,5 +8,6 @@ namespace Shop.Catalog
         Description GetDescription();
         Name GetName();
         Money GetPrice();
+        Size GetSize();
     }
 }

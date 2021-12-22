@@ -2,6 +2,23 @@
 
 namespace Shop.Shared
 {
+    public class Size : TinyType<string>
+    {
+        #region Creation
+
+        public Size(string value) : base(value)
+        {
+        }
+
+        #endregion
+
+        #region Static Interface
+
+        public static implicit operator Size(string source) => new(source);
+
+        #endregion
+    }
+
     public class Abbreviation : TinyType<string>
     {
         #region Creation
@@ -26,7 +43,7 @@ namespace Shop.Shared
 
         #region Static Interface
 
-        public static implicit operator Abbreviation(string value) => new(value);
+        public static implicit operator Abbreviation(string source) => new(source);
 
         #endregion
     }

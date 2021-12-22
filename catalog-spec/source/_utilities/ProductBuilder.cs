@@ -8,6 +8,7 @@ namespace Shop.Catalog.Spec
         private Description _description;
         private Name _name;
         private Money _price;
+        private Size _size;
 
         #region Public Interface
 
@@ -37,6 +38,12 @@ namespace Shop.Catalog.Spec
             return this;
         }
 
+        public ProductBuilder With(Size size)
+        {
+            _size = size;
+            return this;
+        }
+
         #endregion
 
         #region IProductBuilder Implementation
@@ -45,6 +52,7 @@ namespace Shop.Catalog.Spec
         public Description GetDescription() => _description;
         public Name GetName() => _name;
         public Money GetPrice() => _price;
+        public Size GetSize() => _size;
 
         #endregion
     }

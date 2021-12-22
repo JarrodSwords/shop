@@ -4,16 +4,20 @@ using Shop.Shared;
 namespace Shop.Catalog.Services
 {
     public record RegisterProduct(
+        string Category,
         string Description,
         string Name,
-        decimal Price
+        decimal Price,
+        string Size
     ) : ICommand, IProductBuilder
     {
         #region IProductBuilder Implementation
 
+        public ProductCategory GetCategory() => default;
         public Description GetDescription() => Description;
         public Name GetName() => Name;
         public Money GetPrice() => Price;
+        public Size GetSize() => Size;
 
         #endregion
 

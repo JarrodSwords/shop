@@ -10,9 +10,11 @@ namespace Shop.Catalog
 
         private Product(IProductBuilder builder)
         {
+            Category = builder.GetCategory();
             Description = builder.GetDescription();
             Name = builder.GetName();
             Price = builder.GetPrice();
+            Size = builder.GetSize();
         }
 
         public static Result<Product> From(IProductBuilder builder)
@@ -29,11 +31,12 @@ namespace Shop.Catalog
 
         #region Public Interface
 
-        public ProductCategory Category { get; set; }
+        public ProductCategory Category { get; }
         public Description Description { get; }
         public Name Name { get; }
         public Money Price { get; }
         public RecordName RecordName => Name.Value.Trim().Replace(' ', '-').ToLower();
+        public Size Size { get; }
 
         #endregion
     }
