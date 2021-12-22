@@ -1,15 +1,14 @@
 ﻿using System.Data;
 using Dapper;
-using Shop.Catalog.Services;
+using Shop.Sales.Services;
 using Shop.Shared;
 
-namespace Shop.Read.Catalog
+namespace Shop.Read.Sales
 {
     public class FindProductHandler : Handler<FindProduct, ProductDto>
     {
         private const string FindProduct = @"
-select Description
-     , Name
+select Price
      , RecordName
   from Product
  where RecordName = @RecordName";

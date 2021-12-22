@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Data;
 using Dapper;
 using Shop.Sales.Services;
 using Shop.Shared;
@@ -23,12 +24,8 @@ select Email
 
         #region Public Interface
 
-        public override IEnumerable<CustomerDto> Handle(FetchCustomers query)
-        {
-            using var connection = CreateConnection();
-
-            return connection.Query<CustomerDto>(FetchCustomers, query);
-        }
+        public override IEnumerable<CustomerDto> Execute(IDbConnection connection, FetchCustomers args) =>
+            connection.Query<CustomerDto>(FetchCustomers, args);
 
         #endregion
     }
