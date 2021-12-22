@@ -35,21 +35,9 @@ namespace Shop.Catalog.Spec
             }
 
             [Fact]
-            public void ThenPriceIsRequired()
-            {
-                _result.Message.Should().Contain("Price is required.");
-            }
-
-            [Fact]
             public void ThenResultIsFailure()
             {
                 _result.IsFailure.Should().BeTrue();
-            }
-
-            [Fact]
-            public void ThenSizeIsRequired()
-            {
-                _result.Message.Should().Contain("Size is required.");
             }
 
             #endregion

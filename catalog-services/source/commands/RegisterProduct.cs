@@ -13,7 +13,7 @@ namespace Shop.Catalog.Services
     {
         #region IProductBuilder Implementation
 
-        public ProductCategory GetCategory() => default;
+        public ProductCategory GetCategory() => ProductCategory.Box;
         public Description GetDescription() => Description;
         public Name GetName() => Name;
         public Money GetPrice() => Price;
