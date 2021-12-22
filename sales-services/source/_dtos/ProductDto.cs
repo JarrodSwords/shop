@@ -1,4 +1,4 @@
-﻿namespace Shop.Read.Sales
+﻿namespace Shop.Sales.Services
 {
     public record ProductDto(
         string RecordName,
