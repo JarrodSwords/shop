@@ -34,7 +34,6 @@ namespace Shop.Sales.Services
         #region ISalesService Implementation
 
         public IEnumerable<CustomerDto> FetchCustomers(FetchCustomers query) => _fetchCustomersHandler.Handle(query);
-
         public CustomerDto FindCustomer(FindCustomer query) => _findCustomerHandler.Handle(query);
         public OrderDto FindOrder(FindOrder query) => _findOrderHandler.Handle(query);
         public ProductDto FindProduct(FindProduct query) => _findProductHandler.Handle(query);
