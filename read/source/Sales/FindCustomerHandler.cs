@@ -1,4 +1,5 @@
-﻿using Dapper;
+﻿using System.Data;
+using Dapper;
 using Shop.Sales.Services;
 using Shop.Shared;
 
@@ -21,12 +22,8 @@ select Email
 
         #region Public Interface
 
-        public override CustomerDto Handle(FindCustomer query)
-        {
-            using var connection = CreateConnection();
-
-            return connection.QuerySingleOrDefault<CustomerDto>(FindCustomer, query);
-        }
+        public override CustomerDto Execute(IDbConnection connection, FindCustomer args) =>
+            connection.QuerySingleOrDefault<CustomerDto>(FindCustomer, args);
 
         #endregion
     }

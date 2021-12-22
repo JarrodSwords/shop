@@ -33,9 +33,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "catalog", "catalog", "{C928
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "catalog-spec", "catalog-spec\catalog-spec.csproj", "{1956AAAA-2BED-418E-BF90-1C2BED85DBCB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "catalog", "catalog\catalog.csproj", "{C21FBFD1-1847-42EC-AB0F-1F5232B9EEF8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "catalog", "catalog\catalog.csproj", "{C21FBFD1-1847-42EC-AB0F-1F5232B9EEF8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "catalog-services", "catalog-services\catalog-services.csproj", "{743C0459-CE32-4E61-A2DE-2F0D5F8EE099}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "catalog-services", "catalog-services\catalog-services.csproj", "{743C0459-CE32-4E61-A2DE-2F0D5F8EE099}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

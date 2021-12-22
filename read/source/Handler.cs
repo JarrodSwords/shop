@@ -7,26 +7,31 @@ namespace Shop.Read
 {
     public abstract class Handler<T, TResult> : IQueryHandler<T, TResult> where T : IQuery
     {
-        private readonly IConnectionStringProvider _connectionStringProvider;
+        private readonly string _connectionString;
 
         #region Creation
 
         protected Handler(IConnectionStringProvider connectionStringProvider)
         {
-            _connectionStringProvider = connectionStringProvider;
+            _connectionString = connectionStringProvider.GetConnectionString();
         }
 
         #endregion
 
         #region Public Interface
 
-        public IDbConnection CreateConnection() => new SqlConnection(_connectionStringProvider.GetConnectionString());
+        public abstract TResult Execute(IDbConnection connection, T args);
 
         #endregion
 
         #region IQueryHandler<T,TResult> Implementation
 
-        public abstract TResult Handle(T query);
+        public TResult Handle(T query)
+        {
+            using var connection = new SqlConnection(_connectionString);
+            var result = Execute(connection, query);
+            return result;
+        }
 
         #endregion
     }

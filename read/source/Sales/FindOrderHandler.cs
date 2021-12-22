@@ -1,4 +1,5 @@
-﻿using Dapper;
+﻿using System.Data;
+using Dapper;
 using Shop.Sales.Services;
 using Shop.Shared;
 
@@ -27,12 +28,8 @@ select o.Id
 
         #region Public Interface
 
-        public override OrderDto Handle(FindOrder query)
-        {
-            using var connection = CreateConnection();
-
-            return connection.QuerySingleOrDefault<OrderDto>(FindOrder, query);
-        }
+        public override OrderDto Execute(IDbConnection connection, FindOrder args) =>
+            connection.QuerySingleOrDefault<OrderDto>(FindOrder, args);
 
         #endregion
     }
