@@ -9,7 +9,6 @@ namespace Shop.Read.Catalog
         private const string FindProduct = @"
 select Description
      , Name
-     , Price
      , RecordName
   from Product
  where RecordName = @RecordName";

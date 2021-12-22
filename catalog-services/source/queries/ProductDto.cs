@@ -3,7 +3,6 @@
     public record ProductDto(
         string Description,
         string Name,
-        decimal Price,
         string RecordName
     )
     {
@@ -12,7 +11,6 @@
         private ProductDto(Product source) : this(
             source.Description,
             source.Name,
-            source.Price,
             source.RecordName
         )
         {
