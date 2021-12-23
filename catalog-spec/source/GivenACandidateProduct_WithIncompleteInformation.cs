@@ -23,15 +23,15 @@ namespace Shop.Catalog.Spec
             #region Test Methods
 
             [Fact]
-            public void ThenNameIsRequired()
+            public void ThenCategoryIsRequired()
             {
-                _result.Message.Should().Contain("Name is required.");
+                _result.Message.Should().Contain("Category is required.");
             }
 
             [Fact]
-            public void ThenPriceIsRequired()
+            public void ThenNameIsRequired()
             {
-                _result.Message.Should().Contain("Price is required.");
+                _result.Message.Should().Contain("Name is required.");
             }
 
             [Fact]
@@ -46,9 +46,11 @@ namespace Shop.Catalog.Spec
             {
                 #region IProductBuilder Implementation
 
+                public ProductCategory GetCategory() => default;
                 public Description GetDescription() => default;
                 public Name GetName() => default;
                 public Money GetPrice() => default;
+                public Size GetSize() => default;
 
                 #endregion
             }

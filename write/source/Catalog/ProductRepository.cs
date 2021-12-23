@@ -14,7 +14,7 @@ namespace Shop.Write.Catalog
 
         #endregion
 
-        #region Public Interface
+        #region IProductRepository Implementation
 
         public Guid Create(DomainProduct product) => base.Create(product);
 

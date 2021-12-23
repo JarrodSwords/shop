@@ -14,9 +14,11 @@ namespace Shop.Api.Spec.Catalog
         private const string Resource = "products";
 
         private readonly RegisterProduct _command = new(
+            "Bar",
             "A Foo description",
             $"Foo {++_count}",
-            25
+            25,
+            "SM"
         );
 
         private static ushort _count;
@@ -38,6 +40,15 @@ namespace Shop.Api.Spec.Catalog
         }
 
         [Fact]
+        public async void ThenProductExistsInCatalog()
+        {
+            var recordName = _command.Name.Trim().Replace(' ', '-').ToLower();
+            var product = await HttpClient.GetFromJsonAsync<ProductDto>($"catalog/{Resource}/{recordName}");
+
+            product.Should().NotBeNull();
+        }
+
+        [Fact]
         public async void ThenProductExistsInSales()
         {
             var recordName = _command.Name.Trim().Replace(' ', '-').ToLower();
@@ -47,12 +58,14 @@ namespace Shop.Api.Spec.Catalog
         }
 
         [Fact]
-        public async void ThenTheProductIsRetrievable()
+        public async void ThenProductIsCorrectInSales()
         {
             var recordName = _command.Name.Trim().Replace(' ', '-').ToLower();
-            var product = await HttpClient.GetFromJsonAsync<ProductDto>($"catalog/{Resource}/{recordName}");
+            var product = await HttpClient.GetFromJsonAsync<Shop.Sales.Services.ProductDto>(
+                $"sales/{Resource}/{recordName}"
+            );
 
-            product.Should().NotBeNull();
+            product.Price.Should().Be(_command.Price);
         }
 
         #endregion
