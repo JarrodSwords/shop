@@ -57,17 +57,6 @@ namespace Shop.Api.Spec.Catalog
             product.Should().NotBeNull();
         }
 
-        [Fact]
-        public async void ThenProductIsCorrectInSales()
-        {
-            var recordName = _command.Name.Trim().Replace(' ', '-').ToLower();
-            var product = await HttpClient.GetFromJsonAsync<Shop.Sales.Services.ProductDto>(
-                $"sales/{Resource}/{recordName}"
-            );
-
-            product.Price.Should().Be(_command.Price);
-        }
-
         #endregion
     }
 }
