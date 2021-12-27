@@ -11,23 +11,23 @@ namespace Shop.Catalog
         #region Creation
 
         public ProductCategory(
-            Abbreviation abbreviation,
             Name name,
+            Token token,
             Description description = default
         )
         {
-            Abbreviation = abbreviation;
             Description = description;
             Name = name;
+            Token = token;
         }
 
         #endregion
 
         #region Public Interface
 
-        public Abbreviation Abbreviation { get; }
         public Description Description { get; }
         public Name Name { get; }
+        public Token Token { get; }
 
         #endregion
     }
