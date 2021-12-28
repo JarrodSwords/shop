@@ -7,7 +7,6 @@ namespace Shop.Catalog.Services
         string Category,
         string Description,
         string Name,
-        decimal Price,
         string Size
     ) : ICommand, IProductBuilder
     {
@@ -16,7 +15,6 @@ namespace Shop.Catalog.Services
         public ProductCategory GetCategory() => ProductCategory.Box;
         public Description GetDescription() => Description;
         public Name GetName() => Name;
-        public Money GetPrice() => Price;
         public Size GetSize() => Size;
 
         #endregion

@@ -16,7 +16,6 @@ namespace Shop.Write
 
         public string Description { get; set; }
         public string Name { get; set; }
-        public decimal? Price { get; set; }
         public string RecordName { get; set; }
 
         #endregion

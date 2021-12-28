@@ -7,7 +7,6 @@ namespace Shop.Catalog
         ProductCategory GetCategory();
         Description GetDescription();
         Name GetName();
-        Money GetPrice();
         Size GetSize();
     }
 }
