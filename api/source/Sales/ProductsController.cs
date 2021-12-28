@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Jgs.Cqrs;
+using Microsoft.AspNetCore.Mvc;
 using Shop.Sales.Services;
 
 namespace Shop.Api.Sales
@@ -7,13 +8,13 @@ namespace Shop.Api.Sales
     [ApiController]
     public class ProductsController : ControllerBase
     {
-        private readonly ISalesService _salesService;
+        private readonly IQueryHandler<FindProduct, ProductDto> _findProduct;
 
         #region Creation
 
-        public ProductsController(ISalesService salesService)
+        public ProductsController(IQueryHandler<FindProduct, ProductDto> findProduct)
         {
-            _salesService = salesService;
+            _findProduct = findProduct;
         }
 
         #endregion
@@ -21,7 +22,7 @@ namespace Shop.Api.Sales
         #region Public Interface
 
         [HttpGet("{recordName}")]
-        public ActionResult<ProductDto> FindProduct(string recordName) => _salesService.FindProduct(recordName);
+        public ActionResult<ProductDto> FindProduct(string recordName) => _findProduct.Handle(recordName);
 
         #endregion
     }
