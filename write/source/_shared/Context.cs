@@ -14,6 +14,7 @@ namespace Shop.Write
 
         #region Public Interface
 
+        public DbSet<Company> Company { get; set; }
         public DbSet<Customer> Customer { get; set; }
         public DbSet<Order> Order { get; set; }
         public DbSet<Product> Product { get; set; }
