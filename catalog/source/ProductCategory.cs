@@ -12,22 +12,19 @@ namespace Shop.Catalog
 
         public ProductCategory(
             Name name,
-            Token token,
-            Description description = default
+            Token skuToken
         )
         {
-            Description = description;
             Name = name;
-            Token = token;
+            SkuToken = skuToken;
         }
 
         #endregion
 
         #region Public Interface
 
-        public Description Description { get; }
         public Name Name { get; }
-        public Token Token { get; }
+        public Token SkuToken { get; }
 
         #endregion
     }

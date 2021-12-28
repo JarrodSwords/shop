@@ -33,8 +33,8 @@ namespace Shop.Api.Spec.Catalog
         [Fact]
         public async void ThenCompanyExists()
         {
-            var value = Result.Content.ReadFromJsonAsync<CompanyDto>().Result;
-            var company = await HttpClient.GetFromJsonAsync<CompanyDto>($"{Resource}/{value.Id}");
+            var id = Result.Content.ReadFromJsonAsync<CompanyDto>().Result.Id;
+            var company = await HttpClient.GetFromJsonAsync<CompanyDto>($"{Resource}/{id}");
 
             company.Should().NotBeNull();
         }
