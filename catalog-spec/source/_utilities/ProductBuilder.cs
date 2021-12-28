@@ -5,10 +5,11 @@ namespace Shop.Catalog.Spec
     internal class ProductBuilder : IProductBuilder
     {
         private ProductCategory _category;
+        private Company _company;
         private Description _description;
         private Name _name;
-        private Money _price;
         private Size _size;
+        private Token _skuToken;
 
         #region Public Interface
 
@@ -32,9 +33,15 @@ namespace Shop.Catalog.Spec
             return this;
         }
 
-        public ProductBuilder With(Money price)
+        public ProductBuilder With(Company company)
         {
-            _price = price;
+            _company = company;
+            return this;
+        }
+
+        public ProductBuilder With(Token skuToken)
+        {
+            _skuToken = skuToken;
             return this;
         }
 
@@ -49,10 +56,11 @@ namespace Shop.Catalog.Spec
         #region IProductBuilder Implementation
 
         public ProductCategory GetCategory() => _category;
+        public Company GetCompany() => _company;
         public Description GetDescription() => _description;
         public Name GetName() => _name;
-        public Money GetPrice() => _price;
         public Size GetSize() => _size;
+        public Token GetSkuToken() => _skuToken;
 
         #endregion
     }

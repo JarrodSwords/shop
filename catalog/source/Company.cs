@@ -6,12 +6,23 @@ namespace Shop.Catalog
 {
     public partial class Company : Aggregate
     {
+        public static readonly Company ManyLoves = new("Many Loves Charcuterie", "mlc");
+
         #region Creation
 
         public Company(ICompanyBuilder builder) : base(builder.GetId())
         {
             Name = builder.GetName();
             SkuToken = builder.GetSkuToken();
+        }
+
+        private Company(
+            Name name,
+            Token skuToken
+        )
+        {
+            Name = name;
+            SkuToken = skuToken;
         }
 
         public static Result<Company> From(ICompanyBuilder builder)
