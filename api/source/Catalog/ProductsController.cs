@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Jgs.Cqrs;
+using Microsoft.AspNetCore.Mvc;
 using Shop.Catalog.Services;
 
 namespace Shop.Api.Catalog
@@ -7,13 +8,18 @@ namespace Shop.Api.Catalog
     [ApiController]
     public class ProductsController : ControllerBase
     {
-        private readonly ICatalogService _catalogService;
+        private readonly IQueryHandler<FindProduct, ProductDto> _findProduct;
+        private readonly ICommandHandler<RegisterProduct, ProductDto> _registerProduct;
 
         #region Creation
 
-        public ProductsController(ICatalogService catalogService)
+        public ProductsController(
+            IQueryHandler<FindProduct, ProductDto> findProduct,
+            ICommandHandler<RegisterProduct, ProductDto> registerProduct
+        )
         {
-            _catalogService = catalogService;
+            _findProduct = findProduct;
+            _registerProduct = registerProduct;
         }
 
         #endregion
@@ -21,12 +27,13 @@ namespace Shop.Api.Catalog
         #region Public Interface
 
         [HttpGet("{recordName}", Name = "FindProduct")]
-        public ActionResult<ProductDto> FindProduct(string recordName) => _catalogService.FindProduct(recordName);
+        public ActionResult<ProductDto> FindProduct(string recordName) => _findProduct.Handle(recordName);
 
         [HttpPost]
         public ActionResult<ProductDto> RegisterProduct([FromBody] RegisterProduct command)
         {
-            var product = _catalogService.RegisterProduct(command);
+            var product = _registerProduct.Handle(command);
+
             return CreatedAtRoute(
                 nameof(FindProduct),
                 new { product.RecordName },
