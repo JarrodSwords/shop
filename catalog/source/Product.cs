@@ -14,7 +14,7 @@ namespace Shop.Catalog
             Description = builder.GetDescription();
             Name = builder.GetName();
             Size = builder.GetSize();
-            Sku = $"{builder.GetCompany()?.SkuToken}-{Category?.SkuToken}-{builder.GetSkuToken()}".ToLower();
+            Sku = CreateSku(builder.GetCompany(), Category, builder.GetSkuToken());
         }
 
         public static Result<Product> From(IProductBuilder builder)
@@ -37,6 +37,17 @@ namespace Shop.Catalog
         public RecordName RecordName => Name.Value.Trim().Replace(' ', '-').ToLower();
         public Size Size { get; }
         public Sku Sku { get; }
+
+        #endregion
+
+        #region Static Interface
+
+        private static Sku CreateSku(
+            Company company,
+            ProductCategory category,
+            Token product
+        ) =>
+            $"{company?.SkuToken}-{category?.SkuToken}-{product}".ToLower();
 
         #endregion
     }
