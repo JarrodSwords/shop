@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Jgs.Cqrs;
 using Microsoft.AspNetCore.Mvc;
 using Shop.Sales.Services;
 
@@ -9,13 +10,18 @@ namespace Shop.Api.Sales
     [ApiController]
     public class CustomersController : ControllerBase
     {
-        private readonly ISalesService _salesService;
+        private readonly IQueryHandler<FetchCustomers, IEnumerable<CustomerDto>> _fetchCustomers;
+        private readonly IQueryHandler<FindCustomer, CustomerDto> _findCustomer;
 
         #region Creation
 
-        public CustomersController(ISalesService salesService)
+        public CustomersController(
+            IQueryHandler<FetchCustomers, IEnumerable<CustomerDto>> fetchCustomers,
+            IQueryHandler<FindCustomer, CustomerDto> findCustomer
+        )
         {
-            _salesService = salesService;
+            _fetchCustomers = fetchCustomers;
+            _findCustomer = findCustomer;
         }
 
         #endregion
@@ -23,10 +29,10 @@ namespace Shop.Api.Sales
         #region Public Interface
 
         [HttpGet]
-        public ActionResult<IEnumerable<CustomerDto>> FetchCustomers() => _salesService.FetchCustomers(new()).ToList();
+        public ActionResult<IEnumerable<CustomerDto>> FetchCustomers() => _fetchCustomers.Handle(new()).ToList();
 
         [HttpGet("{email}")]
-        public ActionResult<CustomerDto> FindCustomer(string email) => _salesService.FindCustomer(email);
+        public ActionResult<CustomerDto> FindCustomer(string email) => _findCustomer.Handle(email);
 
         #endregion
     }

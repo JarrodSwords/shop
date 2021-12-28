@@ -9,6 +9,7 @@ namespace Shop.Write
     public class UnitOfWork : IUnitOfWork, Shop.Sales.IUnitOfWork
     {
         private readonly Context _context;
+        private ICompanyRepository _companies;
         private ICustomerRepository _customers;
         private IOrderRepository _orders;
         private IProductRepository _products;
@@ -24,6 +25,7 @@ namespace Shop.Write
 
         #region IUnitOfWork Implementation
 
+        public ICompanyRepository Companies => _companies ??= new CompanyRepository(_context);
         public ICustomerRepository Customers => _customers ??= new CustomerRepository(_context);
         public IOrderRepository Orders => _orders ??= new OrderRepository(_context);
         public IProductRepository Products => _products ??= new ProductRepository(_context);

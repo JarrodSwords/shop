@@ -17,7 +17,6 @@ namespace Shop.Api.Spec.Catalog
             "Bar",
             "A Foo description",
             $"Foo {++_count}",
-            25,
             "SM"
         );
 

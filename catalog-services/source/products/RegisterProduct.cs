@@ -7,41 +7,39 @@ namespace Shop.Catalog.Services
         string Category,
         string Description,
         string Name,
-        decimal Price,
-        string Size
+        string Size,
+        string SkuToken
     ) : ICommand, IProductBuilder
     {
         #region IProductBuilder Implementation
 
         public ProductCategory GetCategory() => ProductCategory.Box;
+        public Company GetCompany() => Company.ManyLoves;
         public Description GetDescription() => Description;
         public Name GetName() => Name;
-        public Money GetPrice() => Price;
         public Size GetSize() => Size;
+        public Token GetSkuToken() => SkuToken;
 
         #endregion
 
-        public class Handler : ICommandHandler<RegisterProduct, ProductDto>
+        public class Handler : Handler<RegisterProduct, ProductDto>
         {
-            private readonly IUnitOfWork _uow;
-
             #region Creation
 
-            public Handler(IUnitOfWork uow)
+            public Handler(IUnitOfWork uow) : base(uow)
             {
-                _uow = uow;
             }
 
             #endregion
 
-            #region ICommandHandler<RegisterProduct,ProductDto> Implementation
+            #region Public Interface
 
-            public ProductDto Handle(RegisterProduct command)
+            public override ProductDto Handle(RegisterProduct command)
             {
                 var product = Product.From(command).Value;
 
-                _uow.Products.Create(product);
-                _uow.Commit();
+                Uow.Products.Create(product);
+                Uow.Commit();
 
                 return ProductDto.From(product);
             }

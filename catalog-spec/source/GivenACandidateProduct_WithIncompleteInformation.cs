@@ -47,10 +47,11 @@ namespace Shop.Catalog.Spec
                 #region IProductBuilder Implementation
 
                 public ProductCategory GetCategory() => default;
+                public Company GetCompany() => default;
                 public Description GetDescription() => default;
                 public Name GetName() => default;
-                public Money GetPrice() => default;
                 public Size GetSize() => default;
+                public Token GetSkuToken() => default;
 
                 #endregion
             }
