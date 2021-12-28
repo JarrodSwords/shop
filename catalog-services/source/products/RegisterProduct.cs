@@ -7,15 +7,18 @@ namespace Shop.Catalog.Services
         string Category,
         string Description,
         string Name,
-        string Size
+        string Size,
+        string SkuToken
     ) : ICommand, IProductBuilder
     {
         #region IProductBuilder Implementation
 
         public ProductCategory GetCategory() => ProductCategory.Box;
+        public Company GetCompany() => Company.ManyLoves;
         public Description GetDescription() => Description;
         public Name GetName() => Name;
         public Size GetSize() => Size;
+        public Token GetSkuToken() => SkuToken;
 
         #endregion
 

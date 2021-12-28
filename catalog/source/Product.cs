@@ -34,7 +34,6 @@ namespace Shop.Catalog
         public ProductCategory Category { get; }
         public Description Description { get; }
         public Name Name { get; }
-        public RecordName RecordName => Name.Value.Trim().Replace(' ', '-').ToLower();
         public Size Size { get; }
         public Sku Sku { get; }
 
