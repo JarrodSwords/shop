@@ -21,27 +21,24 @@ namespace Shop.Catalog.Services
 
         #endregion
 
-        public class Handler : ICommandHandler<RegisterProduct, ProductDto>
+        public class Handler : Handler<RegisterProduct, ProductDto>
         {
-            private readonly IUnitOfWork _uow;
-
             #region Creation
 
-            public Handler(IUnitOfWork uow)
+            public Handler(IUnitOfWork uow) : base(uow)
             {
-                _uow = uow;
             }
 
             #endregion
 
-            #region ICommandHandler<RegisterProduct,ProductDto> Implementation
+            #region Public Interface
 
-            public ProductDto Handle(RegisterProduct command)
+            public override ProductDto Handle(RegisterProduct command)
             {
                 var product = Product.From(command).Value;
 
-                _uow.Products.Create(product);
-                _uow.Commit();
+                Uow.Products.Create(product);
+                Uow.Commit();
 
                 return ProductDto.From(product);
             }
