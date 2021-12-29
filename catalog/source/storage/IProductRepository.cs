@@ -6,5 +6,6 @@ namespace Shop.Catalog
     public interface IProductRepository : IRepository<Product>
     {
         Guid Create(Product product);
+        IProductRepository Create(params Product[] products);
     }
 }

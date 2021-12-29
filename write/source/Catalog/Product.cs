@@ -8,9 +8,14 @@ namespace Shop.Write
 
         public Product(CatalogProduct source) : base(source.Id)
         {
+            CompanyId = source.CompanyId;
             Description = source.Description;
             Name = source.Name;
+            Size = source.Size;
+            Sku = source.Sku;
         }
+
+        public static Product From(CatalogProduct source) => new(source);
 
         #endregion
 

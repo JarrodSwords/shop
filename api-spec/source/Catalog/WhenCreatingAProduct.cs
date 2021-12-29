@@ -17,7 +17,8 @@ namespace Shop.Api.Spec.Catalog
             "Bar",
             "A Foo description",
             $"Foo {++_count}",
-            "SM"
+            "SM",
+            "f"
         );
 
         private static ushort _count;

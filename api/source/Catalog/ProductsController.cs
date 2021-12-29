@@ -26,8 +26,8 @@ namespace Shop.Api.Catalog
 
         #region Public Interface
 
-        [HttpGet("{recordName}", Name = "FindProduct")]
-        public ActionResult<ProductDto> FindProduct(string recordName) => _findProduct.Handle(recordName);
+        [HttpGet("{sku}", Name = "FindProduct")]
+        public ActionResult<ProductDto> FindProduct(string sku) => _findProduct.Handle(sku);
 
         [HttpPost]
         public ActionResult<ProductDto> RegisterProduct([FromBody] RegisterProduct command)
@@ -36,7 +36,7 @@ namespace Shop.Api.Catalog
 
             return CreatedAtRoute(
                 nameof(FindProduct),
-                new { product.RecordName },
+                new { product.Sku },
                 product
             );
         }

@@ -7,7 +7,7 @@ namespace Shop.Catalog.Services
         string Category,
         string Description,
         string Name,
-        string Size,
+        ushort Size,
         string SkuToken
     ) : ICommand, IProductBuilder
     {
@@ -34,9 +34,9 @@ namespace Shop.Catalog.Services
 
             #region Public Interface
 
-            public override ProductDto Handle(RegisterProduct command)
+            public override ProductDto Handle(RegisterProduct args)
             {
-                var product = Product.From(command).Value;
+                var product = Product.From(args).Value;
 
                 Uow.Products.Create(product);
                 Uow.Commit();

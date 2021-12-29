@@ -4,9 +4,9 @@ namespace Shop.Catalog
 {
     public class ProductCategory
     {
-        public static ProductCategory Box = new("BOX", "Box");
-        public static ProductCategory Dessert = new("DES", "Dessert");
-        public static ProductCategory Side = new("SID", "Side");
+        public static ProductCategory Box = new("Box", "box");
+        public static ProductCategory Dessert = new("Dessert", "dst");
+        public static ProductCategory Side = new("Side", "sid");
 
         #region Creation
 

@@ -3,7 +3,7 @@
     public record ProductDto(
         string Description,
         string Name,
-        string RecordName
+        string Sku
     )
     {
         #region Creation
@@ -11,7 +11,7 @@
         private ProductDto(Product source) : this(
             source.Description,
             source.Name,
-            source.RecordName
+            source.Sku
         )
         {
         }
