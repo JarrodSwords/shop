@@ -4,7 +4,7 @@ namespace Shop.Catalog
 {
     public interface IProductBuilder
     {
-        ProductCategory GetCategory();
+        ProductCategories GetCategories();
         Company GetCompany();
         Description GetDescription();
         Name GetName();

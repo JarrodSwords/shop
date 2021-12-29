@@ -4,7 +4,7 @@ namespace Shop.Catalog.Spec
 {
     internal class ProductBuilder : IProductBuilder
     {
-        private ProductCategory _category;
+        private ProductCategories _categories;
         private Company _company;
         private Description _description;
         private Name _name;
@@ -15,9 +15,9 @@ namespace Shop.Catalog.Spec
 
         public Product Build() => Product.From(this).Value;
 
-        public ProductBuilder With(ProductCategory category)
+        public ProductBuilder With(ProductCategories categories)
         {
-            _category = category;
+            _categories = categories;
             return this;
         }
 
@@ -55,7 +55,7 @@ namespace Shop.Catalog.Spec
 
         #region IProductBuilder Implementation
 
-        public ProductCategory GetCategory() => _category;
+        public ProductCategories GetCategories() => _categories;
         public Company GetCompany() => _company;
         public Description GetDescription() => _description;
         public Name GetName() => _name;

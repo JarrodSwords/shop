@@ -23,12 +23,6 @@ namespace Shop.Catalog.Spec
             #region Test Methods
 
             [Fact]
-            public void ThenCategoryIsRequired()
-            {
-                _result.Message.Should().Contain("Category is required.");
-            }
-
-            [Fact]
             public void ThenNameIsRequired()
             {
                 _result.Message.Should().Contain("Name is required.");
@@ -46,7 +40,7 @@ namespace Shop.Catalog.Spec
             {
                 #region IProductBuilder Implementation
 
-                public ProductCategory GetCategory() => default;
+                public ProductCategories GetCategories() => default;
                 public Company GetCompany() => default;
                 public Description GetDescription() => default;
                 public Name GetName() => default;
