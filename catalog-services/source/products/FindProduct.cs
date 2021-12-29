@@ -2,7 +2,7 @@
 
 namespace Shop.Catalog.Services
 {
-    public record FindProduct(string RecordName) : IQuery
+    public record FindProduct(string Sku) : IQuery
     {
         #region Static Interface
 

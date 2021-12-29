@@ -9,10 +9,12 @@ namespace Shop.Sales
 
         public Product(
             Money price = default,
+            Sku sku = default,
             Id id = default
         ) : base(id)
         {
             Price = price ?? Money.Zero;
+            Sku = sku;
         }
 
         #endregion
@@ -20,6 +22,7 @@ namespace Shop.Sales
         #region Public Interface
 
         public Money Price { get; private set; }
+        public Sku Sku { get; set; }
 
         public Product Set(Money price)
         {
