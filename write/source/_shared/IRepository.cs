@@ -7,6 +7,7 @@ namespace Shop.Write
     public interface IRepository<T> where T : Entity
     {
         Id Create(T entity);
+        IRepository<T> Create(params T[] entities);
         bool Exists(Expression<Func<T, bool>> predicate);
         T Find(Expression<Func<T, bool>> predicate);
     }

@@ -25,6 +25,15 @@ namespace Shop.Write
                 .Set<T>()
                 .Add(entity).Entity.Id;
 
+        public IRepository<T> Create(params T[] entities)
+        {
+            _context
+                .Set<T>()
+                .AddRange(entities);
+
+            return this;
+        }
+
         public bool Exists(Expression<Func<T, bool>> predicate) =>
             _context
                 .Set<T>()

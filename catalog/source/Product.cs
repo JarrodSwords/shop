@@ -10,11 +10,14 @@ namespace Shop.Catalog
 
         private Product(IProductBuilder builder)
         {
+            var company = builder.GetCompany();
+
             Category = builder.GetCategory();
+            CompanyId = company?.Id;
             Description = builder.GetDescription();
             Name = builder.GetName();
             Size = builder.GetSize();
-            Sku = CreateSku(builder.GetCompany(), Category, builder.GetSkuToken());
+            Sku = CreateSku(company, Category, builder.GetSkuToken());
         }
 
         public static Result<Product> From(IProductBuilder builder)
@@ -32,6 +35,7 @@ namespace Shop.Catalog
         #region Public Interface
 
         public ProductCategory Category { get; }
+        public Id CompanyId { get; }
         public Description Description { get; }
         public Name Name { get; }
         public Size Size { get; }

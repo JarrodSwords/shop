@@ -14,9 +14,10 @@ namespace Shop.Write
 
         #region Public Interface
 
+        public Guid CompanyId { get; set; }
         public string Description { get; set; }
         public string Name { get; set; }
-        public string RecordName { get; set; }
+        public string Sku { get; set; }
 
         #endregion
     }
