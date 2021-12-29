@@ -2,6 +2,30 @@
 
 namespace Shop.Catalog.Services
 {
+    public abstract class Handler<T> : ICommandHandler<T> where T : ICommand
+    {
+        #region Creation
+
+        protected Handler(IUnitOfWork uow)
+        {
+            Uow = uow;
+        }
+
+        #endregion
+
+        #region Protected Interface
+
+        protected IUnitOfWork Uow { get; }
+
+        #endregion
+
+        #region ICommandHandler<T> Implementation
+
+        public abstract void Handle(T args);
+
+        #endregion
+    }
+
     public abstract class Handler<T, TResult> : ICommandHandler<T, TResult> where T : ICommand
     {
         #region Creation
@@ -13,15 +37,15 @@ namespace Shop.Catalog.Services
 
         #endregion
 
-        #region Public Interface
+        #region Protected Interface
 
-        public IUnitOfWork Uow { get; }
+        protected IUnitOfWork Uow { get; }
 
         #endregion
 
         #region ICommandHandler<T,TResult> Implementation
 
-        public abstract TResult Handle(T command);
+        public abstract TResult Handle(T args);
 
         #endregion
     }

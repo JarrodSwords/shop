@@ -29,9 +29,9 @@ namespace Shop.Catalog.Services
 
             #region Public Interface
 
-            public override Id Handle(RegisterCompany command)
+            public override Id Handle(RegisterCompany args)
             {
-                var company = Company.From(command).Value;
+                var company = Company.From(args).Value;
 
                 Uow.Companies.Create(company);
                 Uow.Commit();
