@@ -55,7 +55,7 @@ namespace Shop.Catalog
             var sku = $"{company?.SkuToken}-{category?.SkuToken}-{product}";
 
             if (size != default)
-                sku += $"-{size:00}";
+                sku += $"-{(int) size:00}";
 
             return sku;
         }
