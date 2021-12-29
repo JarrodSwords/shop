@@ -7,7 +7,7 @@ namespace Shop.Catalog.Services
         string Category,
         string Description,
         string Name,
-        string Size,
+        ushort Size,
         string SkuToken
     ) : ICommand, IProductBuilder
     {

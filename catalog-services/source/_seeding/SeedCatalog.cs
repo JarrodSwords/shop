@@ -42,14 +42,48 @@ namespace Shop.Catalog.Services
                     "Each Dessert Box comes with an assortment of seasonal chocolates, cookies, pastries, and other accoutrements. Serves approximately 2-4."
                     ,
                     "Dessert Box",
-                    "des"
+                    "dst"
                 ),
                 new(
                     ProductCategory.Side,
-                    "A fresh French baguette."
-                    ,
+                    "A fresh French baguette.",
                     "Baguette",
                     "bgt"
+                ),
+                new(
+                    ProductCategory.Dessert,
+                    "Fresh strawberries covered in milk or dark chocolate.",
+                    "Chocolate-covered Strawberries",
+                    "stw",
+                    Size: 6
+                ),
+                new(
+                    ProductCategory.Dessert,
+                    "Fresh strawberries covered in milk or dark chocolate.",
+                    "Chocolate-covered Strawberries",
+                    "stw",
+                    Size: 12
+                ),
+                new(
+                    ProductCategory.Dessert,
+                    "Fresh strawberries covered in milk or dark chocolate.",
+                    "Chocolate-covered Strawberries",
+                    "stw",
+                    Size: 24
+                ),
+                new(
+                    ProductCategory.Dessert,
+                    "Fresh strawberries covered in milk or dark chocolate.",
+                    "Chocolate-covered Strawberries",
+                    "stw",
+                    Size: 36
+                ),
+                new(
+                    ProductCategory.Dessert,
+                    "Fresh strawberries covered in milk or dark chocolate.",
+                    "Chocolate-covered Strawberries",
+                    "stw",
+                    Size: 48
                 )
             };
 

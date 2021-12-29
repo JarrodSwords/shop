@@ -11,6 +11,7 @@ namespace Shop.Write
             CompanyId = source.CompanyId;
             Description = source.Description;
             Name = source.Name;
+            Size = source.Size;
             Sku = source.Sku;
         }
 
