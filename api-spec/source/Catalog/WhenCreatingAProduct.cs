@@ -1,5 +1,4 @@
 ﻿using System.Net.Http.Json;
-using System.Threading.Tasks;
 using FluentAssertions;
 using Shop.Catalog.Services;
 using Xunit;
@@ -7,7 +6,7 @@ using Xunit;
 namespace Shop.Api.Spec.Catalog
 {
     [Collection("storage")]
-    public class WhenCreatingAProduct : PostFixture<ProductDto>
+    public class WhenCreatingAProduct : WebApiFixture
     {
         #region Core
 
@@ -17,7 +16,6 @@ namespace Shop.Api.Spec.Catalog
             "Bar",
             "A Foo description",
             $"Foo {++_count}",
-            "SM",
             "f"
         );
 
@@ -25,7 +23,7 @@ namespace Shop.Api.Spec.Catalog
 
         public WhenCreatingAProduct(IntegrationTestingFactory<Startup> factory) : base(
             factory,
-            "api"
+            "api/catalog"
         )
         {
         }
@@ -34,25 +32,14 @@ namespace Shop.Api.Spec.Catalog
 
         #region Test Methods
 
-        public override async Task InitializeAsync()
-        {
-            Result = await HttpClient.PostAsJsonAsync($"catalog/{Resource}", _command);
-        }
-
         [Fact]
         public async void ThenProductExistsInCatalog()
         {
-            var recordName = _command.Name.Trim().Replace(' ', '-').ToLower();
-            var product = await HttpClient.GetFromJsonAsync<ProductDto>($"catalog/{Resource}/{recordName}");
+            var result = await HttpClient.PostAsJsonAsync($"{Resource}", _command);
 
-            product.Should().NotBeNull();
-        }
+            var sku = result.Content.ReadFromJsonAsync<ProductDto>().Result.Sku;
 
-        [Fact]
-        public async void ThenProductExistsInSales()
-        {
-            var recordName = _command.Name.Trim().Replace(' ', '-').ToLower();
-            var product = await HttpClient.GetFromJsonAsync<ProductDto>($"sales/{Resource}/{recordName}");
+            var product = await HttpClient.GetFromJsonAsync<ProductDto>($"{Resource}/{sku}");
 
             product.Should().NotBeNull();
         }

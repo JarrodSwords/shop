@@ -1,15 +1,10 @@
-﻿using Shop.Catalog;
-using Shop.Sales;
-using Shop.Write.Catalog;
-using Shop.Write.Sales;
-using IUnitOfWork = Shop.Catalog.IUnitOfWork;
+﻿using Shop.Sales;
 
-namespace Shop.Write
+namespace Shop.Write.Sales
 {
-    public class UnitOfWork : IUnitOfWork, Shop.Sales.IUnitOfWork
+    public class UnitOfWork : IUnitOfWork
     {
         private readonly Context _context;
-        private ICompanyRepository _companies;
         private ICustomerRepository _customers;
         private IOrderRepository _orders;
         private IProductRepository _products;
@@ -25,7 +20,6 @@ namespace Shop.Write
 
         #region IUnitOfWork Implementation
 
-        public ICompanyRepository Companies => _companies ??= new CompanyRepository(_context);
         public ICustomerRepository Customers => _customers ??= new CustomerRepository(_context);
         public IOrderRepository Orders => _orders ??= new OrderRepository(_context);
         public IProductRepository Products => _products ??= new ProductRepository(_context);

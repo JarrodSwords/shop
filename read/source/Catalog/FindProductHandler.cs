@@ -10,9 +10,9 @@ namespace Shop.Read.Catalog
         private const string FindProduct = @"
 select Description
      , Name
-     , RecordName
+     , Sku
   from Product
- where RecordName = @RecordName";
+ where Sku = @Sku";
 
         #region Creation
 

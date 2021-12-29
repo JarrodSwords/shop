@@ -9,9 +9,9 @@ namespace Shop.Read.Sales
     {
         private const string FindProduct = @"
 select Price
-     , RecordName
+     , Sku
   from Product
- where RecordName = @RecordName";
+ where Sku = @Sku";
 
         #region Creation
 

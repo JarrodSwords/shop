@@ -13,7 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\catalog-services\catalog-services.csproj" />
     <ProjectReference Include="..\sales\sales.csproj" />
     <ProjectReference Include="..\shared-kernel\shared-kernel.csproj" />
   </ItemGroup>

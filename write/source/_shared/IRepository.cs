@@ -10,5 +10,6 @@ namespace Shop.Write
         IRepository<T> Create(params T[] entities);
         bool Exists(Expression<Func<T, bool>> predicate);
         T Find(Expression<Func<T, bool>> predicate);
+        IRepository<T> Update(T entity);
     }
 }

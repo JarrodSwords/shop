@@ -2,6 +2,6 @@
 {
     public record ProductDto(
         decimal Price,
-        string RecordName
+        string Sku
     );
 }
