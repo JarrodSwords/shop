@@ -11,6 +11,7 @@ namespace Shop.Catalog
         private Product(IProductBuilder builder)
         {
             var company = builder.GetCompany();
+
             Categories = builder.GetCategories();
             CompanyId = company?.Id;
             Description = builder.GetDescription();

@@ -11,6 +11,7 @@ namespace Shop.Catalog
             public Validator()
             {
                 RuleFor(x => x.Categories).NotNull().WithMessage("Category is required.");
+                RuleFor(x => x.CompanyId).NotEmpty().WithMessage("Company is required.");
                 RuleFor(x => x.Name).NotEmpty().WithMessage("Name is required.");
             }
 
