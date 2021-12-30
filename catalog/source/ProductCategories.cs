@@ -16,7 +16,7 @@ namespace Shop.Catalog
 
     public static class ProductCategoriesExtensions
     {
-        private static readonly Dictionary<ProductCategories, string> _tokens = new()
+        private static readonly Dictionary<ProductCategories, string> Tokens = new()
         {
             { ProductCategories.None, "n" },
             { ProductCategories.Box, "b" },
@@ -30,7 +30,7 @@ namespace Shop.Catalog
         {
             var token = Enum.GetValues<ProductCategories>()
                 .Where(c => categories.HasFlag(c))
-                .Aggregate("", (current, c) => current + _tokens[c]);
+                .Aggregate("", (current, c) => current + Tokens[c]);
 
             return token.Length > 1
                 ? token.TrimStart('n')
