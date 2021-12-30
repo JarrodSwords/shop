@@ -1,4 +1,5 @@
-﻿using Jgs.Cqrs;
+﻿using System;
+using Jgs.Cqrs;
 using Jgs.Ddd;
 using Shop.Shared;
 
@@ -17,7 +18,9 @@ namespace Shop.Catalog.Services
 
         #endregion
 
-        public class Handler : Handler<RegisterCompany, Id>
+        public record CompanyDto(Guid Id);
+
+        public class Handler : Handler<RegisterCompany, CompanyDto>
         {
             #region Creation
 
@@ -29,14 +32,14 @@ namespace Shop.Catalog.Services
 
             #region Public Interface
 
-            public override Id Handle(RegisterCompany args)
+            public override CompanyDto Handle(RegisterCompany args)
             {
                 var company = Company.From(args).Value;
 
                 Uow.Companies.Create(company);
                 Uow.Commit();
 
-                return company.Id;
+                return new(company.Id);
             }
 
             #endregion

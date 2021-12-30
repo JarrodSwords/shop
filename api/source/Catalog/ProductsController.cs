@@ -9,13 +9,13 @@ namespace Shop.Api.Catalog
     public class ProductsController : ControllerBase
     {
         private readonly IQueryHandler<FindProduct, ProductDto> _findProduct;
-        private readonly ICommandHandler<RegisterProduct, ProductDto> _registerProduct;
+        private readonly ICommandHandler<RegisterProduct, RegisterProduct.ProductDto> _registerProduct;
 
         #region Creation
 
         public ProductsController(
             IQueryHandler<FindProduct, ProductDto> findProduct,
-            ICommandHandler<RegisterProduct, ProductDto> registerProduct
+            ICommandHandler<RegisterProduct, RegisterProduct.ProductDto> registerProduct
         )
         {
             _findProduct = findProduct;
@@ -36,7 +36,7 @@ namespace Shop.Api.Catalog
 
             return CreatedAtRoute(
                 nameof(FindProduct),
-                new { product.Sku },
+                product,
                 product
             );
         }

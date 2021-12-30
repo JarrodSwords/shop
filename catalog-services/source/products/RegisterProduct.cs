@@ -41,10 +41,12 @@ namespace Shop.Catalog.Services
                 Uow.Products.Create(product);
                 Uow.Commit();
 
-                return ProductDto.From(product);
+                return new(product.Sku);
             }
 
             #endregion
         }
+
+        public record ProductDto(string Sku);
     }
 }

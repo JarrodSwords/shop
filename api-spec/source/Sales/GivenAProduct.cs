@@ -16,7 +16,7 @@ namespace Shop.Api.Spec.Sales
         #region Core
 
         private readonly IQueryHandler<FindProduct, ProductDto> _findProduct;
-        private readonly ICommandHandler<RegisterProduct, Shop.Catalog.Services.ProductDto> _registerProduct;
+        private readonly ICommandHandler<RegisterProduct, RegisterProduct.ProductDto> _registerProduct;
         private readonly ICommandHandler<SetPrice> _setPrice;
         private readonly string _sku;
 
@@ -24,7 +24,7 @@ namespace Shop.Api.Spec.Sales
         {
             _findProduct = ServiceProvider.GetRequiredService<IQueryHandler<FindProduct, ProductDto>>();
             _registerProduct = ServiceProvider
-                .GetRequiredService<ICommandHandler<RegisterProduct, Shop.Catalog.Services.ProductDto>>();
+                .GetRequiredService<ICommandHandler<RegisterProduct, RegisterProduct.ProductDto>>();
             _setPrice = ServiceProvider.GetRequiredService<ICommandHandler<SetPrice>>();
 
             _sku = _registerProduct.Handle(new("box", "a bar", "Bar", "b")).Sku;
