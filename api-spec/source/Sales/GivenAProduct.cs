@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using Jgs.Cqrs;
 using Microsoft.Extensions.DependencyInjection;
+using Shop.Catalog;
 using Shop.Catalog.Services;
 using Shop.Sales.Services;
 using Shop.Shared;
@@ -15,6 +16,8 @@ namespace Shop.Api.Spec.Sales
     {
         #region Core
 
+        private readonly IQueryHandler<FindCompanyByName, CompanyDto> _findCompanyByName;
+
         private readonly IQueryHandler<FindProduct, ProductDto> _findProduct;
         private readonly ICommandHandler<RegisterProduct, RegisterProduct.ProductDto> _registerProduct;
         private readonly ICommandHandler<SetPrice> _setPrice;
@@ -27,7 +30,16 @@ namespace Shop.Api.Spec.Sales
                 .GetRequiredService<ICommandHandler<RegisterProduct, RegisterProduct.ProductDto>>();
             _setPrice = ServiceProvider.GetRequiredService<ICommandHandler<SetPrice>>();
 
-            _sku = _registerProduct.Handle(new("box", "a bar", "Bar", "b")).Sku;
+            _findCompanyByName = ServiceProvider.GetRequiredService<IQueryHandler<FindCompanyByName, CompanyDto>>();
+            var company = _findCompanyByName.Handle("Many Loves Charcuterie");
+
+            _sku = _registerProduct.Handle(
+                new(
+                    company.Id,
+                    ProductCategories.Box,
+                    "a bar", "Bar", "b"
+                )
+            ).Sku;
         }
 
         #endregion

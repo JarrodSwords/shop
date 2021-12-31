@@ -1,14 +1,15 @@
-﻿using Shop.Shared;
+﻿using Jgs.Ddd;
+using Shop.Shared;
 
 namespace Shop.Catalog
 {
     public interface IProductBuilder
     {
         ProductCategories GetCategories();
-        Company GetCompany();
+        Id GetCompanyId();
         Description GetDescription();
         Name GetName();
         Size GetSize();
-        Token GetSkuToken();
+        Sku GetSku();
     }
 }

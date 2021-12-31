@@ -1,4 +1,6 @@
-﻿using Shop.Catalog;
+﻿using Jgs.Ddd;
+using Shop.Catalog;
+using CatalogCompany = Shop.Catalog.Company;
 
 namespace Shop.Write.Catalog
 {
@@ -14,11 +16,13 @@ namespace Shop.Write.Catalog
 
         #region ICompanyRepository Implementation
 
-        public ICompanyRepository Create(Shop.Catalog.Company company)
+        public ICompanyRepository Create(CatalogCompany company)
         {
             base.Create(company);
             return this;
         }
+
+        public CatalogCompany Find(Id id) => base.Find(id);
 
         #endregion
     }

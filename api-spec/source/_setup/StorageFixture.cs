@@ -15,7 +15,6 @@ namespace Shop.Api.Spec
             "Data Source=BECKY\\SQLEXPRESS;Initial Catalog=ShopTest;Integrated Security=True;Connect Timeout=60;";
 
         private static readonly object Lock = new();
-        private static bool _databaseInitialized;
 
         #region Creation
 
@@ -52,14 +51,19 @@ namespace Shop.Api.Spec
         {
             lock (Lock)
             {
-                if (_databaseInitialized)
-                    return;
-
                 using var context = CreateContext();
                 context.Database.EnsureDeleted();
                 context.Database.Migrate();
 
-                _databaseInitialized = true;
+                Company mlc = new(Guid.NewGuid())
+                {
+                    Name = "Many Loves Charcuterie",
+                    SkuToken = "mlc"
+                };
+
+                context.Company.Add(mlc);
+
+                context.SaveChanges();
             }
         }
 

@@ -1,5 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Jgs.Cqrs;
+using Jgs.Ddd;
 using Shop.Shared;
 
 namespace Shop.Catalog.Services
@@ -117,14 +119,21 @@ namespace Shop.Catalog.Services
                 Size Size = default
             ) : IProductBuilder
             {
+                #region Public Interface
+
+                public Company GetCompany() => Company ?? Company.ManyLoves;
+                public Token GetSkuToken() => SkuToken;
+
+                #endregion
+
                 #region IProductBuilder Implementation
 
                 public ProductCategories GetCategories() => Categories;
-                public Company GetCompany() => Company ?? Company.ManyLoves;
+                public Id GetCompanyId() => throw new NotImplementedException();
                 public Description GetDescription() => Description;
                 public Name GetName() => Name;
                 public Size GetSize() => Size;
-                public Token GetSkuToken() => SkuToken;
+                public Sku GetSku() => throw new NotImplementedException();
 
                 #endregion
             }

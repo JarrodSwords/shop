@@ -1,5 +1,7 @@
-﻿using Jgs.Cqrs;
+﻿using System;
+using Jgs.Cqrs;
 using Microsoft.AspNetCore.Mvc;
+using Shop.Catalog;
 using Shop.Catalog.Services;
 
 namespace Shop.Api.Catalog
@@ -30,9 +32,9 @@ namespace Shop.Api.Catalog
         public ActionResult<ProductDto> FindProduct(string sku) => _findProduct.Handle(sku);
 
         [HttpPost]
-        public ActionResult<ProductDto> RegisterProduct([FromBody] RegisterProduct command)
+        public ActionResult<ProductDto> RegisterProduct([FromBody] RegisterProductDto dto)
         {
-            var product = _registerProduct.Handle(command);
+            var product = _registerProduct.Handle(dto);
 
             return CreatedAtRoute(
                 nameof(FindProduct),
@@ -42,5 +44,44 @@ namespace Shop.Api.Catalog
         }
 
         #endregion
+
+        public record RegisterProductDto(
+            Guid CompanyId,
+            string Description,
+            string Name,
+            string SkuToken,
+            bool IsBox = default,
+            bool IsDessert = default,
+            bool IsSide = default,
+            ushort Size = default
+        )
+        {
+            #region Static Interface
+
+            public static implicit operator RegisterProduct(RegisterProductDto source)
+            {
+                var categories = ProductCategories.None;
+
+                if (source.IsBox)
+                    categories |= ProductCategories.Box;
+
+                if (source.IsDessert)
+                    categories |= ProductCategories.Dessert;
+
+                if (source.IsSide)
+                    categories |= ProductCategories.Side;
+
+                return new(
+                    source.CompanyId,
+                    categories,
+                    source.Description,
+                    source.Name,
+                    source.SkuToken,
+                    source.Size
+                );
+            }
+
+            #endregion
+        }
     }
 }

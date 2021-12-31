@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using Jgs.Ddd;
 using Jgs.Functional;
 using Shop.Shared;
 using Xunit;
@@ -47,11 +48,11 @@ namespace Shop.Catalog.Spec
                 #region IProductBuilder Implementation
 
                 public ProductCategories GetCategories() => default;
-                public Company GetCompany() => default;
+                public Id GetCompanyId() => default;
                 public Description GetDescription() => default;
                 public Name GetName() => default;
                 public Size GetSize() => default;
-                public Token GetSkuToken() => default;
+                public Sku GetSku() => default;
 
                 #endregion
             }

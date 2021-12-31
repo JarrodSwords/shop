@@ -1,31 +1,30 @@
-﻿using System.Net.Http.Json;
-using FluentAssertions;
+﻿using FluentAssertions;
+using Jgs.Cqrs;
+using Microsoft.Extensions.DependencyInjection;
+using Shop.Catalog;
 using Shop.Catalog.Services;
 using Xunit;
 
 namespace Shop.Api.Spec.Catalog
 {
     [Collection("storage")]
-    public class WhenCreatingAProduct : WebApiFixture
+    public class WhenCreatingAProduct : ServiceFixture
     {
         #region Core
 
-        private const string Resource = "products";
+        private readonly CompanyDto _company;
+        private readonly IQueryHandler<FindProduct, ProductDto> _findProduct;
+        private readonly ICommandHandler<RegisterProduct, RegisterProduct.ProductDto> _registerProduct;
 
-        private readonly RegisterProduct _command = new(
-            "Bar",
-            "A Foo description",
-            $"Foo {++_count}",
-            "f"
-        );
-
-        private static ushort _count;
-
-        public WhenCreatingAProduct(IntegrationTestingFactory<Startup> factory) : base(
-            factory,
-            "api/catalog"
-        )
+        public WhenCreatingAProduct(IntegrationTestingFactory<Startup> factory) : base(factory)
         {
+            _registerProduct = ServiceProvider
+                .GetRequiredService<ICommandHandler<RegisterProduct, RegisterProduct.ProductDto>>();
+
+            _findProduct = ServiceProvider.GetRequiredService<IQueryHandler<FindProduct, ProductDto>>();
+
+            var findCompanyByName = ServiceProvider.GetRequiredService<IQueryHandler<FindCompanyByName, CompanyDto>>();
+            _company = findCompanyByName.Handle("Many Loves Charcuterie");
         }
 
         #endregion
@@ -33,13 +32,10 @@ namespace Shop.Api.Spec.Catalog
         #region Test Methods
 
         [Fact]
-        public async void ThenProductExistsInCatalog()
+        public void ThenProductExistsInCatalog()
         {
-            var result = await HttpClient.PostAsJsonAsync($"{Resource}", _command);
-
-            var sku = result.Content.ReadFromJsonAsync<ProductDto>().Result.Sku;
-
-            var product = await HttpClient.GetFromJsonAsync<ProductDto>($"{Resource}/{sku}");
+            var savedProduct = _registerProduct.Handle(new(_company.Id, ProductCategories.Box, "a foo", "foo", "f"));
+            var product = _findProduct.Handle(savedProduct.Sku);
 
             product.Should().NotBeNull();
         }

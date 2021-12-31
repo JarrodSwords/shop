@@ -1,4 +1,5 @@
-﻿using Shop.Shared;
+﻿using Jgs.Ddd;
+using Shop.Shared;
 
 namespace Shop.Catalog.Spec
 {
@@ -21,6 +22,12 @@ namespace Shop.Catalog.Spec
             return this;
         }
 
+        public ProductBuilder With(Company company)
+        {
+            _company = company;
+            return this;
+        }
+
         public ProductBuilder With(Description description)
         {
             _description = description;
@@ -33,9 +40,9 @@ namespace Shop.Catalog.Spec
             return this;
         }
 
-        public ProductBuilder With(Company company)
+        public ProductBuilder With(Size size)
         {
-            _company = company;
+            _size = size;
             return this;
         }
 
@@ -45,22 +52,22 @@ namespace Shop.Catalog.Spec
             return this;
         }
 
-        public ProductBuilder With(Size size)
-        {
-            _size = size;
-            return this;
-        }
-
         #endregion
 
         #region IProductBuilder Implementation
 
         public ProductCategories GetCategories() => _categories;
-        public Company GetCompany() => _company;
+        public Id GetCompanyId() => _company.Id;
         public Description GetDescription() => _description;
         public Name GetName() => _name;
         public Size GetSize() => _size;
-        public Token GetSkuToken() => _skuToken;
+
+        public Sku GetSku() =>
+            Sku.Create(
+                _company.SkuToken,
+                _categories.GetToken(),
+                _skuToken
+            );
 
         #endregion
     }
