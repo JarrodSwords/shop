@@ -5,6 +5,9 @@ using Xunit;
 
 namespace Shop.Api.Spec
 {
+    /// <summary>
+    ///     Fixture for testing api endpoints.
+    /// </summary>
     public abstract class WebApiFixture : IClassFixture<IntegrationTestingFactory<Startup>>
     {
         #region Creation
