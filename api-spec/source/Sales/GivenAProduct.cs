@@ -15,23 +15,21 @@ namespace Shop.Api.Spec.Sales
     {
         #region Core
 
-        private readonly IQueryHandler<FindCompanyByName, CompanyDto> _findCompanyByName;
-
         private readonly IQueryHandler<FindProduct, ProductDto> _findProduct;
-        private readonly ICommandHandler<RegisterProduct, RegisterProduct.ProductDto> _registerProduct;
         private readonly ICommandHandler<SetPrice> _setPrice;
         private readonly string _sku;
 
         public GivenAProduct(IntegrationTestingFactory<Startup> factory) : base(factory)
         {
             _findProduct = Resolve<IQueryHandler<FindProduct, ProductDto>>();
-            _registerProduct = Resolve<ICommandHandler<RegisterProduct, RegisterProduct.ProductDto>>();
             _setPrice = Resolve<ICommandHandler<SetPrice>>();
 
-            _findCompanyByName = Resolve<IQueryHandler<FindCompanyByName, CompanyDto>>();
-            var company = _findCompanyByName.Handle("Many Loves Charcuterie");
+            var registerProduct = Resolve<ICommandHandler<RegisterProduct, RegisterProduct.ProductDto>>();
+            var findCompanyByName = Resolve<IQueryHandler<FindCompanyByName, CompanyDto>>();
 
-            _sku = _registerProduct.Handle(
+            var company = findCompanyByName.Handle("Many Loves Charcuterie");
+
+            _sku = registerProduct.Handle(
                 new(
                     company.Id,
                     ProductCategories.Box,
