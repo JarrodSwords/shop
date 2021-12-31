@@ -11,7 +11,6 @@ namespace Shop.Api.Spec.Catalog
     {
         #region Core
 
-        private readonly CompanyDto _company;
         private readonly IQueryHandler<FindProduct, ProductDto> _findProduct;
         private readonly ICommandHandler<RegisterProduct, RegisterProduct.ProductDto> _registerProduct;
 
@@ -19,9 +18,6 @@ namespace Shop.Api.Spec.Catalog
         {
             _registerProduct = Resolve<ICommandHandler<RegisterProduct, RegisterProduct.ProductDto>>();
             _findProduct = Resolve<IQueryHandler<FindProduct, ProductDto>>();
-
-            var findCompanyByName = Resolve<IQueryHandler<FindCompanyByName, CompanyDto>>();
-            _company = findCompanyByName.Handle("Many Loves Charcuterie");
         }
 
         #endregion
@@ -31,8 +27,17 @@ namespace Shop.Api.Spec.Catalog
         [Fact]
         public void ThenProductExistsInCatalog()
         {
-            var savedProduct = _registerProduct.Handle(new(_company.Id, ProductCategories.Box, "a foo", "foo", "f"));
-            var product = _findProduct.Handle(savedProduct.Sku);
+            var newProduct = _registerProduct.Handle(
+                new(
+                    Company.ManyLoves.Id,
+                    ProductCategories.Box,
+                    "a foo",
+                    "foo",
+                    "f"
+                )
+            );
+
+            var product = _findProduct.Handle(newProduct.Sku);
 
             product.Should().NotBeNull();
         }
