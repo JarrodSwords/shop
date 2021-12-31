@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using Jgs.Ddd;
 using Jgs.Functional;
 using Shop.Shared;
 using Xunit;
@@ -23,9 +24,9 @@ namespace Shop.Catalog.Spec
             #region Test Methods
 
             [Fact]
-            public void ThenCategoryIsRequired()
+            public void ThenCompanyIdIsRequired()
             {
-                _result.Message.Should().Contain("Category is required.");
+                _result.Message.Should().Contain("Company is required.");
             }
 
             [Fact]
@@ -46,12 +47,12 @@ namespace Shop.Catalog.Spec
             {
                 #region IProductBuilder Implementation
 
-                public ProductCategory GetCategory() => default;
-                public Company GetCompany() => default;
+                public ProductCategories GetCategories() => default;
+                public Id GetCompanyId() => default;
                 public Description GetDescription() => default;
                 public Name GetName() => default;
                 public Size GetSize() => default;
-                public Token GetSkuToken() => default;
+                public Sku GetSku() => default;
 
                 #endregion
             }

@@ -6,7 +6,7 @@ namespace Shop.Api.Spec
     ///     Defines the "storage" collection.
     /// </summary>
     [CollectionDefinition("storage")]
-    public class DatabaseCollection : ICollectionFixture<StorageFixture>
+    public class StorageCollection : ICollectionFixture<StorageFixture>
     {
     }
 }

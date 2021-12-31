@@ -10,14 +10,12 @@ namespace Shop.Catalog
 
         private Product(IProductBuilder builder)
         {
-            var company = builder.GetCompany();
-
-            Category = builder.GetCategory();
-            CompanyId = company?.Id;
+            Categories = builder.GetCategories();
+            CompanyId = builder.GetCompanyId();
             Description = builder.GetDescription();
             Name = builder.GetName();
             Size = builder.GetSize();
-            Sku = CreateSku(company, Category, builder.GetSkuToken(), Size);
+            Sku = builder.GetSku();
         }
 
         public static Result<Product> From(IProductBuilder builder)
@@ -34,31 +32,12 @@ namespace Shop.Catalog
 
         #region Public Interface
 
-        public ProductCategory Category { get; }
+        public ProductCategories Categories { get; }
         public Id CompanyId { get; }
         public Description Description { get; }
         public Name Name { get; }
         public Size Size { get; }
         public Sku Sku { get; }
-
-        #endregion
-
-        #region Static Interface
-
-        private static Sku CreateSku(
-            Company company,
-            ProductCategory category,
-            Token product,
-            Size size = default
-        )
-        {
-            var sku = $"{company?.SkuToken}-{category?.SkuToken}-{product}";
-
-            if (size != default)
-                sku += $"-{(int) size:00}";
-
-            return sku;
-        }
 
         #endregion
     }

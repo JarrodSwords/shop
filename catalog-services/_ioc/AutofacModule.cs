@@ -15,6 +15,8 @@ namespace Shop.Catalog.Services
             builder
                 .RegisterAssemblyTypes(_assembly)
                 .AsImplementedInterfaces();
+
+            builder.RegisterType<RegisterProduct.Builder>().AsSelf();
         }
 
         #endregion

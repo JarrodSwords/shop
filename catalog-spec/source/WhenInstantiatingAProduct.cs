@@ -6,23 +6,52 @@ namespace Shop.Catalog.Spec
 {
     public class WhenInstantiatingAProduct
     {
+        #region Core
+
+        private readonly ProductBuilder _builder;
+
+        public WhenInstantiatingAProduct()
+        {
+            _builder = new ProductBuilder()
+                .With((Name) "Foo")
+                .With((Token) "f")
+                .With(Company.ManyLoves)
+                .With(ProductCategories.Box)
+                .With((Description) "a foo");
+        }
+
+        #endregion
+
         #region Test Methods
 
-        [Fact]
-        public void ThenSkuIsGenerated()
+        [Theory]
+        [InlineData("n")]
+        [InlineData("b", true)]
+        [InlineData("d", false, true)]
+        [InlineData("s", false, false, true)]
+        [InlineData("bd", true, true, false)]
+        [InlineData("ds", false, true, true)]
+        public void ThenSkuIsGenerated(
+            string expectedCategoryToken,
+            bool isBox = false,
+            bool isDessert = false,
+            bool isSide = false
+        )
         {
-            var company = Company.ManyLoves;
-            var category = ProductCategory.Box;
-            Token skuToken = "f";
-            var product = new ProductBuilder()
-                .With((Name) "Foo")
-                .With(skuToken)
-                .With(company)
-                .With(ProductCategory.Box)
-                .With((Description) "a foo box")
-                .Build();
+            var categories = ProductCategories.None;
 
-            Sku expected = $"{company.SkuToken}-{category.SkuToken}-{skuToken}".ToLower();
+            if (isBox)
+                categories |= ProductCategories.Box;
+
+            if (isDessert)
+                categories |= ProductCategories.Dessert;
+
+            if (isSide)
+                categories |= ProductCategories.Side;
+
+            var product = _builder.With(categories).Build();
+
+            Sku expected = $"mlc-{expectedCategoryToken}-f".ToLower();
 
             product.Sku.Should().Be(expected);
         }

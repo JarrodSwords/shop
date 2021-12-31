@@ -9,6 +9,7 @@ namespace Shop.Write
         Id Create(T entity);
         IRepository<T> Create(params T[] entities);
         bool Exists(Expression<Func<T, bool>> predicate);
+        T Find(Id id);
         T Find(Expression<Func<T, bool>> predicate);
         IRepository<T> Update(T entity);
     }

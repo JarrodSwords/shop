@@ -1,5 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Jgs.Cqrs;
+using Jgs.Ddd;
 using Shop.Shared;
 
 namespace Shop.Catalog.Services
@@ -11,75 +13,75 @@ namespace Shop.Catalog.Services
             private readonly CandidateProduct[] _products =
             {
                 new(
-                    ProductCategory.Box,
+                    ProductCategories.Box,
                     "Each Lunch Box serves one and comes with one meat, one cheese, and accoutrements.",
                     "Lunch Box",
                     "lun"
                 ),
                 new(
-                    ProductCategory.Box,
+                    ProductCategories.Box,
                     "Each Couples Box serves approximately two and comes with two meats, two cheeses, and accoutrements."
                     ,
                     "Couples Box",
                     "cpl"
                 ),
                 new(
-                    ProductCategory.Box,
+                    ProductCategories.Box,
                     "Each Family Box serves approximately four to six and comes with three meats, three cheeses, and accoutrements."
                     ,
                     "Family Box",
                     "fam"
                 ),
                 new(
-                    ProductCategory.Box,
+                    ProductCategories.Box,
                     "Each Party Box serves approximately six to eight and comes with four meats, four cheeses, and accoutrements."
                     ,
                     "Party Box",
                     "pty"
                 ),
                 new(
-                    ProductCategory.Dessert,
+                    ProductCategories.Box | ProductCategories.Dessert,
                     "Each Dessert Box comes with an assortment of seasonal chocolates, cookies, pastries, and other accoutrements. Serves approximately 2-4."
                     ,
                     "Dessert Box",
                     "dst"
                 ),
                 new(
-                    ProductCategory.Side,
+                    ProductCategories.Side,
                     "A fresh French baguette.",
                     "Baguette",
                     "bgt"
                 ),
                 new(
-                    ProductCategory.Dessert,
+                    ProductCategories.Dessert | ProductCategories.Side,
                     "Fresh strawberries covered in milk or dark chocolate.",
                     "Chocolate-covered Strawberries",
                     "stw",
                     Size: 6
                 ),
                 new(
-                    ProductCategory.Dessert,
+                    ProductCategories.Dessert | ProductCategories.Side,
                     "Fresh strawberries covered in milk or dark chocolate.",
                     "Chocolate-covered Strawberries",
                     "stw",
                     Size: 12
                 ),
                 new(
-                    ProductCategory.Dessert,
+                    ProductCategories.Dessert | ProductCategories.Side,
                     "Fresh strawberries covered in milk or dark chocolate.",
                     "Chocolate-covered Strawberries",
                     "stw",
                     Size: 24
                 ),
                 new(
-                    ProductCategory.Dessert,
+                    ProductCategories.Dessert | ProductCategories.Side,
                     "Fresh strawberries covered in milk or dark chocolate.",
                     "Chocolate-covered Strawberries",
                     "stw",
                     Size: 36
                 ),
                 new(
-                    ProductCategory.Dessert,
+                    ProductCategories.Dessert | ProductCategories.Side,
                     "Fresh strawberries covered in milk or dark chocolate.",
                     "Chocolate-covered Strawberries",
                     "stw",
@@ -109,7 +111,7 @@ namespace Shop.Catalog.Services
             #endregion
 
             private record CandidateProduct(
-                ProductCategory Category,
+                ProductCategories Categories,
                 Description Description,
                 Name Name,
                 Token SkuToken,
@@ -117,14 +119,21 @@ namespace Shop.Catalog.Services
                 Size Size = default
             ) : IProductBuilder
             {
+                #region Public Interface
+
+                public Company GetCompany() => Company ?? Company.ManyLoves;
+                public Token GetSkuToken() => SkuToken;
+
+                #endregion
+
                 #region IProductBuilder Implementation
 
-                public ProductCategory GetCategory() => Category;
-                public Company GetCompany() => Company ?? Company.ManyLoves;
+                public ProductCategories GetCategories() => Categories;
+                public Id GetCompanyId() => throw new NotImplementedException();
                 public Description GetDescription() => Description;
                 public Name GetName() => Name;
                 public Size GetSize() => Size;
-                public Token GetSkuToken() => SkuToken;
+                public Sku GetSku() => throw new NotImplementedException();
 
                 #endregion
             }

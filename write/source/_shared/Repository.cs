@@ -34,6 +34,8 @@ namespace Shop.Write
                 .AsQueryable()
                 .Any(predicate);
 
+        public T Find(Id id) => Context.Set<T>().Find((Guid) id);
+
         public T Find(Expression<Func<T, bool>> predicate) =>
             Context
                 .Set<T>()

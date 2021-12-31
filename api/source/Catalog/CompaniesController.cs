@@ -1,6 +1,5 @@
 ﻿using System;
 using Jgs.Cqrs;
-using Jgs.Ddd;
 using Microsoft.AspNetCore.Mvc;
 using Shop.Catalog.Services;
 
@@ -11,13 +10,13 @@ namespace Shop.Api.Catalog
     public class CompaniesController : ControllerBase
     {
         private readonly IQueryHandler<FindCompany, CompanyDto> _findCompanyHandler;
-        private readonly ICommandHandler<RegisterCompany, Id> _registerCompanyHandler;
+        private readonly ICommandHandler<RegisterCompany, RegisterCompany.CompanyDto> _registerCompanyHandler;
 
         #region Creation
 
         public CompaniesController(
             IQueryHandler<FindCompany, CompanyDto> findCompanyHandler,
-            ICommandHandler<RegisterCompany, Id> registerCompanyHandler
+            ICommandHandler<RegisterCompany, RegisterCompany.CompanyDto> registerCompanyHandler
         )
         {
             _findCompanyHandler = findCompanyHandler;
@@ -32,14 +31,14 @@ namespace Shop.Api.Catalog
         public ActionResult<CompanyDto> FindCompany(Guid id) => _findCompanyHandler.Handle(id);
 
         [HttpPost]
-        public ActionResult<CompanyDto> RegisterCompany([FromBody] RegisterCompany command)
+        public ActionResult<RegisterCompany.CompanyDto> RegisterCompany([FromBody] RegisterCompany command)
         {
-            var id = _registerCompanyHandler.Handle(command);
+            var company = _registerCompanyHandler.Handle(command);
 
             return CreatedAtRoute(
                 nameof(FindCompany),
-                new { id },
-                new CompanyDto(id, command.Name)
+                company,
+                company
             );
         }
 

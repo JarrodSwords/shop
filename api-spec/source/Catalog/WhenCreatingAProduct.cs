@@ -1,31 +1,23 @@
-﻿using System.Net.Http.Json;
-using FluentAssertions;
+﻿using FluentAssertions;
+using Jgs.Cqrs;
+using Shop.Catalog;
 using Shop.Catalog.Services;
 using Xunit;
 
 namespace Shop.Api.Spec.Catalog
 {
     [Collection("storage")]
-    public class WhenCreatingAProduct : WebApiFixture
+    public class WhenCreatingAProduct : ApplicationFixture
     {
         #region Core
 
-        private const string Resource = "products";
+        private readonly IQueryHandler<FindProduct, ProductDto> _findProduct;
+        private readonly ICommandHandler<RegisterProduct, RegisterProduct.ProductDto> _registerProduct;
 
-        private readonly RegisterProduct _command = new(
-            "Bar",
-            "A Foo description",
-            $"Foo {++_count}",
-            "f"
-        );
-
-        private static ushort _count;
-
-        public WhenCreatingAProduct(IntegrationTestingFactory<Startup> factory) : base(
-            factory,
-            "api/catalog"
-        )
+        public WhenCreatingAProduct(IntegrationTestingFactory<Startup> factory) : base(factory)
         {
+            _registerProduct = Resolve<ICommandHandler<RegisterProduct, RegisterProduct.ProductDto>>();
+            _findProduct = Resolve<IQueryHandler<FindProduct, ProductDto>>();
         }
 
         #endregion
@@ -33,13 +25,19 @@ namespace Shop.Api.Spec.Catalog
         #region Test Methods
 
         [Fact]
-        public async void ThenProductExistsInCatalog()
+        public void ThenProductExistsInCatalog()
         {
-            var result = await HttpClient.PostAsJsonAsync($"{Resource}", _command);
+            var newProduct = _registerProduct.Handle(
+                new(
+                    Company.ManyLoves.Id,
+                    ProductCategories.Box,
+                    "a foo",
+                    "foo",
+                    "f"
+                )
+            );
 
-            var sku = result.Content.ReadFromJsonAsync<ProductDto>().Result.Sku;
-
-            var product = await HttpClient.GetFromJsonAsync<ProductDto>($"{Resource}/{sku}");
+            var product = _findProduct.Handle(newProduct.Sku);
 
             product.Should().NotBeNull();
         }
