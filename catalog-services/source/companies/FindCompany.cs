@@ -11,13 +11,4 @@ namespace Shop.Catalog.Services
 
         #endregion
     }
-
-    public record FindCompanyByName(string Name) : IQuery
-    {
-        #region Static Interface
-
-        public static implicit operator FindCompanyByName(string source) => new(source);
-
-        #endregion
-    }
 }
