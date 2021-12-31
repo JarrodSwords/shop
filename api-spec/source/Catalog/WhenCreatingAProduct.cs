@@ -1,6 +1,5 @@
 ﻿using FluentAssertions;
 using Jgs.Cqrs;
-using Microsoft.Extensions.DependencyInjection;
 using Shop.Catalog;
 using Shop.Catalog.Services;
 using Xunit;
@@ -8,7 +7,7 @@ using Xunit;
 namespace Shop.Api.Spec.Catalog
 {
     [Collection("storage")]
-    public class WhenCreatingAProduct : ServiceFixture
+    public class WhenCreatingAProduct : ApplicationFixture
     {
         #region Core
 
@@ -18,12 +17,10 @@ namespace Shop.Api.Spec.Catalog
 
         public WhenCreatingAProduct(IntegrationTestingFactory<Startup> factory) : base(factory)
         {
-            _registerProduct = ServiceProvider
-                .GetRequiredService<ICommandHandler<RegisterProduct, RegisterProduct.ProductDto>>();
+            _registerProduct = Resolve<ICommandHandler<RegisterProduct, RegisterProduct.ProductDto>>();
+            _findProduct = Resolve<IQueryHandler<FindProduct, ProductDto>>();
 
-            _findProduct = ServiceProvider.GetRequiredService<IQueryHandler<FindProduct, ProductDto>>();
-
-            var findCompanyByName = ServiceProvider.GetRequiredService<IQueryHandler<FindCompanyByName, CompanyDto>>();
+            var findCompanyByName = Resolve<IQueryHandler<FindCompanyByName, CompanyDto>>();
             _company = findCompanyByName.Handle("Many Loves Charcuterie");
         }
 

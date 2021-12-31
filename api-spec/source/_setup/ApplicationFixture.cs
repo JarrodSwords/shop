@@ -5,22 +5,25 @@ using Xunit;
 
 namespace Shop.Api.Spec
 {
-    public abstract class ServiceFixture : IClassFixture<IntegrationTestingFactory<Startup>>, IDisposable
+    /// <summary>
+    ///     Fixture for testing application services including commands and queries.
+    /// </summary>
+    public abstract class ApplicationFixture : IClassFixture<IntegrationTestingFactory<Startup>>, IDisposable
     {
         private readonly IServiceScope _scope;
 
         #region Creation
 
-        protected ServiceFixture(WebApplicationFactory<Startup> factory)
+        protected ApplicationFixture(WebApplicationFactory<Startup> factory)
         {
             _scope = factory.Services.CreateScope();
         }
 
         #endregion
 
-        #region Protected Interface
+        #region Public Interface
 
-        protected IServiceProvider ServiceProvider => _scope.ServiceProvider;
+        public T Resolve<T>() => _scope.ServiceProvider.GetRequiredService<T>();
 
         #endregion
 

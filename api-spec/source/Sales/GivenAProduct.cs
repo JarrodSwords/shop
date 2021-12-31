@@ -1,6 +1,5 @@
 ﻿using FluentAssertions;
 using Jgs.Cqrs;
-using Microsoft.Extensions.DependencyInjection;
 using Shop.Catalog;
 using Shop.Catalog.Services;
 using Shop.Sales.Services;
@@ -12,7 +11,7 @@ using ProductDto = Shop.Sales.Services.ProductDto;
 namespace Shop.Api.Spec.Sales
 {
     [Collection("storage")]
-    public class GivenAProduct : ServiceFixture
+    public class GivenAProduct : ApplicationFixture
     {
         #region Core
 
@@ -25,12 +24,11 @@ namespace Shop.Api.Spec.Sales
 
         public GivenAProduct(IntegrationTestingFactory<Startup> factory) : base(factory)
         {
-            _findProduct = ServiceProvider.GetRequiredService<IQueryHandler<FindProduct, ProductDto>>();
-            _registerProduct = ServiceProvider
-                .GetRequiredService<ICommandHandler<RegisterProduct, RegisterProduct.ProductDto>>();
-            _setPrice = ServiceProvider.GetRequiredService<ICommandHandler<SetPrice>>();
+            _findProduct = Resolve<IQueryHandler<FindProduct, ProductDto>>();
+            _registerProduct = Resolve<ICommandHandler<RegisterProduct, RegisterProduct.ProductDto>>();
+            _setPrice = Resolve<ICommandHandler<SetPrice>>();
 
-            _findCompanyByName = ServiceProvider.GetRequiredService<IQueryHandler<FindCompanyByName, CompanyDto>>();
+            _findCompanyByName = Resolve<IQueryHandler<FindCompanyByName, CompanyDto>>();
             var company = _findCompanyByName.Handle("Many Loves Charcuterie");
 
             _sku = _registerProduct.Handle(
