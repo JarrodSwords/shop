@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-using Jgs.Cqrs;
-using Jgs.Ddd;
+﻿using Jgs.Cqrs;
 using Shop.Shared;
 
 namespace Shop.Catalog.Services
@@ -103,7 +100,13 @@ namespace Shop.Catalog.Services
             {
                 Uow.Companies.Create(Company.ManyLoves);
 
-                Uow.Products.Create(_products.Select(x => Product.From(x).Value).ToArray());
+                var productBuilder = new CandidateProduct.ProductBuilder();
+
+                foreach (var p in _products)
+                {
+                    var product = productBuilder.With(p).Build();
+                    Uow.Products.Create(product);
+                }
 
                 Uow.Commit();
             }
@@ -117,25 +120,49 @@ namespace Shop.Catalog.Services
                 Token SkuToken,
                 Company Company = default,
                 Size Size = default
-            ) : IProductBuilder
+            )
             {
-                #region Public Interface
+                public class ProductBuilder : IProductBuilder
+                {
+                    private Product.Builder _builder;
+                    private CandidateProduct _candidate;
+                    private Company _company;
 
-                public Company GetCompany() => Company ?? Company.ManyLoves;
-                public Token GetSkuToken() => SkuToken;
+                    #region Public Interface
 
-                #endregion
+                    public Product Build() => _builder.Build().Value;
 
-                #region IProductBuilder Implementation
+                    public ProductBuilder With(CandidateProduct candidate)
+                    {
+                        _candidate = candidate;
+                        return this;
+                    }
 
-                public ProductCategories GetCategories() => Categories;
-                public Id GetCompanyId() => throw new NotImplementedException();
-                public Description GetDescription() => Description;
-                public Name GetName() => Name;
-                public Size GetSize() => Size;
-                public Sku GetSku() => throw new NotImplementedException();
+                    #endregion
 
-                #endregion
+                    #region IProductBuilder Implementation
+
+                    public IProductBuilder FindCompany()
+                    {
+                        _company = Company.ManyLoves;
+                        return this;
+                    }
+
+                    public IProductBuilder GenerateSku()
+                    {
+                        var sku = Product.GenerateSku(
+                            _company.SkuToken,
+                            _candidate.Categories.GetToken(),
+                            _candidate.SkuToken
+                        );
+
+                        _builder.With(sku);
+
+                        return this;
+                    }
+
+                    #endregion
+                }
             }
         }
     }

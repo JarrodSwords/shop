@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using Jgs.Ddd;
-using Shop.Shared;
+﻿using Jgs.Ddd;
 
 namespace Shop.Catalog
 {
@@ -10,15 +8,6 @@ namespace Shop.Catalog
 
         public Sku(string value) : base(value)
         {
-        }
-
-        public static Sku Create(params Token[] tokens)
-        {
-            var sku = tokens
-                .Where(t => t != default)
-                .Aggregate("", (current, t) => current + $"-{t}");
-
-            return new Sku(sku.TrimStart('-'));
         }
 
         #endregion

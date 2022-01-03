@@ -1,7 +1,5 @@
 ﻿using FluentAssertions;
-using Jgs.Ddd;
 using Jgs.Functional;
-using Shop.Shared;
 using Xunit;
 
 namespace Shop.Catalog.Spec
@@ -16,7 +14,7 @@ namespace Shop.Catalog.Spec
 
             public WhenCreatingTheProduct()
             {
-                _result = Product.From(new IncompleteProduct());
+                _result = new Product.Builder().Build();
             }
 
             #endregion
@@ -42,20 +40,6 @@ namespace Shop.Catalog.Spec
             }
 
             #endregion
-
-            private record IncompleteProduct : IProductBuilder
-            {
-                #region IProductBuilder Implementation
-
-                public ProductCategories GetCategories() => default;
-                public Id GetCompanyId() => default;
-                public Description GetDescription() => default;
-                public Name GetName() => default;
-                public Size GetSize() => default;
-                public Sku GetSku() => default;
-
-                #endregion
-            }
         }
     }
 }

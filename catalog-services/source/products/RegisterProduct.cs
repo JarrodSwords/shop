@@ -1,6 +1,5 @@
 ﻿using System;
 using Jgs.Cqrs;
-using Jgs.Ddd;
 using Shop.Shared;
 
 namespace Shop.Catalog.Services
@@ -16,13 +15,16 @@ namespace Shop.Catalog.Services
     {
         public class Builder : IProductBuilder
         {
+            private readonly Product.Builder _builder;
             private readonly IUnitOfWork _uow;
             private RegisterProduct _command;
+            private Company _company;
 
             #region Creation
 
             public Builder(IUnitOfWork uow)
             {
+                _builder = new();
                 _uow = uow;
             }
 
@@ -30,9 +32,19 @@ namespace Shop.Catalog.Services
 
             #region Public Interface
 
+            public Product Build() => _builder.Build().Value;
+
             public Builder From(RegisterProduct args)
             {
                 _command = args;
+
+                _builder
+                    .With((Description) args.Description)
+                    .With((Name) args.Name)
+                    .With(args.Categories)
+                    .With(args.Size)
+                    .With(args.CompanyId);
+
                 return this;
             }
 
@@ -40,17 +52,23 @@ namespace Shop.Catalog.Services
 
             #region IProductBuilder Implementation
 
-            public ProductCategories GetCategories() => _command.Categories;
-            public Id GetCompanyId() => _command.CompanyId;
-            public Description GetDescription() => _command.Description;
-            public Name GetName() => _command.Name;
-            public Size GetSize() => _command.Size;
-
-            public Sku GetSku()
+            public IProductBuilder FindCompany()
             {
-                var company = _uow.Companies.Find(_command.CompanyId);
+                _company = _uow.Companies.Find(_command.CompanyId);
+                return this;
+            }
 
-                return new Sku($"{company.SkuToken}-{_command.Categories.GetToken()}-{_command.SkuToken}");
+            public IProductBuilder GenerateSku()
+            {
+                var sku = Product.GenerateSku(
+                    _company.SkuToken,
+                    _command.Categories.GetToken(),
+                    _company.SkuToken
+                );
+
+                _builder.With(sku);
+
+                return this;
             }
 
             #endregion
@@ -74,8 +92,8 @@ namespace Shop.Catalog.Services
             public override ProductDto Handle(RegisterProduct args)
             {
                 _builder.From(args);
-
-                var product = Product.From(_builder).Value;
+                new Product.Director().With(_builder).ConfigureNewProduct();
+                var product = _builder.Build();
 
                 Uow.Products.Create(product);
                 Uow.Commit();
