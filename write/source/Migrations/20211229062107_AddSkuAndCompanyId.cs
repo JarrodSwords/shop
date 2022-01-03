@@ -17,7 +17,7 @@ namespace Shop.Infrastructure.Migrations
                 newName: "Sku");
 
             migrationBuilder.AddColumn<Guid>(
-                name: "CompanyId",
+                name: "VendorId",
                 table: "Product",
                 type: "uniqueidentifier",
                 nullable: false,
@@ -27,7 +27,7 @@ namespace Shop.Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "CompanyId",
+                name: "VendorId",
                 table: "Product");
 
             migrationBuilder.RenameColumn(

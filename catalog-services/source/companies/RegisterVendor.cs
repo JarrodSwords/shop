@@ -5,12 +5,12 @@ using Shop.Shared;
 
 namespace Shop.Catalog.Services
 {
-    public record RegisterCompany(
+    public record RegisterVendor(
         string Name,
         string SkuToken
-    ) : ICommand, ICompanyBuilder
+    ) : ICommand, IVendorBuilder
     {
-        #region ICompanyBuilder Implementation
+        #region IVendorBuilder Implementation
 
         public Id GetId() => default;
         public Name GetName() => Name;
@@ -18,9 +18,7 @@ namespace Shop.Catalog.Services
 
         #endregion
 
-        public record CompanyDto(Guid Id);
-
-        public class Handler : Handler<RegisterCompany, CompanyDto>
+        public class Handler : Handler<RegisterVendor, VendorDto>
         {
             #region Creation
 
@@ -32,17 +30,19 @@ namespace Shop.Catalog.Services
 
             #region Public Interface
 
-            public override CompanyDto Handle(RegisterCompany args)
+            public override VendorDto Handle(RegisterVendor args)
             {
-                var company = Company.From(args).Value;
+                var vendor = Vendor.From(args).Value;
 
-                Uow.Companies.Create(company);
+                Uow.Vendors.Create(vendor);
                 Uow.Commit();
 
-                return new(company.Id);
+                return new(vendor.Id);
             }
 
             #endregion
         }
+
+        public record VendorDto(Guid Id);
     }
 }

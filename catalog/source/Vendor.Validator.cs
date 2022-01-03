@@ -2,9 +2,9 @@
 
 namespace Shop.Catalog
 {
-    public partial class Company
+    public partial class Vendor
     {
-        private class Validator : AbstractValidator<Company>
+        private class Validator : AbstractValidator<Vendor>
         {
             #region Creation
 

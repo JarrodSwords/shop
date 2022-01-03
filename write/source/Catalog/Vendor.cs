@@ -1,15 +1,14 @@
 ﻿using Jgs.Ddd;
 using Shop.Catalog;
 using Shop.Shared;
-using CatalogCompany = Shop.Catalog.Company;
 
 namespace Shop.Write
 {
-    public partial class Company : ICompanyBuilder
+    public partial class Vendor : IVendorBuilder
     {
         #region Creation
 
-        private Company(CatalogCompany source) : base(source.Id)
+        private Vendor(Shop.Catalog.Vendor source) : base(source.Id)
         {
             Name = source.Name;
             SkuToken = source.SkuToken;
@@ -17,7 +16,7 @@ namespace Shop.Write
 
         #endregion
 
-        #region ICompanyBuilder Implementation
+        #region IVendorBuilder Implementation
 
         public Id GetId() => Id;
         public Name GetName() => Name;
@@ -27,8 +26,8 @@ namespace Shop.Write
 
         #region Static Interface
 
-        public static implicit operator Company(CatalogCompany source) => new(source);
-        public static implicit operator CatalogCompany(Company source) => CatalogCompany.From(source).Value;
+        public static implicit operator Vendor(Shop.Catalog.Vendor source) => new(source);
+        public static implicit operator Shop.Catalog.Vendor(Vendor source) => Shop.Catalog.Vendor.From(source).Value;
 
         #endregion
     }

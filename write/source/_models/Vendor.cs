@@ -2,11 +2,11 @@
 
 namespace Shop.Write
 {
-    public partial class Company : Entity
+    public partial class Vendor : Entity
     {
         #region Creation
 
-        public Company(Guid id) : base(id)
+        public Vendor(Guid id) : base(id)
         {
         }
 

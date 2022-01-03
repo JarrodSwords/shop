@@ -7,7 +7,7 @@ namespace Shop.Read.Sales
 {
     public class FindOrderHandler : Handler<FindOrder, OrderDto>
     {
-        private const string FindOrder = @"
+        private const string Query = @"
 select o.Id
      , c.Email
      , o.Subtotal
@@ -29,7 +29,7 @@ select o.Id
         #region Public Interface
 
         public override OrderDto Execute(IDbConnection connection, FindOrder args) =>
-            connection.QuerySingleOrDefault<OrderDto>(FindOrder, args);
+            connection.QuerySingleOrDefault<OrderDto>(Query, args);
 
         #endregion
     }

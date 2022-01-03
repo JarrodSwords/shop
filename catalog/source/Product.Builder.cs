@@ -9,12 +9,12 @@ namespace Shop.Catalog
         public class Builder
         {
             private ProductCategories _categories;
-            private Id _companyId;
             private Description _description;
             private Id _id;
             private Name _name;
             private Size _size;
             private Sku _sku;
+            private Id _vendorId;
 
             #region Public Interface
 
@@ -22,7 +22,7 @@ namespace Shop.Catalog
             {
                 var product = new Product(
                     _categories,
-                    _companyId,
+                    _vendorId,
                     _name,
                     _size,
                     _sku,
@@ -40,12 +40,6 @@ namespace Shop.Catalog
             public Builder With(ProductCategories categories)
             {
                 _categories = categories;
-                return this;
-            }
-
-            public Builder With(Id companyId)
-            {
-                _companyId = companyId;
                 return this;
             }
 
@@ -73,6 +67,12 @@ namespace Shop.Catalog
                 return this;
             }
 
+            public Builder With(Id vendorId)
+            {
+                _vendorId = vendorId;
+                return this;
+            }
+
             public Builder WithId(Id id)
             {
                 _id = id;
@@ -91,7 +91,7 @@ namespace Shop.Catalog
             public Director ConfigureNewProduct()
             {
                 _builder
-                    .FindCompany()
+                    .FindVendor()
                     .GenerateSku();
 
                 return this;

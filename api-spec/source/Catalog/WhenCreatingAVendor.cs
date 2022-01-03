@@ -7,14 +7,14 @@ using Xunit;
 namespace Shop.Api.Spec.Catalog
 {
     [Collection("storage")]
-    public class WhenCreatingACompany : PostFixture<CompanyDto>
+    public class WhenCreatingAVendor : PostFixture<VendorDto>
     {
         #region Core
 
-        private const string Resource = "companies";
-        private readonly RegisterCompany _command = new("Foo", "f");
+        private const string Resource = "vendors";
+        private readonly RegisterVendor _command = new("Foo", "f");
 
-        public WhenCreatingACompany(IntegrationTestingFactory<Startup> factory) : base(
+        public WhenCreatingAVendor(IntegrationTestingFactory<Startup> factory) : base(
             factory,
             "api/catalog"
         )
@@ -31,12 +31,12 @@ namespace Shop.Api.Spec.Catalog
         }
 
         [Fact]
-        public async void ThenCompanyExists()
+        public async void ThenVendorExists()
         {
-            var id = Result.Content.ReadFromJsonAsync<CompanyDto>().Result.Id;
-            var company = await HttpClient.GetFromJsonAsync<CompanyDto>($"{Resource}/{id}");
+            var id = Result.Content.ReadFromJsonAsync<VendorDto>().Result.Id;
+            var vendor = await HttpClient.GetFromJsonAsync<VendorDto>($"{Resource}/{id}");
 
-            company.Should().NotBeNull();
+            vendor.Should().NotBeNull();
         }
 
         #endregion

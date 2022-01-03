@@ -4,19 +4,19 @@ using Shop.Shared;
 
 namespace Shop.Catalog
 {
-    public partial class Company : Aggregate
+    public partial class Vendor : Aggregate
     {
-        public static readonly Company ManyLoves = new("Many Loves Charcuterie", "mlc");
+        public static readonly Vendor ManyLoves = new("Many Loves Charcuterie", "mlc");
 
         #region Creation
 
-        public Company(ICompanyBuilder builder) : base(builder.GetId())
+        public Vendor(IVendorBuilder builder) : base(builder.GetId())
         {
             Name = builder.GetName();
             SkuToken = builder.GetSkuToken();
         }
 
-        private Company(
+        private Vendor(
             Name name,
             Token skuToken
         )
@@ -25,14 +25,14 @@ namespace Shop.Catalog
             SkuToken = skuToken;
         }
 
-        public static Result<Company> From(ICompanyBuilder builder)
+        public static Result<Vendor> From(IVendorBuilder builder)
         {
-            var company = new Company(builder);
-            var validationResult = new Validator().Validate(company);
+            var vendor = new Vendor(builder);
+            var validationResult = new Validator().Validate(vendor);
 
             return validationResult.IsValid
-                ? Result.Success(company)
-                : Result.Failure<Company>(validationResult.ToString());
+                ? Result.Success(vendor)
+                : Result.Failure<Vendor>(validationResult.ToString());
         }
 
         #endregion

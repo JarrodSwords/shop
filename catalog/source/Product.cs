@@ -7,13 +7,13 @@ namespace Shop.Catalog
     public partial class Product : Aggregate
     {
         public static readonly Product LunchBox =
-            new(ProductCategories.Box, Company.ManyLoves.Id, "Lunch Box", default, "mlc-b-lun");
+            new(ProductCategories.Box, Vendor.ManyLoves.Id, "Lunch Box", default, "mlc-b-lun");
 
         #region Creation
 
         private Product(
             ProductCategories categories,
-            Id companyId,
+            Id vendorId,
             Name name,
             Size size,
             Sku sku,
@@ -22,7 +22,7 @@ namespace Shop.Catalog
         ) : base(id)
         {
             Categories = categories;
-            CompanyId = companyId;
+            VendorId = vendorId;
             Description = description;
             Name = name;
             Size = size;
@@ -34,11 +34,11 @@ namespace Shop.Catalog
         #region Public Interface
 
         public ProductCategories Categories { get; }
-        public Id CompanyId { get; }
         public Description Description { get; }
         public Name Name { get; }
         public Size Size { get; }
         public Sku Sku { get; }
+        public Id VendorId { get; }
 
         #endregion
 

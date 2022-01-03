@@ -29,7 +29,7 @@ namespace Shop.Api.Spec.Catalog
         {
             var newProduct = _registerProduct.Handle(
                 new(
-                    Company.ManyLoves.Id,
+                    Vendor.ManyLoves.Id,
                     ProductCategories.Box,
                     "a foo",
                     "foo",

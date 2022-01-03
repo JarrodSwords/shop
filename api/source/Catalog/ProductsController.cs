@@ -46,7 +46,7 @@ namespace Shop.Api.Catalog
         #endregion
 
         public record RegisterProductDto(
-            Guid CompanyId,
+            Guid VendorId,
             string Description,
             string Name,
             string SkuToken,
@@ -72,7 +72,7 @@ namespace Shop.Api.Catalog
                     categories |= ProductCategories.Side;
 
                 return new(
-                    source.CompanyId,
+                    source.VendorId,
                     categories,
                     source.Description,
                     source.Name,

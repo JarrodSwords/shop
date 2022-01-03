@@ -3,8 +3,8 @@ using System.Data.Common;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Shop.Write;
-using Company = Shop.Catalog.Company;
 using Product = Shop.Catalog.Product;
+using Vendor = Shop.Catalog.Vendor;
 
 namespace Shop.Api.Spec
 {
@@ -58,7 +58,7 @@ namespace Shop.Api.Spec
 
         private void SeedDatabase()
         {
-            Context.Company.Add(Company.ManyLoves);
+            Context.Vendor.Add(Vendor.ManyLoves);
 
             Context.Product.Add(Product.LunchBox);
 

@@ -2,7 +2,7 @@
 {
     public interface IProductBuilder
     {
-        IProductBuilder FindCompany();
+        IProductBuilder FindVendor();
         IProductBuilder GenerateSku();
     }
 }

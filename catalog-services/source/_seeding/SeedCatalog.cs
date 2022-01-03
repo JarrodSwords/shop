@@ -98,7 +98,7 @@ namespace Shop.Catalog.Services
 
             public override void Handle(SeedCatalog args)
             {
-                Uow.Companies.Create(Company.ManyLoves);
+                Uow.Vendors.Create(Vendor.ManyLoves);
 
                 var productBuilder = new CandidateProduct.ProductBuilder();
 
@@ -118,7 +118,7 @@ namespace Shop.Catalog.Services
                 Description Description,
                 Name Name,
                 Token SkuToken,
-                Company Company = default,
+                Vendor Vendor = default,
                 Size Size = default
             )
             {
@@ -126,7 +126,7 @@ namespace Shop.Catalog.Services
                 {
                     private Product.Builder _builder;
                     private CandidateProduct _candidate;
-                    private Company _company;
+                    private Vendor _vendor;
 
                     #region Public Interface
 
@@ -142,16 +142,16 @@ namespace Shop.Catalog.Services
 
                     #region IProductBuilder Implementation
 
-                    public IProductBuilder FindCompany()
+                    public IProductBuilder FindVendor()
                     {
-                        _company = Company.ManyLoves;
+                        _vendor = Vendor.ManyLoves;
                         return this;
                     }
 
                     public IProductBuilder GenerateSku()
                     {
                         var sku = Product.GenerateSku(
-                            _company.SkuToken,
+                            _vendor.SkuToken,
                             _candidate.Categories.GetToken(),
                             _candidate.SkuToken
                         );

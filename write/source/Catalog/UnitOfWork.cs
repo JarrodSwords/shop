@@ -5,8 +5,8 @@ namespace Shop.Write.Catalog
     public class UnitOfWork : IUnitOfWork
     {
         private readonly Context _context;
-        private ICompanyRepository _companies;
         private IProductRepository _products;
+        private IVendorRepository _vendors;
 
         #region Creation
 
@@ -19,8 +19,9 @@ namespace Shop.Write.Catalog
 
         #region IUnitOfWork Implementation
 
-        public ICompanyRepository Companies => _companies ??= new CompanyRepository(_context);
         public IProductRepository Products => _products ??= new ProductRepository(_context);
+
+        public IVendorRepository Vendors => _vendors ??= new VendorRepository(_context);
 
         public void Commit()
         {

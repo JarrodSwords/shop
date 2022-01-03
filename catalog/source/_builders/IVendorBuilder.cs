@@ -3,7 +3,7 @@ using Shop.Shared;
 
 namespace Shop.Catalog
 {
-    public interface ICompanyBuilder
+    public interface IVendorBuilder
     {
         Id GetId();
         Name GetName();

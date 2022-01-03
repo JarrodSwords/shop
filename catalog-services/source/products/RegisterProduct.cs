@@ -5,7 +5,7 @@ using Shop.Shared;
 namespace Shop.Catalog.Services
 {
     public record RegisterProduct(
-        Guid CompanyId,
+        Guid VendorId,
         ProductCategories Categories,
         string Description,
         string Name,
@@ -18,7 +18,7 @@ namespace Shop.Catalog.Services
             private readonly Product.Builder _builder;
             private readonly IUnitOfWork _uow;
             private RegisterProduct _command;
-            private Company _company;
+            private Vendor _vendor;
 
             #region Creation
 
@@ -43,7 +43,7 @@ namespace Shop.Catalog.Services
                     .With((Name) args.Name)
                     .With(args.Categories)
                     .With(args.Size)
-                    .With(args.CompanyId);
+                    .With(args.VendorId);
 
                 return this;
             }
@@ -52,18 +52,18 @@ namespace Shop.Catalog.Services
 
             #region IProductBuilder Implementation
 
-            public IProductBuilder FindCompany()
+            public IProductBuilder FindVendor()
             {
-                _company = _uow.Companies.Find(_command.CompanyId);
+                _vendor = _uow.Vendors.Find(_command.VendorId);
                 return this;
             }
 
             public IProductBuilder GenerateSku()
             {
                 var sku = Product.GenerateSku(
-                    _company.SkuToken,
+                    _vendor.SkuToken,
                     _command.Categories.GetToken(),
-                    _company.SkuToken
+                    _vendor.SkuToken
                 );
 
                 _builder.With(sku);

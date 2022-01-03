@@ -13,7 +13,7 @@ namespace Shop.Catalog.Spec
         {
             _builder = new Product.Builder()
                 .With((Name) "Foo")
-                .With(Company.ManyLoves.Id)
+                .With(Vendor.ManyLoves.Id)
                 .With(ProductCategories.Box)
                 .With((Description) "a foo");
         }

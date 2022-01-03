@@ -8,7 +8,7 @@ namespace Shop.Read.Sales
 {
     public class FetchCustomersHandler : Handler<FetchCustomers, IEnumerable<CustomerDto>>
     {
-        private const string FetchCustomers = @"
+        private const string Query = @"
 select Email
   from customer";
 
@@ -25,7 +25,7 @@ select Email
         #region Public Interface
 
         public override IEnumerable<CustomerDto> Execute(IDbConnection connection, FetchCustomers args) =>
-            connection.Query<CustomerDto>(FetchCustomers, args);
+            connection.Query<CustomerDto>(Query, args);
 
         #endregion
     }

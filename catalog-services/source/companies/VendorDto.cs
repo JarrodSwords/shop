@@ -2,7 +2,7 @@
 
 namespace Shop.Catalog.Services
 {
-    public record CompanyDto(
+    public record VendorDto(
         Guid Id,
         string Name
     );

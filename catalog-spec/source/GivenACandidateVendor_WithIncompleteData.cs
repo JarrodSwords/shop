@@ -6,17 +6,17 @@ using Xunit;
 
 namespace Shop.Catalog.Spec
 {
-    public class GivenACandidateCompany_WithIncompleteData
+    public class GivenACandidateVendor_WithIncompleteData
     {
-        public class WhenCreatingTheCompany
+        public class WhenCreatingTheVendor
         {
             #region Core
 
-            private readonly Result<Company> _result;
+            private readonly Result<Vendor> _result;
 
-            public WhenCreatingTheCompany()
+            public WhenCreatingTheVendor()
             {
-                _result = Company.From(new IncompleteCompany());
+                _result = Vendor.From(new IncompleteVendor());
             }
 
             #endregion
@@ -37,9 +37,9 @@ namespace Shop.Catalog.Spec
 
             #endregion
 
-            private record IncompleteCompany : ICompanyBuilder
+            private record IncompleteVendor : IVendorBuilder
             {
-                #region ICompanyBuilder Implementation
+                #region IVendorBuilder Implementation
 
                 public Id GetId() => default;
                 public Name GetName() => default;

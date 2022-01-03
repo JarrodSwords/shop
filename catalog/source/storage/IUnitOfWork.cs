@@ -2,8 +2,8 @@
 {
     public interface IUnitOfWork
     {
-        ICompanyRepository Companies { get; }
         IProductRepository Products { get; }
+        IVendorRepository Vendors { get; }
         void Commit();
     }
 }
