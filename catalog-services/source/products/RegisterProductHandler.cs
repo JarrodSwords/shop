@@ -24,7 +24,7 @@
 
             new Product.Director()
                 .With(_builder)
-                .ConfigureNewProduct();
+                .ConfigureRegisterProduct();
 
             var product = _builder.Build();
 

@@ -88,11 +88,17 @@ namespace Shop.Catalog
 
             #region Public Interface
 
-            public Director ConfigureNewProduct()
+            public Director ConfigureRegisterProduct()
             {
-                _builder
-                    .FindVendor()
-                    .GenerateSku();
+                _builder.FindVendor();
+                _builder.GenerateSku();
+
+                return this;
+            }
+
+            public Director ConfigureSeedProduct()
+            {
+                _builder.GenerateSku();
 
                 return this;
             }
