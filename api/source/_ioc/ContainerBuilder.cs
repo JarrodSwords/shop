@@ -14,7 +14,7 @@ namespace Shop.Api
             typeof(Context).Assembly,
             typeof(SubmitOrder).Assembly,
             typeof(FindOrderHandler).Assembly,
-            typeof(RegisterProduct).Assembly
+            typeof(RegisterProductHandler).Assembly
         };
 
         #region Static Interface

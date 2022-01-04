@@ -12,12 +12,12 @@ namespace Shop.Api.Spec.Catalog
         #region Core
 
         private readonly IQueryHandler<FindProduct, ProductDto> _findProduct;
-        private readonly ICommandHandler<RegisterProduct, RegisterProduct.ProductDto> _registerProduct;
+        private readonly ICommandHandler<RegisterProduct, ProductRegistered> _registerProduct;
 
         public WhenCreatingAProduct(IntegrationTestingFactory<Startup> factory) : base(factory)
         {
-            _registerProduct = Resolve<ICommandHandler<RegisterProduct, RegisterProduct.ProductDto>>();
             _findProduct = Resolve<IQueryHandler<FindProduct, ProductDto>>();
+            _registerProduct = Resolve<ICommandHandler<RegisterProduct, ProductRegistered>>();
         }
 
         #endregion
@@ -27,17 +27,16 @@ namespace Shop.Api.Spec.Catalog
         [Fact]
         public void ThenProductExistsInCatalog()
         {
-            var newProduct = _registerProduct.Handle(
-                new(
-                    Vendor.ManyLoves.Id,
-                    ProductCategories.Box,
-                    "a foo",
-                    "foo",
-                    "f"
-                )
+            var command = new RegisterProduct(
+                Vendor.ManyLoves.Id,
+                ProductCategories.Box,
+                "a foo",
+                "foo",
+                "f"
             );
 
-            var product = _findProduct.Handle(newProduct.Sku);
+            var productRegistered = _registerProduct.Handle(command);
+            var product = _findProduct.Handle(productRegistered.Sku);
 
             product.Should().NotBeNull();
         }

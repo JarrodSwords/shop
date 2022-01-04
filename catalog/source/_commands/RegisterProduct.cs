@@ -1,19 +1,19 @@
-﻿using System;
-using Jgs.Cqrs;
+﻿using Jgs.Cqrs;
+using Jgs.Ddd;
 using Shop.Shared;
 
-namespace Shop.Catalog.Services
+namespace Shop.Catalog
 {
     public record RegisterProduct(
-        Guid VendorId,
+        Id VendorId,
         ProductCategories Categories,
-        string Description,
-        string Name,
-        string SkuToken,
-        ushort Size = default
+        Description Description,
+        Name Name,
+        Token SkuToken,
+        Size Size = default
     ) : ICommand
     {
-        public class Builder : IProductBuilder
+        public class ProductBuilder : IProductBuilder
         {
             private readonly Product.Builder _builder;
             private readonly IUnitOfWork _uow;
@@ -22,7 +22,7 @@ namespace Shop.Catalog.Services
 
             #region Creation
 
-            public Builder(IUnitOfWork uow)
+            public ProductBuilder(IUnitOfWork uow)
             {
                 _builder = new();
                 _uow = uow;
@@ -34,14 +34,14 @@ namespace Shop.Catalog.Services
 
             public Product Build() => _builder.Build().Value;
 
-            public Builder From(RegisterProduct args)
+            public ProductBuilder From(RegisterProduct args)
             {
                 _command = args;
 
                 _builder
-                    .With((Description) args.Description)
-                    .With((Name) args.Name)
                     .With(args.Categories)
+                    .With(args.Description)
+                    .With(args.Name)
                     .With(args.Size)
                     .With(args.VendorId);
 
@@ -63,7 +63,7 @@ namespace Shop.Catalog.Services
                 var sku = Product.GenerateSku(
                     _vendor.SkuToken,
                     _command.Categories.GetToken(),
-                    _vendor.SkuToken
+                    _command.SkuToken
                 );
 
                 _builder.With(sku);
@@ -73,37 +73,5 @@ namespace Shop.Catalog.Services
 
             #endregion
         }
-
-        public class Handler : Handler<RegisterProduct, ProductDto>
-        {
-            private readonly Builder _builder;
-
-            #region Creation
-
-            public Handler(IUnitOfWork uow, Builder builder) : base(uow)
-            {
-                _builder = builder;
-            }
-
-            #endregion
-
-            #region Public Interface
-
-            public override ProductDto Handle(RegisterProduct args)
-            {
-                _builder.From(args);
-                new Product.Director().With(_builder).ConfigureNewProduct();
-                var product = _builder.Build();
-
-                Uow.Products.Create(product);
-                Uow.Commit();
-
-                return new(product.Sku);
-            }
-
-            #endregion
-        }
-
-        public record ProductDto(string Sku);
     }
 }
