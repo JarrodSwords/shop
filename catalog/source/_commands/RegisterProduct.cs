@@ -63,7 +63,8 @@ namespace Shop.Catalog
                 var sku = Product.GenerateSku(
                     _vendor.SkuToken,
                     _command.Categories.GetToken(),
-                    _command.SkuToken
+                    _command.SkuToken,
+                    _command.Size
                 );
 
                 _builder.With(sku);

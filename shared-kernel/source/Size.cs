@@ -15,6 +15,7 @@ namespace Shop.Shared
         #region Static Interface
 
         public static implicit operator Size(ushort source) => new(source);
+        public static implicit operator Token(Size source) => new(source.ToString());
 
         #endregion
     }

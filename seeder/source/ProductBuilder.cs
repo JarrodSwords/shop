@@ -1,14 +1,12 @@
 ﻿using System;
 using Shop.Catalog;
-using Shop.Shared;
 
 namespace Shop.Seeder
 {
     public class ProductBuilder : IProductBuilder
     {
         private readonly Product.Builder _builder = new();
-        private ProductCategories _categories;
-        private Token _skuToken;
+        private CandidateProduct _candidate;
 
         #region Public Interface
 
@@ -16,7 +14,9 @@ namespace Shop.Seeder
 
         public ProductBuilder With(CandidateProduct candidate)
         {
-            var (name, skuToken, categories, description, size) = candidate;
+            _candidate = candidate;
+
+            var (name, _, categories, description, size) = candidate;
 
             _builder
                 .With(name)
@@ -24,9 +24,6 @@ namespace Shop.Seeder
                 .With(description)
                 .With(size)
                 .With(Vendor.ManyLoves.Id);
-
-            _categories = categories;
-            _skuToken = skuToken;
 
             return this;
         }
@@ -41,8 +38,9 @@ namespace Shop.Seeder
         {
             var sku = Product.GenerateSku(
                 Vendor.ManyLoves.SkuToken,
-                _categories.GetToken(),
-                _skuToken
+                _candidate.Categories.GetToken(),
+                _candidate.SkuToken,
+                _candidate.Size
             );
 
             _builder.With(sku);

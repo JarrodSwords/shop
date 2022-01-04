@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using Jgs.Ddd;
+﻿using Jgs.Ddd;
 using Shop.Shared;
 
 namespace Shop.Catalog
@@ -44,13 +43,16 @@ namespace Shop.Catalog
 
         #region Static Interface
 
-        public static Sku GenerateSku(params Token[] tokens)
+        public static Sku GenerateSku(
+            Token vendorToken,
+            Token categoryToken,
+            Token productToken,
+            Token sizeToken = default
+        )
         {
-            var sku = tokens
-                .Where(t => t != default)
-                .Aggregate("", (current, t) => current + $"-{t}");
-
-            return new Sku(sku.TrimStart('-'));
+            var sku = vendorToken + "-" + categoryToken + "-" + productToken;
+            sku += sizeToken is null ? "" : "-" + sizeToken;
+            return sku;
         }
 
         #endregion
