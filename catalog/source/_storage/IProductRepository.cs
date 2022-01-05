@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Jgs.Functional;
 using Shop.Shared;
 
 namespace Shop.Catalog
 {
     public interface IProductRepository : IRepository<Product>
     {
-        Guid Create(Product product);
+        Result Create(Product product);
         IProductRepository Create(params Product[] products);
     }
 }

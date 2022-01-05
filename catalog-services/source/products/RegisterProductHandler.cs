@@ -1,6 +1,8 @@
-﻿namespace Shop.Catalog.Services
+﻿using Jgs.Functional;
+
+namespace Shop.Catalog.Services
 {
-    public class RegisterProductHandler : Handler<RegisterProduct, ProductRegistered>
+    public class RegisterProductHandler : Handler<RegisterProduct, Result<ProductRegistered>>
     {
         private readonly RegisterProduct.ProductBuilder _builder;
 
@@ -18,7 +20,7 @@
 
         #region Public Interface
 
-        public override ProductRegistered Handle(RegisterProduct args)
+        public override Result<ProductRegistered> Handle(RegisterProduct args)
         {
             _builder.From(args);
 
@@ -31,7 +33,7 @@
             Uow.Products.Create(product);
             Uow.Commit();
 
-            return new(product.Sku);
+            return Result.Success(new ProductRegistered(product.Sku));
         }
 
         #endregion
