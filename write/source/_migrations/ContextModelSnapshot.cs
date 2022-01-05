@@ -80,7 +80,7 @@ namespace Shop.Write.source._migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("Size")
+                    b.Property<int?>("Size")
                         .HasColumnType("int");
 
                     b.Property<string>("Sku")

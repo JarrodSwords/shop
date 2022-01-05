@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Shop.Write.source._migrations
+namespace Shop.Write._migrations
 {
-    public partial class PostVendorRefactor : Migration
+    public partial class CreateDatabase : Migration
     {
         #region Protected Interface
 
@@ -59,12 +59,12 @@ namespace Shop.Write.source._migrations
                     IsBox = table.Column<bool>("bit", nullable: false),
                     IsDessert = table.Column<bool>("bit", nullable: false),
                     IsSide = table.Column<bool>("bit", nullable: false),
-                    Price = table.Column<decimal>("decimal(18,2)", nullable: false),
                     Description = table.Column<string>("nvarchar(max)", nullable: true),
                     Name = table.Column<string>("nvarchar(max)", nullable: true),
-                    Size = table.Column<int>("int", nullable: false),
+                    Size = table.Column<int>("int", nullable: true),
                     Sku = table.Column<string>("nvarchar(max)", nullable: true),
-                    VendorId = table.Column<Guid>("uniqueidentifier", nullable: false)
+                    VendorId = table.Column<Guid>("uniqueidentifier", nullable: false),
+                    Price = table.Column<decimal>("decimal(18,2)", nullable: false)
                 },
                 constraints: table => { table.PrimaryKey("PK_Product", x => x.Id); }
             );

@@ -6,7 +6,7 @@ namespace Shop.Catalog
     public partial class Product : Aggregate
     {
         public static readonly Product LunchBox =
-            new(ProductCategories.Box, Vendor.ManyLoves.Id, "Lunch Box", default, "mlc-b-lun");
+            new(ProductCategories.Box, Vendor.ManyLoves.Id, "Lunch Box", "mlc-b-lun");
 
         #region Creation
 
@@ -14,9 +14,9 @@ namespace Shop.Catalog
             ProductCategories categories,
             Id vendorId,
             Name name,
-            Size size,
             Sku sku,
             Description description = default,
+            Size size = default,
             Id id = default
         ) : base(id)
         {

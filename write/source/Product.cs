@@ -16,7 +16,7 @@ namespace Shop.Write
 
         public string Description { get; set; }
         public string Name { get; set; }
-        public ushort Size { get; set; }
+        public ushort? Size { get; set; }
         public string Sku { get; set; }
         public Guid VendorId { get; set; }
 

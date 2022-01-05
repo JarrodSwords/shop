@@ -24,9 +24,9 @@ namespace Shop.Catalog
                     _categories,
                     _vendorId,
                     _name,
-                    _size,
                     _sku,
                     _description,
+                    _size,
                     _id
                 );
 
