@@ -1,6 +1,7 @@
 ﻿using Jgs.Ddd;
 using Shop.Catalog;
 using Shop.Shared;
+using CatalogVendor = Shop.Catalog.Vendor;
 
 namespace Shop.Write
 {
@@ -8,7 +9,7 @@ namespace Shop.Write
     {
         #region Creation
 
-        private Vendor(Shop.Catalog.Vendor source) : base(source.Id)
+        private Vendor(CatalogVendor source) : base(source.Id)
         {
             Name = source.Name;
             SkuToken = source.SkuToken;
@@ -26,8 +27,8 @@ namespace Shop.Write
 
         #region Static Interface
 
-        public static implicit operator Vendor(Shop.Catalog.Vendor source) => new(source);
-        public static implicit operator Shop.Catalog.Vendor(Vendor source) => Shop.Catalog.Vendor.From(source).Value;
+        public static implicit operator Vendor(CatalogVendor source) => new(source);
+        public static implicit operator CatalogVendor(Vendor source) => CatalogVendor.From(source).Value;
 
         #endregion
     }

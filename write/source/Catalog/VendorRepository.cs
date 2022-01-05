@@ -1,5 +1,6 @@
 ﻿using Jgs.Ddd;
 using Shop.Catalog;
+using CatalogVendor = Shop.Catalog.Vendor;
 
 namespace Shop.Write.Catalog
 {
@@ -15,13 +16,13 @@ namespace Shop.Write.Catalog
 
         #region IVendorRepository Implementation
 
-        public IVendorRepository Create(Shop.Catalog.Vendor vendor)
+        public IVendorRepository Create(CatalogVendor vendor)
         {
             base.Create(vendor);
             return this;
         }
 
-        public Shop.Catalog.Vendor Find(Id id) => base.Find(id);
+        public CatalogVendor Find(Id id) => base.Find(id);
 
         #endregion
     }

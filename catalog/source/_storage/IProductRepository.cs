@@ -1,11 +1,11 @@
-﻿using System;
-using Shop.Shared;
+﻿using Shop.Shared;
 
 namespace Shop.Catalog
 {
     public interface IProductRepository : IRepository<Product>
     {
-        Guid Create(Product product);
+        IProductRepository Create(Product product);
         IProductRepository Create(params Product[] products);
+        bool Exists(Sku sku);
     }
 }

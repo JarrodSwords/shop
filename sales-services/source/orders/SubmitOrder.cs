@@ -95,7 +95,7 @@ namespace Shop.Sales.Services
 
                 _uow.Commit();
 
-                return id;
+                return createOrderResult.Value.Id;
             }
 
             #endregion

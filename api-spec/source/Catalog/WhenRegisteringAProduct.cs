@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using Jgs.Cqrs;
+using Jgs.Functional;
 using Shop.Catalog;
 using Shop.Catalog.Services;
 using Xunit;
@@ -7,17 +8,17 @@ using Xunit;
 namespace Shop.Api.Spec.Catalog
 {
     [Collection("storage")]
-    public class WhenCreatingAProduct : ApplicationFixture
+    public class WhenRegisteringAProduct : ApplicationFixture
     {
         #region Core
 
         private readonly IQueryHandler<FindProduct, ProductDto> _findProduct;
-        private readonly ICommandHandler<RegisterProduct, ProductRegistered> _registerProduct;
+        private readonly ICommandHandler<RegisterProduct, Result<ProductRegistered>> _registerProduct;
 
-        public WhenCreatingAProduct(IntegrationTestingFactory<Startup> factory) : base(factory)
+        public WhenRegisteringAProduct(IntegrationTestingFactory<Startup> factory) : base(factory)
         {
             _findProduct = Resolve<IQueryHandler<FindProduct, ProductDto>>();
-            _registerProduct = Resolve<ICommandHandler<RegisterProduct, ProductRegistered>>();
+            _registerProduct = Resolve<ICommandHandler<RegisterProduct, Result<ProductRegistered>>>();
         }
 
         #endregion
@@ -35,7 +36,7 @@ namespace Shop.Api.Spec.Catalog
                 "f"
             );
 
-            var productRegistered = _registerProduct.Handle(command);
+            var productRegistered = _registerProduct.Handle(command).Value;
             var product = _findProduct.Handle(productRegistered.Sku);
 
             product.Should().NotBeNull();

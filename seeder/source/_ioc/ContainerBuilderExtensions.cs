@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using Autofac;
 using Microsoft.EntityFrameworkCore;
-using Shop.Catalog;
+using Shop.Catalog.Services;
 using Shop.Read.Sales;
 using Shop.Sales.Services;
 using Shop.Write;
@@ -15,7 +15,7 @@ namespace Shop.Seeder
             typeof(Program).Assembly,
             typeof(SubmitOrder).Assembly,
             typeof(FindOrderHandler).Assembly,
-            typeof(RegisterProduct).Assembly,
+            typeof(RegisterProductHandler).Assembly,
             typeof(Context).Assembly
         };
 

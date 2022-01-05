@@ -1,5 +1,4 @@
-﻿using Jgs.Ddd;
-using Shop.Sales;
+﻿using Shop.Sales;
 using Shop.Shared;
 using DomainCustomer = Shop.Sales.Customer;
 
@@ -17,7 +16,11 @@ namespace Shop.Write.Sales
 
         #region ICustomerRepository Implementation
 
-        public Id Create(DomainCustomer customer) => base.Create(customer);
+        public ICustomerRepository Create(DomainCustomer customer)
+        {
+            base.Create(customer);
+            return this;
+        }
 
         public bool Exists(Email email) => Exists(x => x.Email == email);
         public DomainCustomer Find(Email email) => Find(x => x.Email == email);

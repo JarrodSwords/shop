@@ -20,7 +20,10 @@ namespace Shop.Write
 
         #region IRepository<T> Implementation
 
-        public Id Create(T entity) => Context.Set<T>().Add(entity).Entity.Id;
+        public void Create(T entity)
+        {
+            Context.Set<T>().Add(entity);
+        }
 
         public IRepository<T> Create(params T[] entities)
         {
