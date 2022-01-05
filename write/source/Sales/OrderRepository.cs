@@ -1,5 +1,4 @@
-﻿using Jgs.Ddd;
-using Shop.Sales;
+﻿using Shop.Sales;
 using DomainOrder = Shop.Sales.Order;
 
 namespace Shop.Write.Sales
@@ -16,7 +15,11 @@ namespace Shop.Write.Sales
 
         #region IOrderRepository Implementation
 
-        public Id Create(DomainOrder order) => base.Create(order);
+        public IOrderRepository Create(DomainOrder order)
+        {
+            base.Create(order);
+            return this;
+        }
 
         #endregion
     }

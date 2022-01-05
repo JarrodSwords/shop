@@ -12,12 +12,10 @@ namespace Shop.Api.Spec.Catalog
     {
         #region Core
 
-        private readonly IQueryHandler<FindProduct, ProductDto> _findProduct;
         private readonly ICommandHandler<RegisterProduct, Result<ProductRegistered>> _registerProduct;
 
         public WhenRegisteringAnExistingProduct(IntegrationTestingFactory<Startup> factory) : base(factory)
         {
-            _findProduct = Resolve<IQueryHandler<FindProduct, ProductDto>>();
             _registerProduct = Resolve<ICommandHandler<RegisterProduct, Result<ProductRegistered>>>();
         }
 

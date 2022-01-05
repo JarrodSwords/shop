@@ -1,11 +1,10 @@
-﻿using Jgs.Ddd;
-using Shop.Shared;
+﻿using Shop.Shared;
 
 namespace Shop.Sales
 {
     public interface ICustomerRepository : IRepository<Customer>
     {
-        Id Create(Customer customer);
+        ICustomerRepository Create(Customer customer);
         bool Exists(Email email);
         Customer Find(Email email);
     }

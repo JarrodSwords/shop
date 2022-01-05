@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Linq.Expressions;
 using Jgs.Ddd;
-using Jgs.Functional;
 
 namespace Shop.Write
 {
@@ -21,7 +20,10 @@ namespace Shop.Write
 
         #region IRepository<T> Implementation
 
-        public Result Create(T entity) => Context.Set<T>().Add(entity);
+        public void Create(T entity)
+        {
+            Context.Set<T>().Add(entity);
+        }
 
         public IRepository<T> Create(params T[] entities)
         {

@@ -30,6 +30,9 @@ namespace Shop.Catalog.Services
 
             var product = _builder.Build();
 
+            if (Uow.Products.Exists(product.Sku))
+                return Result.Failure<ProductRegistered>($"Cannot register duplicate sku {product.Sku}");
+
             Uow.Products.Create(product);
             Uow.Commit();
 
