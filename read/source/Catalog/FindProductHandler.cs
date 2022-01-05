@@ -7,7 +7,7 @@ namespace Shop.Read.Catalog
 {
     public class FindProductHandler : Handler<FindProduct, ProductDto>
     {
-        private const string FindProduct = @"
+        private const string Query = @"
 select Description
      , Name
      , Sku
@@ -25,7 +25,7 @@ select Description
         #region Public Interface
 
         public override ProductDto Execute(IDbConnection connection, FindProduct args) =>
-            connection.QuerySingleOrDefault<ProductDto>(FindProduct, args);
+            connection.QuerySingleOrDefault<ProductDto>(Query, args);
 
         #endregion
     }

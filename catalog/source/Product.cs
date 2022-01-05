@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using Jgs.Ddd;
+﻿using Jgs.Ddd;
 using Shop.Shared;
 
 namespace Shop.Catalog
@@ -7,22 +6,22 @@ namespace Shop.Catalog
     public partial class Product : Aggregate
     {
         public static readonly Product LunchBox =
-            new(ProductCategories.Box, Company.ManyLoves.Id, "Lunch Box", default, "mlc-b-lun");
+            new(ProductCategories.Box, Vendor.ManyLoves.Id, "Lunch Box", "mlc-b-lun");
 
         #region Creation
 
         private Product(
             ProductCategories categories,
-            Id companyId,
+            Id vendorId,
             Name name,
-            Size size,
             Sku sku,
             Description description = default,
+            Size size = default,
             Id id = default
         ) : base(id)
         {
             Categories = categories;
-            CompanyId = companyId;
+            VendorId = vendorId;
             Description = description;
             Name = name;
             Size = size;
@@ -34,23 +33,26 @@ namespace Shop.Catalog
         #region Public Interface
 
         public ProductCategories Categories { get; }
-        public Id CompanyId { get; }
         public Description Description { get; }
         public Name Name { get; }
         public Size Size { get; }
         public Sku Sku { get; }
+        public Id VendorId { get; }
 
         #endregion
 
         #region Static Interface
 
-        public static Sku GenerateSku(params Token[] tokens)
+        public static Sku GenerateSku(
+            Token vendorToken,
+            Token categoryToken,
+            Token productToken,
+            Token sizeToken = default
+        )
         {
-            var sku = tokens
-                .Where(t => t != default)
-                .Aggregate("", (current, t) => current + $"-{t}");
-
-            return new Sku(sku.TrimStart('-'));
+            var sku = vendorToken + "-" + categoryToken + "-" + productToken;
+            sku += sizeToken is null ? "" : "-" + sizeToken;
+            return sku;
         }
 
         #endregion

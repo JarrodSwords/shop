@@ -22,12 +22,6 @@ namespace Shop.Catalog.Spec
             #region Test Methods
 
             [Fact]
-            public void ThenCompanyIdIsRequired()
-            {
-                _result.Message.Should().Contain("Company is required.");
-            }
-
-            [Fact]
             public void ThenNameIsRequired()
             {
                 _result.Message.Should().Contain("Name is required.");
@@ -37,6 +31,12 @@ namespace Shop.Catalog.Spec
             public void ThenResultIsFailure()
             {
                 _result.IsFailure.Should().BeTrue();
+            }
+
+            [Fact]
+            public void ThenVendorIdIsRequired()
+            {
+                _result.Message.Should().Contain("Vendor is required.");
             }
 
             #endregion

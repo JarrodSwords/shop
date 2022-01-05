@@ -9,7 +9,7 @@ namespace Shop.Write
 
         public Product(CatalogProduct source) : base(source.Id)
         {
-            CompanyId = source.CompanyId;
+            VendorId = source.VendorId;
             Description = source.Description;
             Name = source.Name;
             Size = source.Size;

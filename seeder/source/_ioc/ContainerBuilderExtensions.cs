@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using Autofac;
 using Microsoft.EntityFrameworkCore;
-using Shop.Catalog.Services;
+using Shop.Catalog;
 using Shop.Read.Sales;
 using Shop.Sales.Services;
 using Shop.Write;

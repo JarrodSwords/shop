@@ -7,7 +7,7 @@ namespace Shop.Read.Sales
 {
     public class FindCustomerHandler : Handler<FindCustomer, CustomerDto>
     {
-        private const string FindCustomer = @"
+        private const string Query = @"
 select Email
   from customer
  where Email = @Email";
@@ -23,7 +23,7 @@ select Email
         #region Public Interface
 
         public override CustomerDto Execute(IDbConnection connection, FindCustomer args) =>
-            connection.QuerySingleOrDefault<CustomerDto>(FindCustomer, args);
+            connection.QuerySingleOrDefault<CustomerDto>(Query, args);
 
         #endregion
     }

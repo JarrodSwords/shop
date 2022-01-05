@@ -21,4 +21,8 @@
     <ProjectReference Include="..\sales\sales.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="source\_migrations\" />
+  </ItemGroup>
+
 </Project>

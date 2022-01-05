@@ -1,17 +1,18 @@
-﻿using Jgs.Cqrs;
-using Shop.Catalog.Services;
+﻿using System.Collections.Generic;
+using Shop.Catalog;
 
 namespace Shop.Seeder
 {
     public class SeedingApp
     {
-        private readonly ICommandHandler<SeedCatalog> _seedCatalog;
+        private readonly ProductBuilder _productBuilder = new();
+        private readonly IUnitOfWork _uow;
 
         #region Creation
 
-        public SeedingApp(ICommandHandler<SeedCatalog> seedCatalog)
+        public SeedingApp(IUnitOfWork uow)
         {
-            _seedCatalog = seedCatalog;
+            _uow = uow;
         }
 
         #endregion
@@ -20,7 +21,22 @@ namespace Shop.Seeder
 
         public void Run()
         {
-            _seedCatalog.Handle(new());
+            _uow.Vendors.Create(Vendor.ManyLoves);
+
+            var productDirector = new Product.Director().With(_productBuilder);
+
+            List<Product> products = new();
+
+            foreach (var p in CandidateProduct.All)
+            {
+                _productBuilder.With(p);
+                productDirector.ConfigureSeedProduct();
+                products.Add(_productBuilder.Build());
+            }
+
+            _uow.Products.Create(products.ToArray());
+
+            _uow.Commit();
         }
 
         #endregion

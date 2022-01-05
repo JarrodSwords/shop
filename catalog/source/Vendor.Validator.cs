@@ -2,17 +2,16 @@
 
 namespace Shop.Catalog
 {
-    public partial class Product
+    public partial class Vendor
     {
-        private class Validator : AbstractValidator<Product>
+        private class Validator : AbstractValidator<Vendor>
         {
             #region Creation
 
             public Validator()
             {
-                RuleFor(x => x.Categories).NotNull().WithMessage("Category is required.");
-                RuleFor(x => x.VendorId).NotEmpty().WithMessage("Vendor is required.");
                 RuleFor(x => x.Name).NotEmpty().WithMessage("Name is required.");
+                RuleFor(x => x.SkuToken).NotEmpty().WithMessage("Sku token is required.");
             }
 
             #endregion

@@ -11,13 +11,13 @@ namespace Shop.Api.Catalog
     public class ProductsController : ControllerBase
     {
         private readonly IQueryHandler<FindProduct, ProductDto> _findProduct;
-        private readonly ICommandHandler<RegisterProduct, RegisterProduct.ProductDto> _registerProduct;
+        private readonly ICommandHandler<RegisterProduct, ProductRegistered> _registerProduct;
 
         #region Creation
 
         public ProductsController(
             IQueryHandler<FindProduct, ProductDto> findProduct,
-            ICommandHandler<RegisterProduct, RegisterProduct.ProductDto> registerProduct
+            ICommandHandler<RegisterProduct, ProductRegistered> registerProduct
         )
         {
             _findProduct = findProduct;
@@ -46,7 +46,7 @@ namespace Shop.Api.Catalog
         #endregion
 
         public record RegisterProductDto(
-            Guid CompanyId,
+            Guid VendorId,
             string Description,
             string Name,
             string SkuToken,
@@ -72,7 +72,7 @@ namespace Shop.Api.Catalog
                     categories |= ProductCategories.Side;
 
                 return new(
-                    source.CompanyId,
+                    source.VendorId,
                     categories,
                     source.Description,
                     source.Name,
