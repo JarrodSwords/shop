@@ -96,13 +96,6 @@ namespace Shop.Catalog
                 return this;
             }
 
-            public Director ConfigureSeedProduct()
-            {
-                _builder.GenerateSku();
-
-                return this;
-            }
-
             public Director With(IProductBuilder builder)
             {
                 _builder = builder;
