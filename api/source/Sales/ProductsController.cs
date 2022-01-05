@@ -1,6 +1,7 @@
 ﻿using Jgs.Cqrs;
 using Microsoft.AspNetCore.Mvc;
 using Shop.Sales.Services;
+using Shop.Sales.Services.Products;
 
 namespace Shop.Api.Sales
 {

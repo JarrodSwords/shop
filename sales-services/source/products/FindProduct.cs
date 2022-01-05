@@ -1,6 +1,6 @@
 ﻿using Jgs.Cqrs;
 
-namespace Shop.Sales.Services
+namespace Shop.Sales.Services.Products
 {
     public record FindProduct(string Sku) : IQuery
     {
