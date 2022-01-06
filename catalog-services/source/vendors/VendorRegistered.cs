@@ -2,5 +2,5 @@
 
 namespace Shop.Catalog.Services
 {
-    public record VendorDto(Guid Id, string Name);
+    public record VendorRegistered(Guid Id);
 }

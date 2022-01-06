@@ -1,5 +1,4 @@
 ﻿using Jgs.Ddd;
-using Jgs.Functional;
 using Shop.Shared;
 
 namespace Shop.Catalog
@@ -10,29 +9,14 @@ namespace Shop.Catalog
 
         #region Creation
 
-        public Vendor(IVendorBuilder builder) : base(builder.GetId())
-        {
-            Name = builder.GetName();
-            SkuToken = builder.GetSkuToken();
-        }
-
         private Vendor(
             Name name,
-            Token skuToken
-        )
+            Token skuToken,
+            Id id = default
+        ) : base(id)
         {
             Name = name;
             SkuToken = skuToken;
-        }
-
-        public static Result<Vendor> From(IVendorBuilder builder)
-        {
-            var vendor = new Vendor(builder);
-            var validationResult = new Validator().Validate(vendor);
-
-            return validationResult.IsValid
-                ? Result.Success(vendor)
-                : Result.Failure<Vendor>(validationResult.ToString());
         }
 
         #endregion

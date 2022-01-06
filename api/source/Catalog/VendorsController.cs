@@ -1,6 +1,8 @@
 ﻿using System;
 using Jgs.Cqrs;
+using Jgs.Functional;
 using Microsoft.AspNetCore.Mvc;
+using Shop.Catalog;
 using Shop.Catalog.Services;
 
 namespace Shop.Api.Catalog
@@ -10,13 +12,13 @@ namespace Shop.Api.Catalog
     public class VendorsController : ControllerBase
     {
         private readonly IQueryHandler<FindVendor, VendorDto> _findVendor;
-        private readonly ICommandHandler<RegisterVendor, RegisterVendor.VendorDto> _registerVendor;
+        private readonly ICommandHandler<RegisterVendor, Result<VendorRegistered>> _registerVendor;
 
         #region Creation
 
         public VendorsController(
             IQueryHandler<FindVendor, VendorDto> findVendor,
-            ICommandHandler<RegisterVendor, RegisterVendor.VendorDto> registerVendor
+            ICommandHandler<RegisterVendor, Result<VendorRegistered>> registerVendor
         )
         {
             _findVendor = findVendor;
@@ -31,7 +33,7 @@ namespace Shop.Api.Catalog
         public ActionResult<VendorDto> FindVendor(Guid id) => _findVendor.Handle(id);
 
         [HttpPost]
-        public ActionResult<RegisterVendor.VendorDto> RegisterVendor([FromBody] RegisterVendor command)
+        public ActionResult<VendorRegistered> RegisterVendor([FromBody] RegisterVendor command)
         {
             var vendor = _registerVendor.Handle(command);
 

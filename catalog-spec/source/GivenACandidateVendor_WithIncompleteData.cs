@@ -1,7 +1,5 @@
 ﻿using FluentAssertions;
-using Jgs.Ddd;
 using Jgs.Functional;
-using Shop.Shared;
 using Xunit;
 
 namespace Shop.Catalog.Spec
@@ -16,7 +14,7 @@ namespace Shop.Catalog.Spec
 
             public WhenCreatingTheVendor()
             {
-                _result = Vendor.From(new IncompleteVendor());
+                _result = new Vendor.Builder().Build();
             }
 
             #endregion
@@ -30,23 +28,12 @@ namespace Shop.Catalog.Spec
             }
 
             [Fact]
-            public void ThenSkuAbbreviationIsRequired()
+            public void ThenSkuTokenIsRequired()
             {
                 _result.Message.Should().Contain("Sku token is required.");
             }
 
             #endregion
-
-            private record IncompleteVendor : IVendorBuilder
-            {
-                #region IVendorBuilder Implementation
-
-                public Id GetId() => default;
-                public Name GetName() => default;
-                public Token GetSkuToken() => default;
-
-                #endregion
-            }
         }
     }
 }

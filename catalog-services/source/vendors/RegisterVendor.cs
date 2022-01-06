@@ -1,48 +1,34 @@
-﻿using System;
-using Jgs.Cqrs;
-using Jgs.Ddd;
-using Shop.Shared;
+﻿using Jgs.Functional;
 
 namespace Shop.Catalog.Services
 {
-    public record RegisterVendor(
-        string Name,
-        string SkuToken
-    ) : ICommand, IVendorBuilder
+    public class RegisterVendorHandler : Handler<RegisterVendor, Result<VendorRegistered>>
     {
-        #region IVendorBuilder Implementation
+        #region Creation
 
-        public Id GetId() => default;
-        public Name GetName() => Name;
-        public Token GetSkuToken() => SkuToken;
+        public RegisterVendorHandler(IUnitOfWork uow) : base(uow)
+        {
+        }
 
         #endregion
 
-        public class Handler : Handler<RegisterVendor, VendorDto>
+        #region Public Interface
+
+        public override Result<VendorRegistered> Handle(RegisterVendor args)
         {
-            #region Creation
+            var (name, skuToken) = args;
 
-            public Handler(IUnitOfWork uow) : base(uow)
-            {
-            }
+            var vendor = new Vendor.Builder()
+                .With(name)
+                .With(skuToken)
+                .Build().Value;
 
-            #endregion
+            Uow.Vendors.Create(vendor);
+            Uow.Commit();
 
-            #region Public Interface
-
-            public override VendorDto Handle(RegisterVendor args)
-            {
-                var vendor = Vendor.From(args).Value;
-
-                Uow.Vendors.Create(vendor);
-                Uow.Commit();
-
-                return new(vendor.Id);
-            }
-
-            #endregion
+            return Result.Success(new VendorRegistered(vendor.Id));
         }
 
-        public record VendorDto(Guid Id);
+        #endregion
     }
 }
