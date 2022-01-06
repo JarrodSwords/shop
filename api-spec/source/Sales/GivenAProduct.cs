@@ -1,6 +1,8 @@
 ﻿using FluentAssertions;
 using Jgs.Cqrs;
+using Shop.Sales.Products;
 using Shop.Sales.Services;
+using Shop.Sales.Services.Products;
 using Shop.Shared;
 using Xunit;
 

@@ -1,6 +1,7 @@
 ﻿using System.Data;
 using Dapper;
 using Shop.Sales.Services;
+using Shop.Sales.Services.Products;
 using Shop.Shared;
 
 namespace Shop.Read.Sales

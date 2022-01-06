@@ -2,23 +2,27 @@
 using Jgs.Functional;
 using Shop.Catalog;
 using Shop.Catalog.Services;
+using Shop.Sales.Products;
 
 namespace Shop.Seeder
 {
     public class SeedingApp
     {
         private readonly ICommandHandler<RegisterProduct, Result<ProductRegistered>> _registerProduct;
-        private readonly IUnitOfWork _uow;
+        private readonly ICommandHandler<RegisterVendor, VendorDto> _registerVendor;
+        private readonly ICommandHandler<SetPrice> _setPrice;
 
         #region Creation
 
         public SeedingApp(
             ICommandHandler<RegisterProduct, Result<ProductRegistered>> registerProduct,
-            IUnitOfWork uow
+            ICommandHandler<RegisterVendor, VendorDto> registerVendor,
+            ICommandHandler<SetPrice> setPrice
         )
         {
             _registerProduct = registerProduct;
-            _uow = uow;
+            _registerVendor = registerVendor;
+            _setPrice = setPrice;
         }
 
         #endregion
@@ -27,13 +31,39 @@ namespace Shop.Seeder
 
         public void Run()
         {
-            _uow.Vendors.Create(Vendor.ManyLoves);
-            _uow.Commit();
+            SeedVendors();
+            SeedProducts();
+        }
 
+        #endregion
+
+        #region Private Interface
+
+        private void SeedProducts()
+        {
             foreach (var p in ObjectProvider.Products)
-                _registerProduct.Handle(p);
+            {
+                var productRegistered = _registerProduct.Handle(
+                    new(
+                        p.VendorId,
+                        p.Categories,
+                        p.Description,
+                        p.Name,
+                        p.SkuToken,
+                        p.Size
+                    )
+                );
 
-            _uow.Commit();
+                if (productRegistered.IsFailure)
+                    continue;
+
+                _setPrice.Handle(new(p.Price, productRegistered.Value.Sku));
+            }
+        }
+
+        private void SeedVendors()
+        {
+            _registerVendor.Handle(new(Vendor.ManyLoves.Name, Vendor.ManyLoves.SkuToken));
         }
 
         #endregion
