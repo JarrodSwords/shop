@@ -3,6 +3,7 @@ using System.Linq;
 using FluentAssertions;
 using Jgs.Ddd;
 using Jgs.Functional;
+using Shop.Sales.Orders;
 using Shop.Shared;
 using Xunit;
 
@@ -16,12 +17,13 @@ namespace Shop.Sales.Spec
 
             private readonly CandidateOrder _candidateOrder;
             private readonly Order _order;
+            private readonly CandidateOrder.OrderBuilder _orderBuilder = new();
             private readonly Result<Order> _result;
 
             public WhenCreatingTheOrder()
             {
                 _candidateOrder = new CandidateOrder();
-                _result = Order.From(_candidateOrder);
+                _result = _orderBuilder.From(_candidateOrder).Build();
                 _order = _result.Value;
             }
 
@@ -32,7 +34,7 @@ namespace Shop.Sales.Spec
             [Fact]
             public void ThenCustomerIdIsAssigned()
             {
-                _order.CustomerId.Should().Be(_candidateOrder.GetCustomerId());
+                _order.CustomerId.Should().NotBeNull();
             }
 
             [Fact]
@@ -61,7 +63,7 @@ namespace Shop.Sales.Spec
                     new LineItem(p2, new(), q2)
                 );
 
-                var order = Order.From(candidateOrder).Value;
+                var order = _orderBuilder.From(candidateOrder).Build().Value;
 
                 order.Subtotal.Should().Be((Money) expectedSubtotal);
             }
@@ -73,7 +75,7 @@ namespace Shop.Sales.Spec
             {
                 var candidateOrder = new CandidateOrder(null, tip);
 
-                var order = Order.From(candidateOrder).Value;
+                var order = _orderBuilder.From(candidateOrder).Build().Value;
 
                 order.Tip.Should().Be((Money) tip);
             }
@@ -86,14 +88,14 @@ namespace Shop.Sales.Spec
             {
                 var candidateOrder = new CandidateOrder(tip: tip);
 
-                var order = Order.From(candidateOrder).Value;
+                var order = _orderBuilder.From(candidateOrder).Build().Value;
 
                 order.Total.Should().Be(order.Subtotal + tip);
             }
 
             #endregion
 
-            private record CandidateOrder : IOrderBuilder
+            private record CandidateOrder
             {
                 private readonly Id _customerId;
                 private readonly List<LineItem> _lineItems;
@@ -107,8 +109,8 @@ namespace Shop.Sales.Spec
                     params LineItem[] lineItems
                 )
                 {
-                    _customerId = customerId ?? new Id();
-                    _tip = tip ?? Money.Zero;
+                    _customerId = customerId;
+                    _tip = tip;
                     _lineItems = lineItems.Length > 0
                         ? lineItems.ToList()
                         : new()
@@ -120,13 +122,26 @@ namespace Shop.Sales.Spec
 
                 #endregion
 
-                #region IOrderBuilder Implementation
+                public class OrderBuilder
+                {
+                    private readonly Order.Builder _builder = new();
 
-                public Id GetCustomerId() => _customerId;
-                public IEnumerable<LineItem> GetLineItems() => _lineItems;
-                public Money GetTip() => _tip;
+                    #region Public Interface
 
-                #endregion
+                    public Result<Order> Build() => _builder.Build();
+
+                    public OrderBuilder From(CandidateOrder order)
+                    {
+                        _builder
+                            .With(order._customerId ?? new())
+                            .With(order._lineItems)
+                            .With(order._tip ?? Money.Zero);
+
+                        return this;
+                    }
+
+                    #endregion
+                }
             }
         }
     }

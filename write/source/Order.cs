@@ -1,5 +1,5 @@
 ﻿using System;
-using DomainOrder = Shop.Sales.Order;
+using DomainOrder = Shop.Sales.Orders.Order;
 
 namespace Shop.Write
 {

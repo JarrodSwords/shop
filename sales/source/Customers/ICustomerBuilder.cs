@@ -1,7 +1,7 @@
 ﻿using Jgs.Ddd;
 using Shop.Shared;
 
-namespace Shop.Sales
+namespace Shop.Sales.Customers
 {
     public interface ICustomerBuilder
     {

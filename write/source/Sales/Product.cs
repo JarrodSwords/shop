@@ -1,4 +1,4 @@
-﻿using SalesProduct = Shop.Sales.Product;
+﻿using SalesProduct = Shop.Sales.Products.Product;
 
 namespace Shop.Write
 {

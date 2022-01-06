@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-using FluentAssertions;
-using Jgs.Ddd;
+﻿using FluentAssertions;
 using Jgs.Functional;
-using Shop.Shared;
+using Shop.Sales.Orders;
 using Xunit;
 
 namespace Shop.Sales.Spec
@@ -17,7 +15,7 @@ namespace Shop.Sales.Spec
 
             public WhenCreatingTheOrder()
             {
-                _result = Order.From(new IncompleteSubmission());
+                _result = new Order.Builder().Build();
             }
 
             #endregion
@@ -43,17 +41,6 @@ namespace Shop.Sales.Spec
             }
 
             #endregion
-
-            private record IncompleteSubmission : IOrderBuilder
-            {
-                #region IOrderBuilder Implementation
-
-                public Id GetCustomerId() => default;
-                public IEnumerable<LineItem> GetLineItems() => new List<LineItem>();
-                public Money GetTip() => default;
-
-                #endregion
-            }
         }
     }
 }

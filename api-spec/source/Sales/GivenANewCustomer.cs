@@ -1,59 +1,58 @@
-﻿using System;
-using System.Net.Http.Json;
-using FluentAssertions;
+﻿using FluentAssertions;
+using Jgs.Cqrs;
+using Jgs.Functional;
+using Shop.Sales;
+using Shop.Sales.Orders;
 using Shop.Sales.Services;
 using Xunit;
 
 namespace Shop.Api.Spec.Sales
 {
     [Collection("storage")]
-    public class GivenANewCustomer : WebApiFixture
+    public class GivenANewCustomer : ApplicationFixture
     {
         #region Core
 
-        public GivenANewCustomer(IntegrationTestingFactory<Startup> factory) : base(
-            factory,
-            "api/sales"
-        )
+        private readonly IQueryHandler<FindOrder, OrderDto> _findOrder;
+        private readonly ICommandHandler<SubmitOrder, Result<OrderSubmitted>> _submitOrder;
+        private readonly IUnitOfWork _uow;
+
+        public GivenANewCustomer(IntegrationTestingFactory<Startup> factory) : base(factory)
         {
+            _findOrder = Resolve<IQueryHandler<FindOrder, OrderDto>>();
+            _submitOrder = Resolve<ICommandHandler<SubmitOrder, Result<OrderSubmitted>>>();
+            _uow = Resolve<IUnitOfWork>();
         }
 
         #endregion
 
         #region Test Methods
 
-        [Fact]
-        public async void WhenSubmittingAnOrder_ThenTheCustomerIsSaved()
+        [Theory]
+        [InlineData("kyle.larson@hms.com")]
+        public void WhenSubmittingAnOrder_ThenTheCustomerIsSaved(string email)
         {
-            var kyleLarson = new CustomerDto("kyle.larson@hms.com");
-
             var candidateOrder = new SubmitOrder(
-                kyleLarson,
+                email,
                 LunchBoxes: 1
             );
 
-            await HttpClient.PostAsJsonAsync("orders", candidateOrder);
+            _submitOrder.Handle(candidateOrder);
+            var customerExists = _uow.Customers.Exists(email);
 
-            var customer = await HttpClient.GetFromJsonAsync<CustomerDto>($@"customers/{kyleLarson.Email}");
-
-            customer.Should().Be(kyleLarson);
+            customerExists.Should().BeTrue();
         }
 
         [Fact]
-        public async void WhenSubmittingAnOrder_ThenTheOrderIsSaved()
+        public void WhenSubmittingAnOrder_ThenTheOrderIsSaved()
         {
-            var chaseElliott = new CustomerDto("chase.elliott@hms.com");
-
             var candidateOrder = new SubmitOrder(
-                chaseElliott,
+                "chase.elliott@hms.com",
                 LunchBoxes: 1
             );
 
-            var orderId = await HttpClient
-                .PostAsJsonAsync("orders", candidateOrder)
-                .Result.Content.ReadFromJsonAsync<Guid>();
-
-            var order = await HttpClient.GetFromJsonAsync<OrderDto>($"orders/{orderId}");
+            var orderSubmitted = _submitOrder.Handle(candidateOrder).Value;
+            var order = _findOrder.Handle(orderSubmitted.Id);
 
             order.Should().NotBeNull();
         }

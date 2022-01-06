@@ -10,4 +10,6 @@ namespace Shop.Sales.Services
 
         #endregion
     }
+
+    public record CustomerDto(string Email);
 }

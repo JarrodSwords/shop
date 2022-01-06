@@ -1,43 +1,46 @@
 ﻿using System.Collections.Generic;
-using System.Net.Http.Json;
 using FluentAssertions;
+using Jgs.Cqrs;
+using Jgs.Functional;
+using Shop.Sales.Orders;
 using Shop.Sales.Services;
 using Xunit;
 
 namespace Shop.Api.Spec.Sales
 {
     [Collection("storage")]
-    public class GivenAReturningCustomer : WebApiFixture
+    public class GivenAReturningCustomer : ApplicationFixture
     {
         #region Core
 
-        public GivenAReturningCustomer(IntegrationTestingFactory<Startup> factory) : base(
-            factory,
-            "api/sales"
-        )
+        private readonly IQueryHandler<FetchCustomers, IEnumerable<CustomerDto>> _fetchCustomers;
+        private readonly ICommandHandler<SubmitOrder, Result<OrderSubmitted>> _submitOrder;
+
+        public GivenAReturningCustomer(IntegrationTestingFactory<Startup> factory) : base(factory)
         {
+            _fetchCustomers = Resolve<IQueryHandler<FetchCustomers, IEnumerable<CustomerDto>>>();
+            _submitOrder = Resolve<ICommandHandler<SubmitOrder, Result<OrderSubmitted>>>();
         }
 
         #endregion
 
         #region Test Methods
 
-        [Fact]
-        public async void WhenSubmittingAnOrder_ThenTheCustomerIsNotSaved()
+        [Theory]
+        [InlineData("william.byron@hms.com")]
+        public void WhenSubmittingAnOrder_ThenTheCustomerIsNotSaved(string email)
         {
-            var williamByron = new CustomerDto("william.byron@hms.com");
-
             var candidateOrder = new SubmitOrder(
-                williamByron,
+                email,
                 LunchBoxes: 1
             );
 
-            await HttpClient.PostAsJsonAsync("orders", candidateOrder);
-            await HttpClient.PostAsJsonAsync("orders", candidateOrder);
+            _submitOrder.Handle(candidateOrder);
+            _submitOrder.Handle(candidateOrder);
 
-            var customers = await HttpClient.GetFromJsonAsync<IEnumerable<CustomerDto>>("customers");
+            var customers = _fetchCustomers.Handle(new());
 
-            customers.Should().ContainSingle(x => x.Email == williamByron.Email);
+            customers.Should().ContainSingle(x => x.Email == email);
         }
 
         #endregion

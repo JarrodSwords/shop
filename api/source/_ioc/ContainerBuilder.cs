@@ -12,8 +12,8 @@ namespace Shop.Api
         private static readonly Assembly[] Assemblies =
         {
             typeof(Context).Assembly,
-            typeof(SubmitOrder).Assembly,
             typeof(FindOrderHandler).Assembly,
+            typeof(SubmitOrderHandler).Assembly,
             typeof(RegisterProductHandler).Assembly
         };
 

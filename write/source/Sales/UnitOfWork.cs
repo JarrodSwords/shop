@@ -1,4 +1,7 @@
 ﻿using Shop.Sales;
+using Shop.Sales.Customers;
+using Shop.Sales.Orders;
+using Shop.Sales.Products;
 
 namespace Shop.Write.Sales
 {
