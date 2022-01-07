@@ -9,9 +9,9 @@ using Xunit;
 
 namespace Shop.Sales.Spec
 {
-    public class GivenACandidateOrder_WithCompleteInformation
+    public class GivenAnOrderRequest
     {
-        public class WhenCreatingTheOrder
+        public class WhenCreatingAnOrder
         {
             #region Core
 
@@ -20,7 +20,7 @@ namespace Shop.Sales.Spec
             private readonly CandidateOrder.OrderBuilder _orderBuilder = new();
             private readonly Result<Order> _result;
 
-            public WhenCreatingTheOrder()
+            public WhenCreatingAnOrder()
             {
                 _candidateOrder = new CandidateOrder();
                 _result = _orderBuilder.From(_candidateOrder).Build();
@@ -35,6 +35,12 @@ namespace Shop.Sales.Spec
             public void ThenCustomerIdIsAssigned()
             {
                 _order.CustomerId.Should().NotBeNull();
+            }
+
+            [Fact]
+            public void ThenOptionsAreAppliedToEachLineItem()
+            {
+                _order.LineItems.Should().NotContain(x => x.Options is null);
             }
 
             [Fact]
