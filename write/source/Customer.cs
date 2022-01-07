@@ -1,12 +1,9 @@
 ﻿using System;
-using Jgs.Ddd;
-using Shop.Sales.Customers;
-using Shop.Shared;
 using DomainCustomer = Shop.Sales.Customers.Customer;
 
 namespace Shop.Write
 {
-    public class Customer : Entity, ICustomerBuilder
+    public class Customer : Entity
     {
         #region Creation
 
@@ -24,13 +21,6 @@ namespace Shop.Write
         #region Public Interface
 
         public string Email { get; set; }
-
-        #endregion
-
-        #region ICustomerBuilder Implementation
-
-        public Email GetEmail() => Email;
-        public Id GetId() => Id;
 
         #endregion
 
