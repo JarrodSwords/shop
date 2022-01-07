@@ -2,7 +2,7 @@
 using Jgs.Ddd;
 using Shop.Shared;
 
-namespace Shop.Sales
+namespace Shop.Sales.Orders
 {
     public interface IOrderBuilder
     {

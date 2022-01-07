@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Jgs.Cqrs;
 using Microsoft.AspNetCore.Mvc;
+using Shop.Sales.Orders;
 using Shop.Sales.Services;
 
 namespace Shop.Api.Sales

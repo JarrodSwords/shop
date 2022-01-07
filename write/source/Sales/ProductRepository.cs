@@ -1,6 +1,6 @@
-﻿using Shop.Sales;
+﻿using Shop.Sales.Products;
 using Shop.Shared;
-using SalesProduct = Shop.Sales.Product;
+using SalesProduct = Shop.Sales.Products.Product;
 
 namespace Shop.Write.Sales
 {

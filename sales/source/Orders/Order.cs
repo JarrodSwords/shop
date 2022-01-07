@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Jgs.Ddd;
-using Jgs.Functional;
 using Shop.Shared;
 
-namespace Shop.Sales
+namespace Shop.Sales.Orders
 {
     public partial class Order : Aggregate
     {
@@ -12,21 +11,15 @@ namespace Shop.Sales
 
         #region Creation
 
-        private Order(IOrderBuilder builder)
+        private Order(
+            Id customerId,
+            IEnumerable<LineItem> lineItems,
+            Money tip
+        )
         {
-            CustomerId = builder.GetCustomerId();
-            _lineItems.AddRange(builder.GetLineItems());
-            Tip = builder.GetTip();
-        }
-
-        public static Result<Order> From(IOrderBuilder builder)
-        {
-            var order = new Order(builder);
-            var validationResult = new Validator().Validate(order);
-
-            return validationResult.IsValid
-                ? Result.Success(order)
-                : Result.Failure<Order>(validationResult.ToString());
+            CustomerId = customerId;
+            _lineItems.AddRange(lineItems);
+            Tip = tip;
         }
 
         #endregion

@@ -3,7 +3,7 @@ using Autofac;
 using Microsoft.EntityFrameworkCore;
 using Shop.Catalog.Services;
 using Shop.Read.Sales;
-using Shop.Sales.Services;
+using Shop.Sales.Orders;
 using Shop.Write;
 
 namespace Shop.Seeder

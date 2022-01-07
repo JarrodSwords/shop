@@ -1,6 +1,6 @@
-﻿using Shop.Sales;
+﻿using Shop.Sales.Customers;
 using Shop.Shared;
-using DomainCustomer = Shop.Sales.Customer;
+using DomainCustomer = Shop.Sales.Customers.Customer;
 
 namespace Shop.Write.Sales
 {

@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using Shop.Sales.Products;
 using Shop.Shared;
 using Xunit;
 

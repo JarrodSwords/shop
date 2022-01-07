@@ -1,6 +1,6 @@
 ﻿using Shop.Shared;
 
-namespace Shop.Sales
+namespace Shop.Sales.Customers
 {
     public interface ICustomerRepository : IRepository<Customer>
     {
