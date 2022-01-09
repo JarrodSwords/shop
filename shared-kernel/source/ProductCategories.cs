@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Shop.Shared;
 
-namespace Shop.Catalog
+namespace Shop.Shared
 {
     [Flags]
     public enum ProductCategories : ushort

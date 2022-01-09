@@ -6,7 +6,7 @@ using Shop.Sales.Services.Products;
 using Shop.Shared;
 using Xunit;
 
-namespace Shop.Api.Spec.Sales
+namespace Shop.Api.Spec.Sales.Products
 {
     [Collection("storage")]
     public class GivenAProduct : ApplicationFixture

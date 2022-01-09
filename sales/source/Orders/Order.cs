@@ -14,12 +14,12 @@ namespace Shop.Sales.Orders
         private Order(
             Id customerId,
             IEnumerable<LineItem> lineItems,
-            Money tip
+            Money tip = default
         )
         {
             CustomerId = customerId;
             _lineItems.AddRange(lineItems);
-            Tip = tip;
+            Tip = tip ?? Money.Zero;
         }
 
         #endregion

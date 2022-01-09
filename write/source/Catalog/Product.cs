@@ -1,5 +1,4 @@
-﻿using Shop.Catalog;
-using CatalogProduct = Shop.Catalog.Product;
+﻿using CatalogProduct = Shop.Catalog.Product;
 
 namespace Shop.Write
 {
@@ -18,22 +17,6 @@ namespace Shop.Write
         }
 
         public static Product From(CatalogProduct source) => new(source);
-
-        #endregion
-
-        #region Public Interface
-
-        public bool IsBox { get; set; }
-        public bool IsDessert { get; set; }
-        public bool IsSide { get; set; }
-
-        public Product SetCategories(ProductCategories categories)
-        {
-            IsBox = categories.HasFlag(ProductCategories.Box);
-            IsDessert = categories.HasFlag(ProductCategories.Dessert);
-            IsSide = categories.HasFlag(ProductCategories.Side);
-            return this;
-        }
 
         #endregion
 

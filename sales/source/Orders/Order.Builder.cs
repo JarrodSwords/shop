@@ -9,11 +9,17 @@ namespace Shop.Sales.Orders
     {
         public class Builder
         {
+            private readonly List<LineItem> _lineItems = new();
             private Id _customerId;
-            private List<LineItem> _lineItems = new();
             private Money _tip;
 
             #region Public Interface
+
+            public Builder Add(LineItem lineItem)
+            {
+                _lineItems.Add(lineItem);
+                return this;
+            }
 
             public Result<Order> Build()
             {
@@ -31,15 +37,31 @@ namespace Shop.Sales.Orders
                 return this;
             }
 
-            public Builder With(List<LineItem> lineItems)
-            {
-                _lineItems = lineItems;
-                return this;
-            }
-
             public Builder With(Money tip)
             {
                 _tip = tip;
+                return this;
+            }
+
+            #endregion
+        }
+
+        public class Director
+        {
+            private IOrderBuilder _builder;
+
+            #region Public Interface
+
+            public Director ConfigureSubmitOrder()
+            {
+                _builder.FindCustomer();
+                _builder.CreateLineItems();
+                return this;
+            }
+
+            public Director With(IOrderBuilder builder)
+            {
+                _builder = builder;
                 return this;
             }
 

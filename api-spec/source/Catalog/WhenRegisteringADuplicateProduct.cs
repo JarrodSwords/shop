@@ -3,6 +3,7 @@ using Jgs.Cqrs;
 using Jgs.Functional;
 using Shop.Catalog;
 using Shop.Catalog.Services;
+using Shop.Shared;
 using Xunit;
 
 namespace Shop.Api.Spec.Catalog

@@ -3,6 +3,7 @@ using Jgs.Cqrs;
 using Microsoft.AspNetCore.Mvc;
 using Shop.Catalog;
 using Shop.Catalog.Services;
+using Shop.Shared;
 
 namespace Shop.Api.Catalog
 {

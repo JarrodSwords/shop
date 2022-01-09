@@ -6,7 +6,7 @@ using Shop.Sales.Orders;
 using Shop.Sales.Services;
 using Xunit;
 
-namespace Shop.Api.Spec.Sales
+namespace Shop.Api.Spec.Sales.Orders
 {
     [Collection("storage")]
     public class GivenAReturningCustomer : ApplicationFixture

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Shop.Catalog;
+using Shop.Shared;
 
 namespace Shop.Seeder
 {
