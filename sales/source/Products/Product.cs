@@ -8,12 +8,14 @@ namespace Shop.Sales.Products
         #region Creation
 
         public Product(
+            ProductCategories categories = default,
             Money price = default,
             Sku sku = default,
             Id id = default
         ) : base(id)
         {
             Price = price ?? Money.Zero;
+            Categories = categories;
             Sku = sku;
         }
 
@@ -21,6 +23,7 @@ namespace Shop.Sales.Products
 
         #region Public Interface
 
+        public ProductCategories Categories { get; }
         public Money Price { get; private set; }
         public Sku Sku { get; set; }
 

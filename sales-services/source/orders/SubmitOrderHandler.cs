@@ -1,20 +1,22 @@
-﻿using System.Collections.Generic;
-using Jgs.Cqrs;
-using Jgs.Ddd;
+﻿using Jgs.Cqrs;
 using Jgs.Functional;
-using Shop.Sales.Customers;
 using Shop.Sales.Orders;
 
 namespace Shop.Sales.Services
 {
     public class SubmitOrderHandler : ICommandHandler<SubmitOrder, Result<OrderSubmitted>>
     {
+        private readonly SubmitOrder.OrderBuilder _builder;
         private readonly IUnitOfWork _uow;
 
         #region Creation
 
-        public SubmitOrderHandler(IUnitOfWork uow)
+        public SubmitOrderHandler(
+            SubmitOrder.OrderBuilder builder,
+            IUnitOfWork uow
+        )
         {
+            _builder = builder;
             _uow = uow;
         }
 
@@ -22,55 +24,23 @@ namespace Shop.Sales.Services
 
         #region ICommandHandler<SubmitOrder,Result<OrderSubmitted>> Implementation
 
-        public Result<OrderSubmitted> Handle(SubmitOrder command)
+        public Result<OrderSubmitted> Handle(SubmitOrder args)
         {
-            var email = command.Email;
-            Id customerId;
+            _builder.With(args);
 
-            if (_uow.Customers.Exists(email))
-            {
-                customerId = _uow.Customers.Find(email).Id;
-            }
-            else
-            {
-                var customer = Customer.From(command.Email);
-                _uow.Customers.Create(customer);
-                customerId = customer.Id;
-            }
+            new Order.Director()
+                .With(_builder)
+                .ConfigureSubmitOrder();
 
-            var lineItems = new List<LineItem>();
+            var result = _builder.Build();
 
-            if (command.Baguettes > 0)
-                lineItems.Add(new(4, new(), command.Baguettes));
-
-            if (command.CouplesBoxes > 0)
-                lineItems.Add(new(39, new(), command.CouplesBoxes));
-
-            if (command.DessertBoxes > 0)
-                lineItems.Add(new(20, new(), command.DessertBoxes));
-
-            if (command.FamilyBoxes > 0)
-                lineItems.Add(new(69, new(), command.FamilyBoxes));
-
-            if (command.LunchBoxes > 0)
-                lineItems.Add(new(25, new(), command.LunchBoxes));
-
-            if (command.PartyBoxes > 0)
-                lineItems.Add(new(99, new(), command.PartyBoxes));
-
-            var createOrderResult = new Order.Builder()
-                .With(customerId)
-                .With(lineItems)
-                .With(command.Tip)
-                .Build();
-
-            if (createOrderResult.IsFailure)
+            if (result.IsFailure)
                 return Result.Failure<OrderSubmitted>("Order submission failed.");
 
-            _uow.Orders.Create(createOrderResult.Value);
+            _uow.Orders.Create(result.Value);
             _uow.Commit();
 
-            return Result.Success(new OrderSubmitted(createOrderResult.Value.Id));
+            return Result.Success(new OrderSubmitted(result.Value.Id));
         }
 
         #endregion

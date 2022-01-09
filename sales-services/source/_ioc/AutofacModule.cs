@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using Autofac;
+using Shop.Sales.Orders;
 using Module = Autofac.Module;
 
 namespace Shop.Sales.Services
@@ -15,6 +16,8 @@ namespace Shop.Sales.Services
             builder
                 .RegisterAssemblyTypes(_assembly)
                 .AsImplementedInterfaces();
+
+            builder.RegisterType<SubmitOrder.OrderBuilder>().AsSelf();
         }
 
         #endregion

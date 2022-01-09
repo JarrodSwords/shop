@@ -8,8 +8,14 @@ namespace Shop.Sales.Orders
     {
         #region Creation
 
-        public LineItem(Money price, Id productId, Quantity quantity)
+        public LineItem(
+            Money price,
+            Id productId,
+            Quantity quantity,
+            Options exclusions = default
+        )
         {
+            Exclusions = exclusions;
             Price = price;
             ProductId = productId;
             Quantity = quantity;
@@ -19,6 +25,7 @@ namespace Shop.Sales.Orders
 
         #region Public Interface
 
+        public Options Exclusions { get; }
         public Money Price { get; }
         public Id ProductId { get; }
         public Quantity Quantity { get; }
@@ -30,6 +37,7 @@ namespace Shop.Sales.Orders
 
         public override IEnumerable<object> GetEqualityComponents()
         {
+            yield return Exclusions;
             yield return Price;
             yield return ProductId;
             yield return Quantity;

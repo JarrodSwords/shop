@@ -20,6 +20,7 @@ namespace Shop.Write
 
         public static implicit operator SalesProduct(Product source) =>
             new(
+                source.GetCategories(),
                 source.Price,
                 source.Sku,
                 source.Id
