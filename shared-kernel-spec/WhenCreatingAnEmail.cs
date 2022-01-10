@@ -12,7 +12,17 @@ namespace Shop.Shared.Spec
         [InlineData("jane.doe@gmail.com")]
         public void ThenAValidEmailIsReturned(string input)
         {
-            var email = new Email(input);
+            var email = Email.From(input);
+
+            email.Should().NotBeNull();
+        }
+
+        [Theory]
+        [InlineData("jon.doe@gmail.com")]
+        [InlineData("jane.doe@gmail.com")]
+        public void ThenResultIsSuccess(string input)
+        {
+            var email = Email.From(input);
 
             email.Should().NotBeNull();
         }

@@ -1,4 +1,5 @@
 ﻿using Jgs.Ddd;
+using Jgs.Functional;
 
 namespace Shop.Shared
 {
@@ -6,9 +7,11 @@ namespace Shop.Shared
     {
         #region Creation
 
-        public Email(string value) : base(value)
+        private Email(string value) : base(value)
         {
         }
+
+        public static Result<Email> From(string value) => Result.Success(new Email(value));
 
         #endregion
 
