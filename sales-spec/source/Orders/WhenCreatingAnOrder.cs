@@ -28,7 +28,7 @@ namespace Shop.Sales.Spec.Orders
         [Fact]
         public void WithoutCustomerId_ThenReturnRequiredError()
         {
-            var error = Order.From(null, null).Error;
+            var error = Order.From(null, null, OrderStates.AwaitingPayment).Error;
 
             error.Should().Be(Error.Required());
         }
@@ -36,15 +36,27 @@ namespace Shop.Sales.Spec.Orders
         [Fact]
         public void WithoutTip_ThenTipIsZero()
         {
-            var order = Order.From(_customerId, _customerIds).Value;
+            var order = Order.From(_customerId, _customerIds, OrderStates.AwaitingPayment).Value;
 
             order.Tip.Should().Be(Money.Zero);
         }
 
         [Fact]
+        public void WithState_ThenStateIsSet()
+        {
+            var order = Order.From(
+                _customerId,
+                _customerIds,
+                OrderStates.AwaitingPayment
+            ).Value;
+
+            order.States.Should().Be(OrderStates.AwaitingPayment);
+        }
+
+        [Fact]
         public void WithUnregisteredCustomerId_ThenReturnCustomerNotFoundError()
         {
-            var error = Order.From(new Id(), new()).Error;
+            var error = Order.From(new Id(), new(), OrderStates.AwaitingPayment).Error;
 
             error.Should().Be(ErrorExtensions.CustomerNotFound());
         }
