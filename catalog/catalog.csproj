@@ -9,7 +9,7 @@
   <ItemGroup>
     <PackageReference Include="FluentValidation" Version="10.3.6" />
     <PackageReference Include="jgs.cqrs" Version="0.2.0" />
-    <PackageReference Include="jgs.functional" Version="0.1.7" />
+    <PackageReference Include="jgs.functional" Version="0.1.9" />
   </ItemGroup>
 
   <ItemGroup>
