@@ -29,7 +29,7 @@ namespace Shop.Shared
 
         #region Static Interface
 
-        public static implicit operator Email(string source) => From(source).Value;
+        public static implicit operator Email(string source) => new(source);
 
         #endregion
     }
