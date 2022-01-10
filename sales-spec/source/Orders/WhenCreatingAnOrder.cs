@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using Jgs.Ddd;
 using Shop.Sales.Orders;
 using Shop.Shared;
 using Xunit;
@@ -12,9 +13,17 @@ namespace Shop.Sales.Spec.Orders
         [Fact]
         public void WithoutCustomerId_ThenReturnRequiredError()
         {
-            var error = Order.From(null).Error;
+            var error = Order.From(null, null).Error;
 
             error.Should().Be(Error.Required());
+        }
+
+        [Fact]
+        public void WithUnregisteredCustomerId_ThenReturnCustomerNotFoundError()
+        {
+            var error = Order.From(new Id(), new()).Error;
+
+            error.Should().Be(ErrorExtensions.CustomerNotFound());
         }
 
         #endregion

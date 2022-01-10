@@ -23,10 +23,16 @@ namespace Shop.Sales.Orders
             Tip = tip ?? Money.Zero;
         }
 
-        public static Result<Order, Error> From(Id customerId)
+        public static Result<Order, Error> From(
+            Id customerId,
+            List<Id> customerIds
+        )
         {
             if (customerId is null)
                 return Error.Required(nameof(customerId));
+
+            if (customerIds.All(x => x != customerId))
+                return ErrorExtensions.CustomerNotFound();
 
             return new Order(customerId, null);
         }
