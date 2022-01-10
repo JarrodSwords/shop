@@ -20,20 +20,31 @@ namespace Shop.Shared.Spec
 
         [Theory]
         [MemberData(nameof(GetValidEmails))]
-        public void ThenAValidEmailIsReturned(string input)
+        public void ThenAValidEmailIsReturned(string value)
         {
-            var email = Email.From(input);
+            var email = Email.From(value).Value;
 
             email.Should().NotBeNull();
         }
 
         [Theory]
         [MemberData(nameof(GetValidEmails))]
-        public void ThenResultIsSuccess(string input)
+        public void ThenResultIsSuccess(string value)
         {
-            var email = Email.From(input);
+            var result = Email.From(value);
 
-            email.Should().NotBeNull();
+            result.IsSuccess.Should().BeTrue();
+        }
+
+        [Theory]
+        [InlineData(null)]
+        [InlineData("")]
+        [InlineData(" ")]
+        public void WithoutAValue_ThenResultIsFailure(string value)
+        {
+            var result = Email.From(value);
+
+            result.IsFailure.Should().BeTrue();
         }
 
         #endregion
