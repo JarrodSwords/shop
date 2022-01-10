@@ -19,7 +19,10 @@ namespace Shop.Sales.Orders
         )
         {
             CustomerId = customerId;
-            _lineItems.AddRange(lineItems);
+
+            if (lineItems != null)
+                _lineItems.AddRange(lineItems);
+
             Tip = tip ?? Money.Zero;
         }
 
