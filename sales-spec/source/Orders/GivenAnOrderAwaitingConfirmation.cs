@@ -12,7 +12,10 @@ namespace Shop.Sales.Spec.Orders
 
         public GivenAnOrderAwaitingConfirmation()
         {
-            _order = Order.From(CustomerId, CustomerIds).Value;
+            _order = Order.From(
+                CustomerId,
+                CustomerIds
+            ).Value;
         }
 
         #endregion

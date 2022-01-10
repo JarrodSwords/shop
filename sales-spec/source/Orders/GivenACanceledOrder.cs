@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using Shop.Sales.Orders;
+using Shop.Shared;
 using Xunit;
 
 namespace Shop.Sales.Spec.Orders
@@ -12,7 +13,11 @@ namespace Shop.Sales.Spec.Orders
 
         public GivenACanceledOrder()
         {
-            _order = Order.From(CustomerId, CustomerIds, OrderState.Canceled).Value;
+            _order = Order.From(
+                CustomerId,
+                CustomerIds,
+                OrderState.Canceled
+            ).Value;
         }
 
         #endregion
@@ -24,7 +29,7 @@ namespace Shop.Sales.Spec.Orders
         {
             var result = _order.Cancel();
 
-            result.Error.Should().Be(ErrorExtensions.OrderAlreadyCanceled());
+            result.Error.Should().Be(Error.InvalidOperation());
         }
 
         #endregion

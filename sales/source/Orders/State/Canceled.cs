@@ -7,7 +7,7 @@ namespace Shop.Sales.Orders.State
     {
         #region Public Interface
 
-        public override Result<Error> Cancel() => ErrorExtensions.OrderAlreadyCanceled();
+        public override Result<Error> Cancel() => Error.InvalidOperation("Order already canceled.");
 
         #endregion
     }
