@@ -17,12 +17,12 @@ namespace Shop.Shared
             if (string.IsNullOrWhiteSpace(email))
                 return Error.Required(nameof(email));
 
-            var trimmed = email.Trim();
+            email = email.Trim();
 
-            if (!Regex.IsMatch(trimmed, @"^(.+)@(.+)$"))
+            if (!Regex.IsMatch(email, @"^(.+)@(.+)$"))
                 return Error.Invalid(nameof(email));
 
-            return new Email(trimmed);
+            return new Email(email);
         }
 
         #endregion
