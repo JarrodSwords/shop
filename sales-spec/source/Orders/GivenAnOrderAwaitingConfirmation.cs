@@ -11,15 +11,14 @@ namespace Shop.Sales.Spec.Orders
     {
         #region Core
 
-        private readonly Id _customerId;
         private readonly List<Id> _customerIds = new() { new Id() };
 
         private readonly Order _order;
 
         public GivenAnOrderAwaitingConfirmation()
         {
-            _customerId = _customerIds.First();
-            _order = Order.From(_customerId, _customerIds).Value;
+            var customerId = _customerIds.First();
+            _order = Order.From(customerId, _customerIds).Value;
         }
 
         #endregion
