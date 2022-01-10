@@ -23,11 +23,19 @@ namespace Shop.Sales.Spec.Orders
         #region Test Methods
 
         [Fact]
-        public void WhenCancelingTheOrder_ThenStateIsCanceled()
+        public void WhenCanceled_ThenOrderIsCanceled()
         {
             _order.Cancel();
 
             _order.State.Should().Be(OrderState.Canceled);
+        }
+
+        [Fact]
+        public void WhenConfirmed_ThenOrderIsAwaitingPayment()
+        {
+            _order.Confirm();
+
+            _order.State.Should().Be(OrderState.AwaitingPayment);
         }
 
         #endregion

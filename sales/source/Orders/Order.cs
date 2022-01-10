@@ -71,6 +71,7 @@ namespace Shop.Sales.Orders
         public Money Total => Subtotal + Tip;
 
         public Result<Error> Cancel() => _operatingState.Cancel();
+        public Result<Error> Confirm() => _operatingState.Confirm();
 
         #endregion
     }

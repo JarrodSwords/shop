@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Jgs.Functional.Explicit;
-using Shop.Sales.Orders.State;
 using Shop.Shared;
 
 namespace Shop.Sales.Orders
@@ -14,6 +13,7 @@ namespace Shop.Sales.Orders
                 new()
                 {
                     { OrderState.AwaitingConfirmation, () => new AwaitingConfirmation() },
+                    { OrderState.AwaitingPayment, () => new AwaitingPayment() },
                     { OrderState.Canceled, () => new Canceled() }
                 };
 
@@ -28,6 +28,7 @@ namespace Shop.Sales.Orders
             #region Public Interface
 
             public abstract Result<Error> Cancel();
+            public abstract Result<Error> Confirm();
 
             public void Set(Order order)
             {
