@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Jgs.Ddd;
+using Jgs.Functional.Explicit;
 using Shop.Shared;
 
 namespace Shop.Sales.Orders
@@ -11,7 +12,7 @@ namespace Shop.Sales.Orders
 
         #region Creation
 
-        private Order(
+        public Order(
             Id customerId,
             IEnumerable<LineItem> lineItems,
             Money tip = default
@@ -20,6 +21,14 @@ namespace Shop.Sales.Orders
             CustomerId = customerId;
             _lineItems.AddRange(lineItems);
             Tip = tip ?? Money.Zero;
+        }
+
+        public static Result<Order, Error> From(Id customerId)
+        {
+            if (customerId is null)
+                return Error.Required(nameof(customerId));
+
+            return new Order(customerId, null);
         }
 
         #endregion
