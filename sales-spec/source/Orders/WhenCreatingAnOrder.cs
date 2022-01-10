@@ -43,7 +43,7 @@ namespace Shop.Sales.Spec.Orders
                 _customerIds
             ).Value;
 
-            order.States.Should().Be(OrderStates.AwaitingConfirmation);
+            order.State.Should().Be(OrderState.AwaitingConfirmation);
         }
 
         [Fact]
@@ -63,10 +63,10 @@ namespace Shop.Sales.Spec.Orders
             var order = Order.From(
                 _customerId,
                 _customerIds,
-                OrderStates.Canceled
+                OrderState.Canceled
             ).Value;
 
-            order.States.Should().Be(OrderStates.Canceled);
+            order.State.Should().Be(OrderState.Canceled);
         }
 
         [Fact]

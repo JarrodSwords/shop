@@ -3,7 +3,7 @@ using Shop.Shared;
 
 namespace Shop.Sales.Orders.State
 {
-    public class Canceled : Order.State
+    public class Canceled : Order.OperatingState
     {
         #region Public Interface
 

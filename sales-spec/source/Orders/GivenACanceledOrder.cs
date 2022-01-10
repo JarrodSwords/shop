@@ -12,7 +12,7 @@ namespace Shop.Sales.Spec.Orders
 
         public GivenACanceledOrder()
         {
-            _order = Order.From(CustomerId, CustomerIds, OrderStates.Canceled).Value;
+            _order = Order.From(CustomerId, CustomerIds, OrderState.Canceled).Value;
         }
 
         #endregion

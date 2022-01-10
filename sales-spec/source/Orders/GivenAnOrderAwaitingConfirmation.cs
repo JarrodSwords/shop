@@ -24,7 +24,7 @@ namespace Shop.Sales.Spec.Orders
         {
             _order.Cancel();
 
-            _order.States.Should().Be(OrderStates.Canceled);
+            _order.State.Should().Be(OrderState.Canceled);
         }
 
         #endregion

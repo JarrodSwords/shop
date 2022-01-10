@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Jgs.Ddd;
 using Jgs.Functional.Explicit;
-using Shop.Sales.Orders.State;
 using Shop.Shared;
 
 namespace Shop.Sales.Orders
@@ -11,23 +9,15 @@ namespace Shop.Sales.Orders
     public partial class Order : Aggregate
     {
         private readonly List<LineItem> _lineItems = new();
-
-        private static readonly Dictionary<OrderStates, Func<State>> StateFactory =
-            new()
-            {
-                { OrderStates.AwaitingConfirmation, () => new AwaitingConfirmation() },
-                { OrderStates.Canceled, () => new Canceled() }
-            };
-
-        private State _state;
-        private OrderStates _states;
+        private OperatingState _operatingState;
+        private OrderState _state;
 
         #region Creation
 
         private Order(
             Id customerId,
             IEnumerable<LineItem> lineItems,
-            OrderStates states = default,
+            OrderState state = default,
             Money tip = default
         )
         {
@@ -36,9 +26,9 @@ namespace Shop.Sales.Orders
             if (lineItems != null)
                 _lineItems.AddRange(lineItems);
 
-            States = states == default
-                ? OrderStates.AwaitingConfirmation
-                : states;
+            State = state == default
+                ? OrderState.AwaitingConfirmation
+                : state;
 
             Tip = tip ?? Money.Zero;
         }
@@ -46,7 +36,7 @@ namespace Shop.Sales.Orders
         public static Result<Order, Error> From(
             Id customerId,
             List<Id> customerIds,
-            OrderStates states = default
+            OrderState states = default
         )
         {
             if (customerId is null)
@@ -65,14 +55,14 @@ namespace Shop.Sales.Orders
         public Id CustomerId { get; }
         public IReadOnlyCollection<LineItem> LineItems => _lineItems.AsReadOnly();
 
-        public OrderStates States
+        public OrderState State
         {
-            get => _states;
+            get => _state;
             private set
             {
-                _states = value;
-                _state = StateFactory[_states]();
-                _state.Set(this);
+                _state = value;
+                _operatingState = OperatingState.From(_state);
+                _operatingState.Set(this);
             }
         }
 
@@ -80,7 +70,7 @@ namespace Shop.Sales.Orders
         public Money Tip { get; }
         public Money Total => Subtotal + Tip;
 
-        public Result<Error> Cancel() => _state.Cancel();
+        public Result<Error> Cancel() => _operatingState.Cancel();
 
         #endregion
     }
