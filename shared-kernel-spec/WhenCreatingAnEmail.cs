@@ -37,14 +37,25 @@ namespace Shop.Shared.Spec
         }
 
         [Theory]
-        [InlineData(null)]
-        [InlineData("")]
-        [InlineData(" ")]
-        public void WithoutAValue_ThenResultIsFailure(string value)
+        [InlineData("jon.doe@")]
+        [InlineData("@gmail.com")]
+        [InlineData("jon.doe2gmail.com")]
+        public void WithInvalidEmail_ThenResultIsFailure(string value)
         {
             var result = Email.From(value);
 
             result.IsFailure.Should().BeTrue();
+        }
+
+        [Theory]
+        [InlineData(null)]
+        [InlineData("")]
+        [InlineData(" ")]
+        public void WithoutAValue_ThenReturnRequiredError(string value)
+        {
+            var result = Email.From(value);
+
+            result.Error.Should().Be(Error.Required());
         }
 
         #endregion

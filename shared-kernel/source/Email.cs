@@ -1,4 +1,5 @@
-﻿using Jgs.Ddd;
+﻿using System.Text.RegularExpressions;
+using Jgs.Ddd;
 using Jgs.Functional.Explicit;
 
 namespace Shop.Shared
@@ -11,16 +12,22 @@ namespace Shop.Shared
         {
         }
 
-        public static Result<Email, Error> From(string value) =>
-            string.IsNullOrWhiteSpace(value)
-                ? Error.Required(nameof(value))
-                : new Email(value);
+        public static Result<Email, Error> From(string email)
+        {
+            if (string.IsNullOrWhiteSpace(email))
+                return Error.Required(nameof(email));
+
+            if (!Regex.IsMatch(email, @"^(.+)@(.+)$"))
+                return Error.Invalid(nameof(email));
+
+            return new Email(email);
+        }
 
         #endregion
 
         #region Static Interface
 
-        public static implicit operator Email(string source) => new(source);
+        public static implicit operator Email(string source) => From(source).Value;
 
         #endregion
     }
