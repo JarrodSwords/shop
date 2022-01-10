@@ -20,7 +20,7 @@ namespace Shop.Shared.Spec
 
         [Theory]
         [MemberData(nameof(GetValidEmails))]
-        public void ThenAValidEmailIsReturned(string value)
+        public void ThenReturnAValidEmail(string value)
         {
             var email = Email.From(value).Value;
 
@@ -29,7 +29,7 @@ namespace Shop.Shared.Spec
 
         [Theory]
         [MemberData(nameof(GetValidEmails))]
-        public void ThenResultIsSuccess(string value)
+        public void ThenReturnSuccess(string value)
         {
             var result = Email.From(value);
 
@@ -40,7 +40,7 @@ namespace Shop.Shared.Spec
         [InlineData("jon.doe@gmail.com ")]
         [InlineData(" jon.doe@gmail.com")]
         [InlineData(" jon.doe@gmail.com ")]
-        public void WithExtraWhitespace_ThenResultIsTrimmed(string value)
+        public void WithExtraWhitespace_ThenReturnTrimmedEmail(string value)
         {
             var email = Email.From(value).Value;
 
@@ -51,7 +51,7 @@ namespace Shop.Shared.Spec
         [InlineData("jon.doe@")]
         [InlineData("@gmail.com")]
         [InlineData("jon.doe2gmail.com")]
-        public void WithInvalidEmail_ThenResultIsFailure(string value)
+        public void WithInvalidEmail_ThenReturnInvalidError(string value)
         {
             var result = Email.From(value);
 
@@ -64,9 +64,9 @@ namespace Shop.Shared.Spec
         [InlineData(" ")]
         public void WithoutAValue_ThenReturnRequiredError(string value)
         {
-            var result = Email.From(value);
+            var error = Email.From(value).Error;
 
-            result.Error.Should().Be(Error.Required());
+            error.Should().Be(Error.Required());
         }
 
         #endregion
