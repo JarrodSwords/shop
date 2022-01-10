@@ -3,12 +3,11 @@ using Shop.Shared;
 
 namespace Shop.Sales.Orders.State
 {
-    public class Canceled : OrderState
+    public class Canceled : Order.State
     {
         #region Public Interface
 
         public override Result<Error> Cancel() => ErrorExtensions.OrderAlreadyCanceled();
-        public override OrderStates GetStates() => OrderStates.Canceled;
 
         #endregion
     }

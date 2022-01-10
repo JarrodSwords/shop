@@ -12,14 +12,15 @@ namespace Shop.Sales.Orders
     {
         private readonly List<LineItem> _lineItems = new();
 
-        private static readonly Dictionary<OrderStates, Func<OrderState>> StateFactory =
+        private static readonly Dictionary<OrderStates, Func<State>> StateFactory =
             new()
             {
                 { OrderStates.AwaitingConfirmation, () => new AwaitingConfirmation() },
                 { OrderStates.Canceled, () => new Canceled() }
             };
 
-        private OrderState _state;
+        private State _state;
+        private OrderStates _states;
 
         #region Creation
 
@@ -35,11 +36,9 @@ namespace Shop.Sales.Orders
             if (lineItems != null)
                 _lineItems.AddRange(lineItems);
 
-            states = states == default
+            States = states == default
                 ? OrderStates.AwaitingConfirmation
                 : states;
-
-            Set(StateFactory[states]());
 
             Tip = tip ?? Money.Zero;
         }
@@ -65,18 +64,23 @@ namespace Shop.Sales.Orders
 
         public Id CustomerId { get; }
         public IReadOnlyCollection<LineItem> LineItems => _lineItems.AsReadOnly();
-        public OrderStates States => _state.GetStates();
+
+        public OrderStates States
+        {
+            get => _states;
+            private set
+            {
+                _states = value;
+                _state = StateFactory[_states]();
+                _state.Set(this);
+            }
+        }
+
         public Money Subtotal => _lineItems.Aggregate(Money.Zero, (current, li) => current + li.Total);
         public Money Tip { get; }
         public Money Total => Subtotal + Tip;
 
         public Result<Error> Cancel() => _state.Cancel();
-
-        public void Set(OrderState state)
-        {
-            _state = state;
-            _state.Set(this);
-        }
 
         #endregion
     }
