@@ -1,5 +1,6 @@
 ﻿using Jgs.Ddd;
 using Jgs.Functional;
+using static Jgs.Functional.Result;
 
 namespace Shop.Shared
 {
@@ -11,13 +12,10 @@ namespace Shop.Shared
         {
         }
 
-        public static Result<Email> From(string value)
-        {
-            if (string.IsNullOrWhiteSpace(value))
-                return Result.Failure<Email>("Email is required");
-
-            return Result.Success(new Email(value));
-        }
+        public static Result<Email> From(string value) =>
+            string.IsNullOrWhiteSpace(value)
+                ? Failure<Email>("Email is required")
+                : Success(new Email(value));
 
         #endregion
 
