@@ -37,6 +37,17 @@ namespace Shop.Shared.Spec
         }
 
         [Theory]
+        [InlineData("jon.doe@gmail.com ")]
+        [InlineData(" jon.doe@gmail.com")]
+        [InlineData(" jon.doe@gmail.com ")]
+        public void WithExtraWhitespace_ThenResultIsTrimmed(string value)
+        {
+            var email = Email.From(value).Value;
+
+            email.Value.Should().Be(value.Trim());
+        }
+
+        [Theory]
         [InlineData("jon.doe@")]
         [InlineData("@gmail.com")]
         [InlineData("jon.doe2gmail.com")]
