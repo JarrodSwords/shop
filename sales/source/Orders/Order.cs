@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Jgs.Ddd;
 using Jgs.Functional.Explicit;
+using Shop.Sales.Orders.State;
 using Shop.Shared;
 
 namespace Shop.Sales.Orders
@@ -9,6 +11,15 @@ namespace Shop.Sales.Orders
     public partial class Order : Aggregate
     {
         private readonly List<LineItem> _lineItems = new();
+
+        private static readonly Dictionary<OrderStates, Func<OrderState>> StateFactory =
+            new()
+            {
+                { OrderStates.AwaitingConfirmation, () => new AwaitingConfirmation() },
+                { OrderStates.Canceled, () => new Canceled() }
+            };
+
+        private OrderState _state;
 
         #region Creation
 
@@ -24,9 +35,11 @@ namespace Shop.Sales.Orders
             if (lineItems != null)
                 _lineItems.AddRange(lineItems);
 
-            States = states == default
+            states = states == default
                 ? OrderStates.AwaitingConfirmation
                 : states;
+
+            Set(StateFactory[states]());
 
             Tip = tip ?? Money.Zero;
         }
@@ -52,16 +65,17 @@ namespace Shop.Sales.Orders
 
         public Id CustomerId { get; }
         public IReadOnlyCollection<LineItem> LineItems => _lineItems.AsReadOnly();
-        public OrderStates States { get; private set; }
+        public OrderStates States => _state.GetStates();
         public Money Subtotal => _lineItems.Aggregate(Money.Zero, (current, li) => current + li.Total);
         public Money Tip { get; }
         public Money Total => Subtotal + Tip;
 
-        public Order Cancel()
-        {
-            States = OrderStates.Canceled;
+        public Result<Error> Cancel() => _state.Cancel();
 
-            return this;
+        public void Set(OrderState state)
+        {
+            _state = state;
+            _state.Set(this);
         }
 
         #endregion

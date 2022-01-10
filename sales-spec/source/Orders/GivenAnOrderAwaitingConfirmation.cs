@@ -1,24 +1,18 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using FluentAssertions;
-using Jgs.Ddd;
+﻿using FluentAssertions;
 using Shop.Sales.Orders;
 using Xunit;
 
 namespace Shop.Sales.Spec.Orders
 {
-    public class GivenAnOrderAwaitingConfirmation
+    public class GivenAnOrderAwaitingConfirmation : Context
     {
         #region Core
-
-        private readonly List<Id> _customerIds = new() { new Id() };
 
         private readonly Order _order;
 
         public GivenAnOrderAwaitingConfirmation()
         {
-            var customerId = _customerIds.First();
-            _order = Order.From(customerId, _customerIds).Value;
+            _order = Order.From(CustomerId, CustomerIds).Value;
         }
 
         #endregion

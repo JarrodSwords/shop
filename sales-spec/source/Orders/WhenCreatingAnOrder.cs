@@ -29,8 +29,7 @@ namespace Shop.Sales.Spec.Orders
         {
             var error = Order.From(
                 null,
-                null,
-                OrderStates.AwaitingPayment
+                null
             ).Error;
 
             error.Should().Be(Error.Required());
@@ -52,8 +51,7 @@ namespace Shop.Sales.Spec.Orders
         {
             var order = Order.From(
                 _customerId,
-                _customerIds,
-                OrderStates.AwaitingPayment
+                _customerIds
             ).Value;
 
             order.Tip.Should().Be(Money.Zero);
@@ -65,10 +63,10 @@ namespace Shop.Sales.Spec.Orders
             var order = Order.From(
                 _customerId,
                 _customerIds,
-                OrderStates.AwaitingPayment
+                OrderStates.Canceled
             ).Value;
 
-            order.States.Should().Be(OrderStates.AwaitingPayment);
+            order.States.Should().Be(OrderStates.Canceled);
         }
 
         [Fact]
@@ -76,8 +74,7 @@ namespace Shop.Sales.Spec.Orders
         {
             var error = Order.From(
                 new Id(),
-                new(),
-                OrderStates.AwaitingPayment
+                new()
             ).Error;
 
             error.Should().Be(ErrorExtensions.CustomerNotFound());
