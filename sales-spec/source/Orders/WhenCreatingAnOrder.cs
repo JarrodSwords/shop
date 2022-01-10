@@ -8,12 +8,41 @@ using Xunit;
 
 namespace Shop.Sales.Spec.Orders
 {
+    public class GivenAnOrderAwaitingConfirmation
+    {
+        #region Core
+
+        private readonly Id _customerId;
+        private readonly List<Id> _customerIds = new() { new Id() };
+
+        private readonly Order _order;
+
+        public GivenAnOrderAwaitingConfirmation()
+        {
+            _customerId = _customerIds.First();
+            _order = Order.From(_customerId, _customerIds).Value;
+        }
+
+        #endregion
+
+        #region Test Methods
+
+        [Fact]
+        public void WhenCancelingTheOrder_ThenStateIsCanceled()
+        {
+            _order.Cancel();
+
+            _order.States.Should().Be(OrderStates.Canceled);
+        }
+
+        #endregion
+    }
+
     public class WhenCreatingAnOrder
     {
         #region Core
 
         private readonly Id _customerId;
-
         private readonly List<Id> _customerIds = new() { new Id() };
 
         public WhenCreatingAnOrder()
@@ -28,13 +57,17 @@ namespace Shop.Sales.Spec.Orders
         [Fact]
         public void WithoutCustomerId_ThenReturnRequiredError()
         {
-            var error = Order.From(null, null, OrderStates.AwaitingPayment).Error;
+            var error = Order.From(
+                null,
+                null,
+                OrderStates.AwaitingPayment
+            ).Error;
 
             error.Should().Be(Error.Required());
         }
 
         [Fact]
-        public void WithoutState_ThenStateIs()
+        public void WithoutState_ThenStateIsAwaitingConfirmation()
         {
             var order = Order.From(
                 _customerId,
@@ -47,7 +80,11 @@ namespace Shop.Sales.Spec.Orders
         [Fact]
         public void WithoutTip_ThenTipIsZero()
         {
-            var order = Order.From(_customerId, _customerIds, OrderStates.AwaitingPayment).Value;
+            var order = Order.From(
+                _customerId,
+                _customerIds,
+                OrderStates.AwaitingPayment
+            ).Value;
 
             order.Tip.Should().Be(Money.Zero);
         }
@@ -67,7 +104,11 @@ namespace Shop.Sales.Spec.Orders
         [Fact]
         public void WithUnregisteredCustomerId_ThenReturnCustomerNotFoundError()
         {
-            var error = Order.From(new Id(), new(), OrderStates.AwaitingPayment).Error;
+            var error = Order.From(
+                new Id(),
+                new(),
+                OrderStates.AwaitingPayment
+            ).Error;
 
             error.Should().Be(ErrorExtensions.CustomerNotFound());
         }

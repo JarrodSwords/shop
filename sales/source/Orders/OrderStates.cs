@@ -6,6 +6,7 @@ namespace Shop.Sales.Orders
     public enum OrderStates
     {
         AwaitingConfirmation = 1 << 0,
-        AwaitingPayment = 1 << 1
+        AwaitingPayment = 1 << 1,
+        Canceled = 1 << 2
     }
 }

@@ -12,7 +12,7 @@ namespace Shop.Sales.Orders
 
         #region Creation
 
-        public Order(
+        private Order(
             Id customerId,
             IEnumerable<LineItem> lineItems,
             OrderStates states = default,
@@ -52,10 +52,17 @@ namespace Shop.Sales.Orders
 
         public Id CustomerId { get; }
         public IReadOnlyCollection<LineItem> LineItems => _lineItems.AsReadOnly();
-        public OrderStates States { get; }
+        public OrderStates States { get; private set; }
         public Money Subtotal => _lineItems.Aggregate(Money.Zero, (current, li) => current + li.Total);
         public Money Tip { get; }
         public Money Total => Subtotal + Tip;
+
+        public Order Cancel()
+        {
+            States = OrderStates.Canceled;
+
+            return this;
+        }
 
         #endregion
     }
