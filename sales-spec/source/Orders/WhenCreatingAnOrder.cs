@@ -34,6 +34,17 @@ namespace Shop.Sales.Spec.Orders
         }
 
         [Fact]
+        public void WithoutState_ThenStateIs()
+        {
+            var order = Order.From(
+                _customerId,
+                _customerIds
+            ).Value;
+
+            order.States.Should().Be(OrderStates.AwaitingConfirmation);
+        }
+
+        [Fact]
         public void WithoutTip_ThenTipIsZero()
         {
             var order = Order.From(_customerId, _customerIds, OrderStates.AwaitingPayment).Value;

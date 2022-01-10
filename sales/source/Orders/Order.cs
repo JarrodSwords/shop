@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Jgs.Ddd;
 using Jgs.Functional.Explicit;
@@ -7,12 +6,6 @@ using Shop.Shared;
 
 namespace Shop.Sales.Orders
 {
-    [Flags]
-    public enum OrderStates
-    {
-        AwaitingPayment
-    }
-
     public partial class Order : Aggregate
     {
         private readonly List<LineItem> _lineItems = new();
@@ -22,7 +15,7 @@ namespace Shop.Sales.Orders
         public Order(
             Id customerId,
             IEnumerable<LineItem> lineItems,
-            OrderStates states,
+            OrderStates states = default,
             Money tip = default
         )
         {
@@ -31,14 +24,17 @@ namespace Shop.Sales.Orders
             if (lineItems != null)
                 _lineItems.AddRange(lineItems);
 
-            States = states;
+            States = states == default
+                ? OrderStates.AwaitingConfirmation
+                : states;
+
             Tip = tip ?? Money.Zero;
         }
 
         public static Result<Order, Error> From(
             Id customerId,
             List<Id> customerIds,
-            OrderStates states
+            OrderStates states = default
         )
         {
             if (customerId is null)
