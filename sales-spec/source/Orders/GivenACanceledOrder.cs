@@ -5,6 +5,36 @@ using Xunit;
 
 namespace Shop.Sales.Spec.Orders
 {
+    public class GivenAnOrderAwaitingPayment : Context
+    {
+        #region Core
+
+        private readonly Order _order;
+
+        public GivenAnOrderAwaitingPayment()
+        {
+            _order = Order.From(
+                CustomerId,
+                CustomerIds,
+                OrderState.AwaitingPayment
+            ).Value;
+        }
+
+        #endregion
+
+        #region Test Methods
+
+        [Fact]
+        public void WhenCanceled_ThenOrderIsCanceled()
+        {
+            _order.Cancel();
+
+            _order.State.Should().Be(OrderState.Canceled);
+        }
+
+        #endregion
+    }
+
     public class GivenACanceledOrder : Context
     {
         #region Core

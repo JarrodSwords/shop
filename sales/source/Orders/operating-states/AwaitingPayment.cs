@@ -8,7 +8,12 @@ namespace Shop.Sales.Orders
     {
         #region Public Interface
 
-        public override Result<Error> Cancel() => throw new NotImplementedException();
+        public override Result<Error> Cancel()
+        {
+            Set(OrderState.Canceled);
+            return Result<Error>.Success();
+        }
+
         public override Result<Error> Confirm() => throw new NotImplementedException();
 
         #endregion
