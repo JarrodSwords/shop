@@ -1,5 +1,4 @@
-﻿using System;
-using Jgs.Functional.Explicit;
+﻿using Jgs.Functional.Explicit;
 using Shop.Shared;
 
 namespace Shop.Sales.Orders
@@ -14,7 +13,7 @@ namespace Shop.Sales.Orders
             return Result<Error>.Success();
         }
 
-        public override Result<Error> Confirm() => throw new NotImplementedException();
+        public override Result<Error> Confirm() => Error.InvalidOperation("Order already confirmed.");
 
         #endregion
     }

@@ -5,18 +5,18 @@ using Xunit;
 
 namespace Shop.Sales.Spec.Orders
 {
-    public class GivenACanceledOrder : Context
+    public class GivenAnOrderAwaitingPayment : Context
     {
         #region Core
 
         private readonly Order _order;
 
-        public GivenACanceledOrder()
+        public GivenAnOrderAwaitingPayment()
         {
             _order = Order.From(
                 CustomerId,
                 CustomerIds,
-                OrderState.Canceled
+                OrderState.AwaitingPayment
             ).Value;
         }
 
@@ -25,17 +25,17 @@ namespace Shop.Sales.Spec.Orders
         #region Test Methods
 
         [Fact]
-        public void WhenCanceled_ThenReturnInvalidOperationError()
+        public void WhenCanceled_ThenOrderIsCanceled()
         {
-            var error = _order.Cancel().Error;
+            _order.Cancel();
 
-            error.Should().Be(Error.InvalidOperation());
+            _order.State.Should().Be(OrderState.Canceled);
         }
 
         [Fact]
         public void WhenConfirmed_ThenReturnInvalidOperationError()
         {
-            var error = _order.Cancel().Error;
+            var error = _order.Confirm().Error;
 
             error.Should().Be(Error.InvalidOperation());
         }
