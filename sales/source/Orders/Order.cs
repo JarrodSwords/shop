@@ -36,7 +36,8 @@ namespace Shop.Sales.Orders
         public static Result<Order, Error> From(
             Id customerId,
             List<Id> customerIds,
-            OrderState states = default
+            OrderState states = default,
+            params LineItem[] lineItems
         )
         {
             if (customerId is null)
@@ -45,7 +46,7 @@ namespace Shop.Sales.Orders
             if (customerIds.All(x => x != customerId))
                 return ErrorExtensions.CustomerNotFound();
 
-            return new Order(customerId, null, states);
+            return new Order(customerId, lineItems, states);
         }
 
         #endregion
