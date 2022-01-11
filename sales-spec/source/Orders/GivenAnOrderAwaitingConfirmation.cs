@@ -56,7 +56,7 @@ namespace Shop.Sales.Spec.Orders
             #region Test Methods
 
             [Fact]
-            public void ThenAmountDueIsTotal()
+            public void ThenAmountDueIsSubtotal()
             {
                 Order.AmountDue.Should().Be(Order.Subtotal);
             }

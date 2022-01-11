@@ -40,6 +40,11 @@ namespace Shop.Sales.Orders
                 Order.State = states;
             }
 
+            public void SetAmountDue(Money value)
+            {
+                Order.AmountDue = value;
+            }
+
             #endregion
         }
     }

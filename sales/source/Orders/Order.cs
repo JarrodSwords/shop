@@ -52,8 +52,7 @@ namespace Shop.Sales.Orders
 
         #region Public Interface
 
-        public Money AmountDue { get; set; }
-
+        public Money AmountDue { get; private set; }
         public Id CustomerId { get; }
         public IReadOnlyCollection<LineItem> LineItems => _lineItems.AsReadOnly();
 
