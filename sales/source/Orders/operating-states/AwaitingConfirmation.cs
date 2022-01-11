@@ -1,5 +1,6 @@
 ﻿using Jgs.Functional.Explicit;
 using Shop.Shared;
+using static Jgs.Functional.Explicit.Result<Shop.Shared.Error>;
 
 namespace Shop.Sales.Orders
 {
@@ -10,13 +11,13 @@ namespace Shop.Sales.Orders
         public override Result<Error> Cancel()
         {
             Set(OrderState.Canceled);
-            return Result<Error>.Success();
+            return Success();
         }
 
         public override Result<Error> Confirm()
         {
             Set(OrderState.AwaitingPayment);
-            return Result<Error>.Success();
+            return Success();
         }
 
         #endregion

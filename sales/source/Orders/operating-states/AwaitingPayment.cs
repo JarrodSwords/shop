@@ -1,5 +1,7 @@
 ﻿using Jgs.Functional.Explicit;
 using Shop.Shared;
+using static Jgs.Functional.Explicit.Result<Shop.Shared.Error>;
+using static Shop.Shared.Error;
 
 namespace Shop.Sales.Orders
 {
@@ -10,10 +12,10 @@ namespace Shop.Sales.Orders
         public override Result<Error> Cancel()
         {
             Set(OrderState.Canceled);
-            return Result<Error>.Success();
+            return Success();
         }
 
-        public override Result<Error> Confirm() => Error.InvalidOperation("Order already confirmed.");
+        public override Result<Error> Confirm() => InvalidOperation("Order already confirmed.");
 
         #endregion
     }
