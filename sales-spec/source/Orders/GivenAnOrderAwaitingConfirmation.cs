@@ -6,13 +6,13 @@ namespace Shop.Sales.Spec.Orders
 {
     public class GivenAnOrderAwaitingConfirmation : Context
     {
-        #region Core
+        protected readonly Order Order;
 
-        private readonly Order _order;
+        #region Creation
 
         public GivenAnOrderAwaitingConfirmation()
         {
-            _order = Order.From(
+            Order = Order.From(
                 CustomerId,
                 CustomerIds
             ).Value;
@@ -20,24 +20,54 @@ namespace Shop.Sales.Spec.Orders
 
         #endregion
 
-        #region Test Methods
-
-        [Fact]
-        public void WhenCanceled_ThenOrderIsCanceled()
+        public class WhenCanceled : GivenAnOrderAwaitingConfirmation
         {
-            _order.Cancel();
+            #region Core
 
-            _order.State.Should().Be(OrderState.Canceled);
+            public WhenCanceled()
+            {
+                Order.Cancel();
+            }
+
+            #endregion
+
+            #region Test Methods
+
+            [Fact]
+            public void ThenOrderIsCanceled()
+            {
+                Order.State.Should().Be(OrderState.Canceled);
+            }
+
+            #endregion
         }
 
-        [Fact]
-        public void WhenConfirmed_ThenOrderIsAwaitingPayment()
+        public class WhenConfirmed : GivenAnOrderAwaitingConfirmation
         {
-            _order.Confirm();
+            #region Core
 
-            _order.State.Should().Be(OrderState.AwaitingPayment);
+            public WhenConfirmed()
+            {
+                Order.Confirm();
+            }
+
+            #endregion
+
+            #region Test Methods
+
+            [Fact]
+            public void ThenAmountDueIsTotal()
+            {
+                Order.AmountDue.Should().Be(Order.Subtotal);
+            }
+
+            [Fact]
+            public void ThenOrderIsAwaitingPayment()
+            {
+                Order.State.Should().Be(OrderState.AwaitingPayment);
+            }
+
+            #endregion
         }
-
-        #endregion
     }
 }
