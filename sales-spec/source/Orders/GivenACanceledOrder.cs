@@ -35,7 +35,7 @@ namespace Shop.Sales.Spec.Orders
         [Fact]
         public void WhenConfirmed_ThenReturnInvalidOperationError()
         {
-            var error = _order.Cancel().Error;
+            var error = _order.Confirm().Error;
 
             error.Should().Be(Error.InvalidOperation());
         }
