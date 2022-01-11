@@ -25,7 +25,15 @@ namespace Shop.Sales.Spec.Orders
         #region Test Methods
 
         [Fact]
-        public void WhenCanceling_ReturnOrderAlreadyCanceledError()
+        public void WhenCanceled_ThenReturnInvalidOperationError()
+        {
+            var result = _order.Cancel();
+
+            result.Error.Should().Be(Error.InvalidOperation());
+        }
+
+        [Fact]
+        public void WhenConfirmed_ThenReturnInvalidOperationError()
         {
             var result = _order.Cancel();
 
