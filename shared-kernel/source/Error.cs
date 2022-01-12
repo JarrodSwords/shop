@@ -33,13 +33,22 @@ namespace Shop.Shared
 
         #region Static Interface
 
-        public static Error Invalid(string identifier = default, string reason = default)
+        public static Error Invalid(string identifier = default)
         {
             const string invalid = "invalid";
 
             return identifier is null
                 ? new(invalid, $"Value is {invalid}.")
                 : new(invalid, $"{identifier} is {invalid}.");
+        }
+
+        public static Error InvalidOperation(string reason = default)
+        {
+            const string invalid = "invalid.operation";
+
+            return string.IsNullOrWhiteSpace(reason)
+                ? new(invalid, "Invalid operation.")
+                : new(invalid, $"Invalid operation.\n{reason}");
         }
 
         public static Error Required(string identifier = default)
