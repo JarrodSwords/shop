@@ -8,20 +8,18 @@ namespace Shop.Sales.Spec.Orders
 {
     public abstract class GivenAnOrderAwaitingPayment : Context
     {
-        private readonly Order _order;
-
         #region Creation
 
         protected GivenAnOrderAwaitingPayment()
         {
-            _order = Order.From(
+            Order = Order.From(
                 CustomerId,
                 CustomerIds,
-                default,
+                OrderState.AwaitingPayment,
                 new LineItem(25m, new Id(), 1)
             ).Value;
 
-            _order.Confirm();
+            Order.Confirm();
         }
 
         #endregion
@@ -35,25 +33,25 @@ namespace Shop.Sales.Spec.Orders
             {
                 var expected = new Finances(0, 30, 0, 25, 5);
 
-                _order.ApplyPayment(30);
+                Order.ApplyPayment(30);
 
-                _order.Finances.Should().Be(expected);
+                Order.Finances.Should().Be(expected);
             }
 
             [Fact]
             public void WithInsufficientAmount_ThenOrderIsAwaitingPayment()
             {
-                _order.ApplyPayment(5);
+                Order.ApplyPayment(5);
 
-                _order.State.Should().Be(OrderState.AwaitingPayment);
+                Order.State.Should().Be(OrderState.AwaitingPayment);
             }
 
             [Fact]
             public void WithSufficientAmount_ThenOrderIsSaleComplete()
             {
-                _order.ApplyPayment(30);
+                Order.ApplyPayment(30);
 
-                _order.State.Should().Be(OrderState.SaleComplete);
+                Order.State.Should().Be(OrderState.SaleComplete);
             }
 
             #endregion
@@ -66,9 +64,9 @@ namespace Shop.Sales.Spec.Orders
             [Fact]
             public void ThenOrderIsCanceled()
             {
-                _order.Cancel();
+                Order.Cancel();
 
-                _order.State.Should().Be(OrderState.Canceled);
+                Order.State.Should().Be(OrderState.Canceled);
             }
 
             #endregion
@@ -81,7 +79,7 @@ namespace Shop.Sales.Spec.Orders
             [Fact]
             public void ThenReturnInvalidOperationError()
             {
-                var error = _order.Confirm().Error;
+                var error = Order.Confirm().Error;
 
                 error.Should().Be(Error.InvalidOperation());
             }
@@ -96,9 +94,9 @@ namespace Shop.Sales.Spec.Orders
             [Fact]
             public void ThenOrderIsRefunded()
             {
-                _order.Refund();
+                Order.IssueRefund();
 
-                _order.State.Should().HaveFlag(OrderState.Refunded);
+                Order.State.Should().HaveFlag(OrderState.Refunded);
             }
 
             #endregion

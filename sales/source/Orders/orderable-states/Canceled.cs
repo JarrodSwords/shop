@@ -5,8 +5,16 @@ using static Shop.Shared.Error;
 
 namespace Shop.Sales.Orders
 {
-    public class Canceled : Order.Orderable
+    public class Canceled : Orderable
     {
+        #region Creation
+
+        public Canceled(Finances finances, OrderState state) : base(finances, state)
+        {
+        }
+
+        #endregion
+
         #region Public Interface
 
         public override Result<Error> ApplyPayment(Money value) =>
@@ -14,7 +22,7 @@ namespace Shop.Sales.Orders
 
         public override Result<Error> Cancel() => InvalidOperation("Order already canceled.");
         public override Result<Error> Confirm() => InvalidOperation("Canceled order cannot be confirmed.");
-        public override Result<Error> Refund() => throw new NotImplementedException();
+        public override Result<Error> IssueRefund() => throw new NotImplementedException();
 
         #endregion
     }

@@ -5,8 +5,16 @@ using static Shop.Shared.Error;
 
 namespace Shop.Sales.Orders
 {
-    public class SaleComplete : Order.Orderable
+    public class SaleComplete : Orderable
     {
+        #region Creation
+
+        public SaleComplete(Finances finances, OrderState state) : base(finances, state)
+        {
+        }
+
+        #endregion
+
         #region Public Interface
 
         public override Result<Error> ApplyPayment(Money value) =>
@@ -14,15 +22,15 @@ namespace Shop.Sales.Orders
 
         public override Result<Error> Cancel()
         {
-            Set(OrderState.Canceled);
+            State = OrderState.Canceled;
             return Success();
         }
 
         public override Result<Error> Confirm() => InvalidOperation("Cannot confirm a completed order.");
 
-        public override Result<Error> Refund()
+        public override Result<Error> IssueRefund()
         {
-            Set(OrderState.Canceled | OrderState.Refunded);
+            State = OrderState.Canceled | OrderState.Refunded;
             return Success();
         }
 

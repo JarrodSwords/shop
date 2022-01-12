@@ -17,7 +17,7 @@ namespace Shop.Sales.Spec.Orders
             _order = Order.From(
                 CustomerId,
                 CustomerIds,
-                default,
+                OrderState.AwaitingConfirmation,
                 new LineItem(25, new Id(), 1)
             ).Value;
         }
@@ -112,7 +112,7 @@ namespace Shop.Sales.Spec.Orders
             [Fact]
             public void ThenReturnInvalidOperationError()
             {
-                var error = _order.Refund().Error;
+                var error = _order.IssueRefund().Error;
 
                 error.Should().Be(Error.InvalidOperation());
             }

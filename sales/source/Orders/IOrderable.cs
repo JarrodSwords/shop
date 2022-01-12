@@ -8,6 +8,6 @@ namespace Shop.Sales.Orders
         Result<Error> ApplyPayment(Money value);
         Result<Error> Cancel();
         Result<Error> Confirm();
-        Result<Error> Refund();
+        Result<Error> IssueRefund();
     }
 }

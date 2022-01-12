@@ -5,31 +5,39 @@ using static Shop.Shared.Error;
 
 namespace Shop.Sales.Orders
 {
-    public class AwaitingPayment : Order.Orderable
+    public class AwaitingPayment : Orderable
     {
+        #region Creation
+
+        public AwaitingPayment(Finances finances, OrderState state) : base(finances, state)
+        {
+        }
+
+        #endregion
+
         #region Public Interface
 
         public override Result<Error> ApplyPayment(Money value)
         {
-            Finances = Order.Finances.ApplyPayment(value);
+            Finances = Finances.ApplyPayment(value);
 
             if (Finances.IsPaidInFull)
-                Set(OrderState.SaleComplete);
+                State = OrderState.SaleComplete;
 
             return Success();
         }
 
         public override Result<Error> Cancel()
         {
-            Set(OrderState.Canceled);
+            State = OrderState.Canceled;
             return Success();
         }
 
         public override Result<Error> Confirm() => InvalidOperation("Order already confirmed.");
 
-        public override Result<Error> Refund()
+        public override Result<Error> IssueRefund()
         {
-            Set(OrderState.Canceled | OrderState.Refunded);
+            State = OrderState.Canceled | OrderState.Refunded;
             return Success();
         }
 

@@ -16,7 +16,7 @@ namespace Shop.Sales.Spec.Orders
             var order = Order.From(
                 CustomerId,
                 CustomerIds,
-                default,
+                OrderState.AwaitingConfirmation,
                 new LineItem(25m, new Guid(), 1),
                 new LineItem(49m, new Guid(), 2)
             ).Value;
