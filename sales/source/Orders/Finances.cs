@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Jgs.Ddd;
 using Shop.Shared;
@@ -49,13 +50,17 @@ namespace Shop.Sales.Orders
         public Money Subtotal { get; }
         public Money Tip { get; }
 
-        public Finances ApplyPayment(Money payment) =>
-            new(
-                Due - payment,
+        public Finances ApplyPayment(Money payment)
+        {
+            var difference = Due - payment;
+
+            return new(
+                Math.Max(difference, 0),
                 Paid + payment,
                 Subtotal,
-                Tip
+                Math.Max(Tip - difference, 0)
             );
+        }
 
         #endregion
 

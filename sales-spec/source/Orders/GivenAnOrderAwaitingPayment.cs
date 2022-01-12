@@ -44,25 +44,14 @@ namespace Shop.Sales.Spec.Orders
             error.Should().Be(Error.InvalidOperation());
         }
 
-        [Theory]
-        [InlineData(1, 24)]
-        [InlineData(20, 5)]
-        public void WhenPaymentReceived_ThenAmountDueIsAmountDueMinusAmountPaid(decimal paid, decimal due)
+        [Fact]
+        public void WhenPaymentReceived_ThenFinancesAreUpdated()
         {
-            _order.ApplyPayment(paid);
+            var expected = new Finances(0, 30, 25, 5);
 
-            _order.Finances.Due.Should().Be((Money) due);
-        }
+            _order.ApplyPayment(30);
 
-        [Theory]
-        [InlineData(1, 1)]
-        [InlineData(5, 2, 3)]
-        public void WhenPaymentReceived_ThenAmountPaidIsUpdated(int expected, params int[] payments)
-        {
-            foreach (var p in payments)
-                _order.ApplyPayment(p);
-
-            _order.Finances.Paid.Should().Be((Money) expected);
+            _order.Finances.Should().Be(expected);
         }
 
         #endregion
