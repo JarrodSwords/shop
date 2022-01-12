@@ -5,6 +5,7 @@
         AwaitingConfirmation,
         AwaitingPayment,
         Canceled,
+        Refunded,
         SaleComplete
     }
 }

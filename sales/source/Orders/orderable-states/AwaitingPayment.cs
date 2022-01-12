@@ -27,6 +27,12 @@ namespace Shop.Sales.Orders
 
         public override Result<Error> Confirm() => InvalidOperation("Order already confirmed.");
 
+        public override Result<Error> Refund()
+        {
+            Set(OrderState.Refunded);
+            return Success();
+        }
+
         #endregion
     }
 }

@@ -33,7 +33,7 @@ namespace Shop.Sales.Spec.Orders
             [Fact]
             public void ThenFinancesAreUpdated()
             {
-                var expected = new Finances(0, 30, 25, 5);
+                var expected = new Finances(0, 30, 0, 25, 5);
 
                 _order.ApplyPayment(30);
 
@@ -84,6 +84,21 @@ namespace Shop.Sales.Spec.Orders
                 var error = _order.Confirm().Error;
 
                 error.Should().Be(Error.InvalidOperation());
+            }
+
+            #endregion
+        }
+
+        public class WhenRefunded : GivenAnOrderAwaitingPayment
+        {
+            #region Test Methods
+
+            [Fact]
+            public void ThenOrderIsRefunded()
+            {
+                _order.Refund();
+
+                _order.State.Should().Be(OrderState.Refunded);
             }
 
             #endregion

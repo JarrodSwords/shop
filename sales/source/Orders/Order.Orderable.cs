@@ -13,9 +13,10 @@ namespace Shop.Sales.Orders
                 new()
                 {
                     { OrderState.AwaitingConfirmation, () => new AwaitingConfirmation() },
-                    { OrderState.SaleComplete, () => new SaleComplete() },
                     { OrderState.AwaitingPayment, () => new AwaitingPayment() },
-                    { OrderState.Canceled, () => new Canceled() }
+                    { OrderState.Canceled, () => new Canceled() },
+                    { OrderState.Refunded, () => new Refunded() },
+                    { OrderState.SaleComplete, () => new SaleComplete() }
                 };
 
             protected Order Order;
@@ -55,6 +56,7 @@ namespace Shop.Sales.Orders
             public abstract Result<Error> ApplyPayment(Money value);
             public abstract Result<Error> Cancel();
             public abstract Result<Error> Confirm();
+            public abstract Result<Error> Refund();
 
             #endregion
         }

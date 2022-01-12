@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using Jgs.Ddd;
 using Shop.Sales.Orders;
+using Shop.Shared;
 using Xunit;
 
 namespace Shop.Sales.Spec.Orders
@@ -32,7 +33,7 @@ namespace Shop.Sales.Spec.Orders
             {
                 _order.ApplyPayment(5);
 
-                _order.Finances.Should().Be(new Finances(20, 5, 25, 0));
+                _order.Finances.Should().Be(new Finances(20, 5, 0, 25, 0));
             }
 
             [Fact]
@@ -99,6 +100,21 @@ namespace Shop.Sales.Spec.Orders
             public void ThenOrderIsAwaitingPayment()
             {
                 _order.State.Should().Be(OrderState.AwaitingPayment);
+            }
+
+            #endregion
+        }
+
+        public class WhenRefunded : GivenAnOrderAwaitingConfirmation
+        {
+            #region Test Methods
+
+            [Fact]
+            public void ThenReturnInvalidOperationError()
+            {
+                var error = _order.Refund().Error;
+
+                error.Should().Be(Error.InvalidOperation());
             }
 
             #endregion

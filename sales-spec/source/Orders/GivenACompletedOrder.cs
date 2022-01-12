@@ -48,6 +48,14 @@ namespace Shop.Sales.Spec.Orders
             error.Should().Be(Error.InvalidOperation());
         }
 
+        [Fact]
+        public void WhenRefunded_ThenOrderIsRefunded()
+        {
+            _order.Refund();
+
+            _order.State.Should().Be(OrderState.Refunded);
+        }
+
         #endregion
     }
 }

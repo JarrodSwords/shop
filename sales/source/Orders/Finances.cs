@@ -15,12 +15,14 @@ namespace Shop.Sales.Orders
         public Finances(
             Money due = default,
             Money paid = default,
+            Money refunded = default,
             Money subtotal = default,
             Money tip = default
         )
         {
             Due = due ?? Money.Zero;
             Paid = paid ?? Money.Zero;
+            Refunded = refunded ?? Money.Zero;
             Subtotal = subtotal ?? Money.Zero;
             Tip = tip ?? Money.Zero;
         }
@@ -48,6 +50,7 @@ namespace Shop.Sales.Orders
         public Money Due { get; }
         public bool IsPaidInFull => Paid >= Subtotal;
         public Money Paid { get; }
+        public Money Refunded { get; }
         public Money Subtotal { get; }
         public Money Tip { get; }
 
@@ -58,10 +61,19 @@ namespace Shop.Sales.Orders
             return new(
                 Math.Max(difference, 0),
                 Paid + payment,
-                Subtotal,
-                Math.Max(Tip - difference, 0)
+                subtotal: Subtotal,
+                tip: Math.Max(Tip - difference, 0)
             );
         }
+
+        public Finances Refund() =>
+            new(
+                0,
+                Paid,
+                Subtotal,
+                Tip,
+                Paid
+            );
 
         #endregion
 
@@ -71,6 +83,7 @@ namespace Shop.Sales.Orders
         {
             yield return Due;
             yield return Paid;
+            yield return Refunded;
             yield return Subtotal;
             yield return Tip;
         }

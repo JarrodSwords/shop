@@ -75,6 +75,7 @@ namespace Shop.Sales.Orders
         public Result<Error> ApplyPayment(Money value) => _orderable.ApplyPayment(value);
         public Result<Error> Cancel() => _orderable.Cancel();
         public Result<Error> Confirm() => _orderable.Confirm();
+        public Result<Error> Refund() => _orderable.Refund();
 
         #endregion
     }
