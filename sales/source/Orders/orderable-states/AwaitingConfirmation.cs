@@ -12,8 +12,11 @@ namespace Shop.Sales.Orders
         {
             Finances = Finances.ApplyPayment(value);
 
-            if (!Finances.IsPaidInFull)
-                Set(OrderState.AwaitingPayment);
+            Set(
+                Finances.IsPaidInFull
+                    ? OrderState.AwaitingFulfillment
+                    : OrderState.AwaitingPayment
+            );
 
             return Success();
         }

@@ -7,13 +7,13 @@ namespace Shop.Sales.Spec.Orders
 {
     public class GivenAnOrderAwaitingConfirmation : Context
     {
-        protected readonly Order Order;
+        private readonly Order _order;
 
         #region Creation
 
         public GivenAnOrderAwaitingConfirmation()
         {
-            Order = Order.From(
+            _order = Order.From(
                 CustomerId,
                 CustomerIds,
                 default,
@@ -30,17 +30,25 @@ namespace Shop.Sales.Spec.Orders
             [Fact]
             public void ThenFinancesAreUpdated()
             {
-                Order.ApplyPayment(5);
+                _order.ApplyPayment(5);
 
-                Order.Finances.Should().Be(new Finances(20, 5, 25, 0));
+                _order.Finances.Should().Be(new Finances(20, 5, 25, 0));
             }
 
             [Fact]
             public void WithInsufficientAmount_ThenOrderIsConfirmed()
             {
-                Order.ApplyPayment(5);
+                _order.ApplyPayment(5);
 
-                Order.State.Should().Be(OrderState.AwaitingPayment);
+                _order.State.Should().Be(OrderState.AwaitingPayment);
+            }
+
+            [Fact]
+            public void WithSufficientAmount_ThenOrderIsAwaitingFulfillment()
+            {
+                _order.ApplyPayment(30);
+
+                _order.State.Should().Be(OrderState.AwaitingFulfillment);
             }
 
             #endregion
@@ -52,7 +60,7 @@ namespace Shop.Sales.Spec.Orders
 
             public WhenCanceled()
             {
-                Order.Cancel();
+                _order.Cancel();
             }
 
             #endregion
@@ -62,7 +70,7 @@ namespace Shop.Sales.Spec.Orders
             [Fact]
             public void ThenOrderIsCanceled()
             {
-                Order.State.Should().Be(OrderState.Canceled);
+                _order.State.Should().Be(OrderState.Canceled);
             }
 
             #endregion
@@ -74,7 +82,7 @@ namespace Shop.Sales.Spec.Orders
 
             public WhenConfirmed()
             {
-                Order.Confirm();
+                _order.Confirm();
             }
 
             #endregion
@@ -84,13 +92,13 @@ namespace Shop.Sales.Spec.Orders
             [Fact]
             public void ThenAmountDueIsSubtotal()
             {
-                Order.Finances.Due.Should().Be(Order.Finances.Subtotal);
+                _order.Finances.Due.Should().Be(_order.Finances.Subtotal);
             }
 
             [Fact]
             public void ThenOrderIsAwaitingPayment()
             {
-                Order.State.Should().Be(OrderState.AwaitingPayment);
+                _order.State.Should().Be(OrderState.AwaitingPayment);
             }
 
             #endregion
