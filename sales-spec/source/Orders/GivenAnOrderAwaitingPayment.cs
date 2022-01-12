@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using Jgs.Ddd;
 using Shop.Sales.Orders;
 using Shop.Shared;
 using Xunit;
@@ -16,8 +17,11 @@ namespace Shop.Sales.Spec.Orders
             _order = Order.From(
                 CustomerId,
                 CustomerIds,
-                OrderState.AwaitingPayment
+                default,
+                new LineItem(25m, new Id(), 1)
             ).Value;
+
+            _order.Confirm();
         }
 
         #endregion
@@ -38,6 +42,14 @@ namespace Shop.Sales.Spec.Orders
             var error = _order.Confirm().Error;
 
             error.Should().Be(Error.InvalidOperation());
+        }
+
+        [Fact]
+        public void WhenInsufficientPaymentReceived_ThenAmountDueIsUpdated()
+        {
+            _order.ApplyPayment(20m);
+
+            _order.AmountDue.Should().Be((Money) 5m);
         }
 
         #endregion

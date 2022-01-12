@@ -6,10 +6,10 @@ using Shop.Shared;
 
 namespace Shop.Sales.Orders
 {
-    public partial class Order : Aggregate
+    public partial class Order : Aggregate, IOrderable
     {
         private readonly List<LineItem> _lineItems = new();
-        private OperatingState _operatingState;
+        private Orderable _orderable;
         private OrderState _state;
 
         #region Creation
@@ -63,8 +63,8 @@ namespace Shop.Sales.Orders
             private set
             {
                 _state = value;
-                _operatingState = OperatingState.From(_state);
-                _operatingState.Set(this);
+                _orderable = Orderable.From(_state);
+                _orderable.Set(this);
             }
         }
 
@@ -72,8 +72,13 @@ namespace Shop.Sales.Orders
         public Money Tip { get; }
         public Money Total => Subtotal + Tip;
 
-        public Result<Error> Cancel() => _operatingState.Cancel();
-        public Result<Error> Confirm() => _operatingState.Confirm();
+        #endregion
+
+        #region IOrderable Implementation
+
+        public Result<Error> ApplyPayment(Money money) => _orderable.ApplyPayment(money);
+        public Result<Error> Cancel() => _orderable.Cancel();
+        public Result<Error> Confirm() => _orderable.Confirm();
 
         #endregion
     }

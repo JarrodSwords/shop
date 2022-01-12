@@ -5,9 +5,15 @@ using static Shop.Shared.Error;
 
 namespace Shop.Sales.Orders
 {
-    public class AwaitingPayment : Order.OperatingState
+    public class AwaitingPayment : Order.Orderable
     {
         #region Public Interface
+
+        public override Result<Error> ApplyPayment(Money money)
+        {
+            SetAmountDue(Order.AmountDue - money);
+            return Success();
+        }
 
         public override Result<Error> Cancel()
         {

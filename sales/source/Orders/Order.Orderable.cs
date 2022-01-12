@@ -7,9 +7,9 @@ namespace Shop.Sales.Orders
 {
     public partial class Order
     {
-        public abstract class OperatingState
+        public abstract class Orderable : IOrderable
         {
-            private static readonly Dictionary<OrderState, Func<OperatingState>> OperatingStateFactory =
+            private static readonly Dictionary<OrderState, Func<Orderable>> OperatingStateFactory =
                 new()
                 {
                     { OrderState.AwaitingConfirmation, () => new AwaitingConfirmation() },
@@ -21,14 +21,11 @@ namespace Shop.Sales.Orders
 
             #region Creation
 
-            public static OperatingState From(OrderState state) => OperatingStateFactory[state]();
+            public static Orderable From(OrderState state) => OperatingStateFactory[state]();
 
             #endregion
 
             #region Public Interface
-
-            public abstract Result<Error> Cancel();
-            public abstract Result<Error> Confirm();
 
             public void Set(Order order)
             {
@@ -40,10 +37,22 @@ namespace Shop.Sales.Orders
                 Order.State = states;
             }
 
-            public void SetAmountDue(Money value)
+            #endregion
+
+            #region Protected Interface
+
+            protected void SetAmountDue(Money value)
             {
                 Order.AmountDue = value;
             }
+
+            #endregion
+
+            #region IOrderable Implementation
+
+            public abstract Result<Error> ApplyPayment(Money money);
+            public abstract Result<Error> Cancel();
+            public abstract Result<Error> Confirm();
 
             #endregion
         }
