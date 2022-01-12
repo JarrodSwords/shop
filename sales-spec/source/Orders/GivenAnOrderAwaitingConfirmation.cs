@@ -35,6 +35,14 @@ namespace Shop.Sales.Spec.Orders
                 Order.Finances.Should().Be(new Finances(20, 5, 25, 0));
             }
 
+            [Fact]
+            public void WithInsufficientAmount_ThenOrderIsConfirmed()
+            {
+                Order.ApplyPayment(5);
+
+                Order.State.Should().Be(OrderState.AwaitingPayment);
+            }
+
             #endregion
         }
 

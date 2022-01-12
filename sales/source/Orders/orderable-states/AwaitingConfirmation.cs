@@ -11,6 +11,10 @@ namespace Shop.Sales.Orders
         public override Result<Error> ApplyPayment(Money value)
         {
             Finances = Finances.ApplyPayment(value);
+
+            if (!Finances.IsPaidInFull)
+                Set(OrderState.AwaitingPayment);
+
             return Success();
         }
 

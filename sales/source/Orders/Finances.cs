@@ -46,6 +46,7 @@ namespace Shop.Sales.Orders
         #region Public Interface
 
         public Money Due { get; }
+        public bool IsPaidInFull => Paid >= Subtotal;
         public Money Paid { get; }
         public Money Subtotal { get; }
         public Money Tip { get; }
