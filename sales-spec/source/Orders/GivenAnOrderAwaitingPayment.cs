@@ -6,13 +6,13 @@ using Xunit;
 
 namespace Shop.Sales.Spec.Orders
 {
-    public class GivenAnOrderAwaitingPayment : Context
+    public abstract class GivenAnOrderAwaitingPayment : Context
     {
         private readonly Order _order;
 
         #region Creation
 
-        public GivenAnOrderAwaitingPayment()
+        protected GivenAnOrderAwaitingPayment()
         {
             _order = Order.From(
                 CustomerId,
@@ -26,37 +26,7 @@ namespace Shop.Sales.Spec.Orders
 
         #endregion
 
-        public class WhenCanceled : GivenAnOrderAwaitingPayment
-        {
-            #region Test Methods
-
-            [Fact]
-            public void ThenOrderIsCanceled()
-            {
-                _order.Cancel();
-
-                _order.State.Should().Be(OrderState.Canceled);
-            }
-
-            #endregion
-        }
-
-        public class WhenConfirmed : GivenAnOrderAwaitingPayment
-        {
-            #region Test Methods
-
-            [Fact]
-            public void ThenReturnInvalidOperationError()
-            {
-                var error = _order.Confirm().Error;
-
-                error.Should().Be(Error.InvalidOperation());
-            }
-
-            #endregion
-        }
-
-        public class WhenPaymentReceived : GivenAnOrderAwaitingPayment
+        public class WhenApplyingPayment : GivenAnOrderAwaitingPayment
         {
             #region Test Methods
 
@@ -84,6 +54,36 @@ namespace Shop.Sales.Spec.Orders
                 _order.ApplyPayment(30);
 
                 _order.State.Should().Be(OrderState.AwaitingFulfillment);
+            }
+
+            #endregion
+        }
+
+        public class WhenCanceled : GivenAnOrderAwaitingPayment
+        {
+            #region Test Methods
+
+            [Fact]
+            public void ThenOrderIsCanceled()
+            {
+                _order.Cancel();
+
+                _order.State.Should().Be(OrderState.Canceled);
+            }
+
+            #endregion
+        }
+
+        public class WhenConfirmed : GivenAnOrderAwaitingPayment
+        {
+            #region Test Methods
+
+            [Fact]
+            public void ThenReturnInvalidOperationError()
+            {
+                var error = _order.Confirm().Error;
+
+                error.Should().Be(Error.InvalidOperation());
             }
 
             #endregion
