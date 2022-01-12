@@ -25,6 +25,14 @@ namespace Shop.Sales.Spec.Orders
         #region Test Methods
 
         [Fact]
+        public void WhenApplyingPayment_ThenReturnInvalidOperationError()
+        {
+            var error = _order.ApplyPayment(1).Error;
+
+            error.Should().Be(Error.InvalidOperation());
+        }
+
+        [Fact]
         public void WhenCanceled_ThenReturnInvalidOperationError()
         {
             var error = _order.Cancel().Error;

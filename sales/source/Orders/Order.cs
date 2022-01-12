@@ -16,9 +16,9 @@ namespace Shop.Sales.Orders
 
         private Order(
             Id customerId,
-            IEnumerable<LineItem> lineItems,
             OrderState state = default,
-            Money tip = default
+            Finances finances = default,
+            params LineItem[] lineItems
         )
         {
             CustomerId = customerId;
@@ -30,13 +30,13 @@ namespace Shop.Sales.Orders
                 ? OrderState.AwaitingConfirmation
                 : state;
 
-            Tip = tip ?? Money.Zero;
+            Finances = finances ?? Finances.From(lineItems);
         }
 
         public static Result<Order, Error> From(
             Id customerId,
             List<Id> customerIds,
-            OrderState states = default,
+            OrderState state = default,
             params LineItem[] lineItems
         )
         {
@@ -46,16 +46,15 @@ namespace Shop.Sales.Orders
             if (customerIds.All(x => x != customerId))
                 return ErrorExtensions.CustomerNotFound();
 
-            return new Order(customerId, lineItems, states);
+            return new Order(customerId, state, lineItems: lineItems);
         }
 
         #endregion
 
         #region Public Interface
 
-        public Money AmountDue { get; private set; }
-        public Money AmountPaid { get; private set; } = Money.Zero;
         public Id CustomerId { get; }
+        public Finances Finances { get; private set; }
         public IReadOnlyCollection<LineItem> LineItems => _lineItems.AsReadOnly();
 
         public OrderState State
@@ -68,10 +67,6 @@ namespace Shop.Sales.Orders
                 _orderable.Set(this);
             }
         }
-
-        public Money Subtotal => _lineItems.Aggregate(Money.Zero, (current, li) => current + li.Total);
-        public Money Tip { get; }
-        public Money Total => Subtotal + Tip;
 
         #endregion
 

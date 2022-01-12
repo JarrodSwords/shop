@@ -14,9 +14,9 @@ namespace Shop.Write
         public Order(DomainOrder order) : base(order.Id)
         {
             CustomerId = order.CustomerId;
-            Subtotal = order.Subtotal;
-            Tip = order.Tip;
-            Total = order.Total;
+            Subtotal = order.Finances.Subtotal;
+            Tip = order.Finances.Tip;
+            Total = default;
         }
 
         #endregion

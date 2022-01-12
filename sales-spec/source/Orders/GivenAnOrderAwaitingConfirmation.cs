@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using Jgs.Ddd;
 using Shop.Sales.Orders;
 using Xunit;
 
@@ -14,11 +15,36 @@ namespace Shop.Sales.Spec.Orders
         {
             Order = Order.From(
                 CustomerId,
-                CustomerIds
+                CustomerIds,
+                default,
+                new LineItem(25, new Id(), 1)
             ).Value;
         }
 
         #endregion
+
+        public class WhenApplyingPayment : GivenAnOrderAwaitingConfirmation
+        {
+            #region Test Methods
+
+            [Fact]
+            public void ThenFinancesAreUpdated()
+            {
+                Order.ApplyPayment(5);
+
+                Order.Finances.Should().Be(new Finances(20, 5, 25, 0));
+            }
+
+            [Fact]
+            public void WithInsufficientAmount_ThenOrderIsConfirmed()
+            {
+                Order.ApplyPayment(5);
+
+                Order.State.Should().Be(OrderState.AwaitingPayment);
+            }
+
+            #endregion
+        }
 
         public class WhenCanceled : GivenAnOrderAwaitingConfirmation
         {
@@ -58,7 +84,7 @@ namespace Shop.Sales.Spec.Orders
             [Fact]
             public void ThenAmountDueIsSubtotal()
             {
-                Order.AmountDue.Should().Be(Order.Subtotal);
+                Order.Finances.Due.Should().Be(Order.Finances.Subtotal);
             }
 
             [Fact]
