@@ -9,11 +9,9 @@ namespace Shop.Sales.Spec.Orders
     {
         #region Core
 
-        private readonly Order _order;
-
         public GivenACompletedOrder()
         {
-            _order = Order.From(
+            Order = Order.From(
                 CustomerId,
                 CustomerIds,
                 OrderState.SaleComplete
@@ -27,15 +25,7 @@ namespace Shop.Sales.Spec.Orders
         [Fact]
         public void WhenApplyingPayment_ThenReturnInvalidOperationError()
         {
-            var error = _order.ApplyPayment(1).Error;
-
-            error.Should().Be(Error.InvalidOperation());
-        }
-
-        [Fact]
-        public void WhenCanceled_ThenReturnInvalidOperationError()
-        {
-            var error = _order.Cancel().Error;
+            var error = Order.ApplyPayment(1).Error;
 
             error.Should().Be(Error.InvalidOperation());
         }
@@ -43,19 +33,33 @@ namespace Shop.Sales.Spec.Orders
         [Fact]
         public void WhenConfirmed_ThenReturnInvalidOperationError()
         {
-            var error = _order.Confirm().Error;
+            var error = Order.Confirm().Error;
 
             error.Should().Be(Error.InvalidOperation());
         }
 
-        [Fact]
-        public void WhenRefunded_ThenOrderIsRefunded()
-        {
-            _order.Refund();
-
-            _order.State.Should().HaveFlag(OrderState.Refunded);
-        }
-
         #endregion
+
+        public class WhenCanceled : GivenACompletedOrder
+        {
+            #region Core
+
+            public WhenCanceled()
+            {
+                Order.Cancel();
+            }
+
+            #endregion
+
+            #region Test Methods
+
+            [Fact]
+            public void ThenOrderIsCanceled()
+            {
+                Order.State.Should().HaveFlag(OrderState.Canceled);
+            }
+
+            #endregion
+        }
     }
 }

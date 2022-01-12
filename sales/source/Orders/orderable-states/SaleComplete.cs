@@ -12,7 +12,12 @@ namespace Shop.Sales.Orders
         public override Result<Error> ApplyPayment(Money value) =>
             InvalidOperation("Cannot apply payment to a completed order.");
 
-        public override Result<Error> Cancel() => InvalidOperation("Cannot cancel a completed order.");
+        public override Result<Error> Cancel()
+        {
+            Set(OrderState.Canceled);
+            return Success();
+        }
+
         public override Result<Error> Confirm() => InvalidOperation("Cannot confirm a completed order.");
 
         public override Result<Error> Refund()
