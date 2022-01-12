@@ -19,7 +19,6 @@ namespace Shop.Sales.Orders
 
         public override Result<Error> Confirm()
         {
-            SetAmountDue(Order.Subtotal);
             Set(OrderState.AwaitingPayment);
             return Success();
         }

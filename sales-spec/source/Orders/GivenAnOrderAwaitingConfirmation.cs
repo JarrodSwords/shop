@@ -58,7 +58,7 @@ namespace Shop.Sales.Spec.Orders
             [Fact]
             public void ThenAmountDueIsSubtotal()
             {
-                Order.AmountDue.Should().Be(Order.Subtotal);
+                Order.Finances.Due.Should().Be(Order.Finances.Subtotal);
             }
 
             [Fact]

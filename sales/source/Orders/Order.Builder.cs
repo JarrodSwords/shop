@@ -23,7 +23,7 @@ namespace Shop.Sales.Orders
 
             public Result<Order> Build()
             {
-                var order = new Order(_customerId, _lineItems, OrderState.AwaitingConfirmation, _tip);
+                var order = new Order(_customerId, lineItems: _lineItems.ToArray());
                 var validationResult = new Validator().Validate(order);
 
                 return validationResult.IsValid

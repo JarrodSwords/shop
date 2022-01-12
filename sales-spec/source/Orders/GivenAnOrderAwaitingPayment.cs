@@ -51,7 +51,7 @@ namespace Shop.Sales.Spec.Orders
         {
             _order.ApplyPayment(paid);
 
-            _order.AmountDue.Should().Be((Money) due);
+            _order.Finances.Due.Should().Be((Money) due);
         }
 
         [Theory]
@@ -62,7 +62,7 @@ namespace Shop.Sales.Spec.Orders
             foreach (var p in payments)
                 _order.ApplyPayment(p);
 
-            _order.AmountPaid.Should().Be((Money) expected);
+            _order.Finances.Paid.Should().Be((Money) expected);
         }
 
         #endregion

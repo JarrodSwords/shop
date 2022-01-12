@@ -43,12 +43,7 @@ namespace Shop.Sales.Orders
 
             protected void SetAmountDue(Money value)
             {
-                Order.AmountDue = value;
-            }
-
-            protected void UpdateAmountPaid(Money value)
-            {
-                Order.AmountPaid += value;
+                Order.Finances = Order.Finances.ApplyPayment(value);
             }
 
             #endregion

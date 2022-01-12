@@ -21,7 +21,7 @@ namespace Shop.Sales.Spec.Orders
                 new LineItem(49m, new Guid(), 2)
             ).Value;
 
-            order.Subtotal.Should().Be((Money) 123);
+            order.Finances.Subtotal.Should().Be((Money) 123);
         }
 
         [Fact]
@@ -54,7 +54,7 @@ namespace Shop.Sales.Spec.Orders
                 CustomerIds
             ).Value;
 
-            order.Tip.Should().Be(Money.Zero);
+            order.Finances.Tip.Should().Be(Money.Zero);
         }
 
         [Fact]
