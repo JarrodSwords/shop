@@ -41,9 +41,10 @@ namespace Shop.Sales.Orders
 
             #region Protected Interface
 
-            protected void SetAmountDue(Money value)
+            protected Finances Finances
             {
-                Order.Finances = Order.Finances.ApplyPayment(value);
+                get => Order.Finances;
+                set => Order.Finances = value;
             }
 
             #endregion

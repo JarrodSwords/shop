@@ -11,7 +11,7 @@ namespace Shop.Sales.Orders
 
         public override Result<Error> ApplyPayment(Money value)
         {
-            SetAmountDue(value);
+            Finances = Order.Finances.ApplyPayment(value);
             return Success();
         }
 
