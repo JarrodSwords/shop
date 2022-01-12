@@ -44,12 +44,25 @@ namespace Shop.Sales.Spec.Orders
             error.Should().Be(Error.InvalidOperation());
         }
 
-        [Fact]
-        public void WhenInsufficientPaymentReceived_ThenAmountDueIsUpdated()
+        [Theory]
+        [InlineData(1, 24)]
+        [InlineData(20, 5)]
+        public void WhenPaymentReceived_ThenAmountDueIsAmountDueMinusAmountPaid(decimal paid, decimal due)
         {
-            _order.ApplyPayment(20m);
+            _order.ApplyPayment(paid);
 
-            _order.AmountDue.Should().Be((Money) 5m);
+            _order.AmountDue.Should().Be((Money) due);
+        }
+
+        [Theory]
+        [InlineData(1, 1)]
+        [InlineData(5, 2, 3)]
+        public void WhenPaymentReceived_ThenAmountPaidIsUpdated(int expected, params int[] payments)
+        {
+            foreach (var p in payments)
+                _order.ApplyPayment(p);
+
+            _order.AmountPaid.Should().Be((Money) expected);
         }
 
         #endregion

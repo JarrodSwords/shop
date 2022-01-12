@@ -5,7 +5,7 @@ namespace Shop.Sales.Orders
 {
     public interface IOrderable
     {
-        Result<Error> ApplyPayment(Money money);
+        Result<Error> ApplyPayment(Money value);
         Result<Error> Cancel();
         Result<Error> Confirm();
     }

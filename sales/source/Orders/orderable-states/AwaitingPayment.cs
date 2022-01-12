@@ -9,9 +9,10 @@ namespace Shop.Sales.Orders
     {
         #region Public Interface
 
-        public override Result<Error> ApplyPayment(Money money)
+        public override Result<Error> ApplyPayment(Money value)
         {
-            SetAmountDue(Order.AmountDue - money);
+            SetAmountDue(Order.AmountDue - value);
+            UpdateAmountPaid(value);
             return Success();
         }
 

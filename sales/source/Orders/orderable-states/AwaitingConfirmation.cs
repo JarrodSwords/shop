@@ -9,7 +9,7 @@ namespace Shop.Sales.Orders
     {
         #region Public Interface
 
-        public override Result<Error> ApplyPayment(Money money) => throw new NotImplementedException();
+        public override Result<Error> ApplyPayment(Money value) => throw new NotImplementedException();
 
         public override Result<Error> Cancel()
         {

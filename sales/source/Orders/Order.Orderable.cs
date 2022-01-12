@@ -46,11 +46,16 @@ namespace Shop.Sales.Orders
                 Order.AmountDue = value;
             }
 
+            protected void UpdateAmountPaid(Money value)
+            {
+                Order.AmountPaid += value;
+            }
+
             #endregion
 
             #region IOrderable Implementation
 
-            public abstract Result<Error> ApplyPayment(Money money);
+            public abstract Result<Error> ApplyPayment(Money value);
             public abstract Result<Error> Cancel();
             public abstract Result<Error> Confirm();
 

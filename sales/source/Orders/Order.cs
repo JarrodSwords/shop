@@ -54,6 +54,7 @@ namespace Shop.Sales.Orders
         #region Public Interface
 
         public Money AmountDue { get; private set; }
+        public Money AmountPaid { get; private set; } = Money.Zero;
         public Id CustomerId { get; }
         public IReadOnlyCollection<LineItem> LineItems => _lineItems.AsReadOnly();
 
@@ -76,7 +77,7 @@ namespace Shop.Sales.Orders
 
         #region IOrderable Implementation
 
-        public Result<Error> ApplyPayment(Money money) => _orderable.ApplyPayment(money);
+        public Result<Error> ApplyPayment(Money value) => _orderable.ApplyPayment(value);
         public Result<Error> Cancel() => _orderable.Cancel();
         public Result<Error> Confirm() => _orderable.Confirm();
 
