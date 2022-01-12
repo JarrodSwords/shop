@@ -8,9 +8,9 @@ namespace Shop.Sales.Spec.Orders
 {
     public class GivenAnOrderAwaitingPayment : Context
     {
-        #region Core
-
         private readonly Order _order;
+
+        #region Creation
 
         public GivenAnOrderAwaitingPayment()
         {
@@ -26,34 +26,67 @@ namespace Shop.Sales.Spec.Orders
 
         #endregion
 
-        #region Test Methods
-
-        [Fact]
-        public void WhenCanceled_ThenOrderIsCanceled()
+        public class WhenCanceled : GivenAnOrderAwaitingPayment
         {
-            _order.Cancel();
+            #region Test Methods
 
-            _order.State.Should().Be(OrderState.Canceled);
+            [Fact]
+            public void ThenOrderIsCanceled()
+            {
+                _order.Cancel();
+
+                _order.State.Should().Be(OrderState.Canceled);
+            }
+
+            #endregion
         }
 
-        [Fact]
-        public void WhenConfirmed_ThenReturnInvalidOperationError()
+        public class WhenConfirmed : GivenAnOrderAwaitingPayment
         {
-            var error = _order.Confirm().Error;
+            #region Test Methods
 
-            error.Should().Be(Error.InvalidOperation());
+            [Fact]
+            public void ThenReturnInvalidOperationError()
+            {
+                var error = _order.Confirm().Error;
+
+                error.Should().Be(Error.InvalidOperation());
+            }
+
+            #endregion
         }
 
-        [Fact]
-        public void WhenPaymentReceived_ThenFinancesAreUpdated()
+        public class WhenPaymentReceived : GivenAnOrderAwaitingPayment
         {
-            var expected = new Finances(0, 30, 25, 5);
+            #region Test Methods
 
-            _order.ApplyPayment(30);
+            [Fact]
+            public void ThenFinancesAreUpdated()
+            {
+                var expected = new Finances(0, 30, 25, 5);
 
-            _order.Finances.Should().Be(expected);
+                _order.ApplyPayment(30);
+
+                _order.Finances.Should().Be(expected);
+            }
+
+            [Fact]
+            public void WithInsufficientAmount_ThenOrderIsAwaitingPayment()
+            {
+                _order.ApplyPayment(5);
+
+                _order.State.Should().Be(OrderState.AwaitingPayment);
+            }
+
+            [Fact]
+            public void WithSufficientAmount_ThenOrderIsAwaitingFulfillment()
+            {
+                _order.ApplyPayment(30);
+
+                _order.State.Should().Be(OrderState.AwaitingFulfillment);
+            }
+
+            #endregion
         }
-
-        #endregion
     }
 }

@@ -13,6 +13,7 @@ namespace Shop.Sales.Orders
                 new()
                 {
                     { OrderState.AwaitingConfirmation, () => new AwaitingConfirmation() },
+                    { OrderState.AwaitingFulfillment, () => new AwaitingFulfillment() },
                     { OrderState.AwaitingPayment, () => new AwaitingPayment() },
                     { OrderState.Canceled, () => new Canceled() }
                 };
