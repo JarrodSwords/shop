@@ -4,7 +4,7 @@ using static Shop.Shared.Error;
 
 namespace Shop.Sales.Orders
 {
-    public class AwaitingFulfillment : Order.Orderable
+    public class SaleComplete : Order.Orderable
     {
         #region Public Interface
 

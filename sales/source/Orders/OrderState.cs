@@ -3,8 +3,8 @@
     public enum OrderState
     {
         AwaitingConfirmation,
-        AwaitingFulfillment,
         AwaitingPayment,
-        Canceled
+        Canceled,
+        SaleComplete
     }
 }

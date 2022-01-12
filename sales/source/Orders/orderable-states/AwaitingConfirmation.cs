@@ -14,7 +14,7 @@ namespace Shop.Sales.Orders
 
             Set(
                 Finances.IsPaidInFull
-                    ? OrderState.AwaitingFulfillment
+                    ? OrderState.SaleComplete
                     : OrderState.AwaitingPayment
             );
 

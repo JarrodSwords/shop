@@ -14,7 +14,7 @@ namespace Shop.Sales.Orders
             Finances = Order.Finances.ApplyPayment(value);
 
             if (Finances.IsPaidInFull)
-                Set(OrderState.AwaitingFulfillment);
+                Set(OrderState.SaleComplete);
 
             return Success();
         }

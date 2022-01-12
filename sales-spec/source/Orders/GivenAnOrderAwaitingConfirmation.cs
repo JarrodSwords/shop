@@ -48,7 +48,7 @@ namespace Shop.Sales.Spec.Orders
             {
                 _order.ApplyPayment(30);
 
-                _order.State.Should().Be(OrderState.AwaitingFulfillment);
+                _order.State.Should().Be(OrderState.SaleComplete);
             }
 
             #endregion

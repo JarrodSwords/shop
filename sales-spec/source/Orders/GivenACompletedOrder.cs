@@ -5,18 +5,18 @@ using Xunit;
 
 namespace Shop.Sales.Spec.Orders
 {
-    public class GivenAnOrderAwaitingFulfillment : Context
+    public class GivenACompletedOrder : Context
     {
         #region Core
 
         private readonly Order _order;
 
-        public GivenAnOrderAwaitingFulfillment()
+        public GivenACompletedOrder()
         {
             _order = Order.From(
                 CustomerId,
                 CustomerIds,
-                OrderState.AwaitingFulfillment
+                OrderState.SaleComplete
             ).Value;
         }
 
