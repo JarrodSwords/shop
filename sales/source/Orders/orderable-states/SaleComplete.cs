@@ -17,7 +17,7 @@ namespace Shop.Sales.Orders
 
         public override Result<Error> Refund()
         {
-            Set(OrderState.Refunded);
+            Set(OrderState.Canceled | OrderState.Refunded);
             return Success();
         }
 

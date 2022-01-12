@@ -15,7 +15,7 @@ namespace Shop.Sales.Orders
                     { OrderState.AwaitingConfirmation, () => new AwaitingConfirmation() },
                     { OrderState.AwaitingPayment, () => new AwaitingPayment() },
                     { OrderState.Canceled, () => new Canceled() },
-                    { OrderState.Refunded, () => new Refunded() },
+                    { OrderState.Canceled | OrderState.Refunded, () => new Canceled() },
                     { OrderState.SaleComplete, () => new SaleComplete() }
                 };
 

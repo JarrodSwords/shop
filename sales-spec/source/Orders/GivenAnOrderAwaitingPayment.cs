@@ -98,7 +98,7 @@ namespace Shop.Sales.Spec.Orders
             {
                 _order.Refund();
 
-                _order.State.Should().Be(OrderState.Refunded);
+                _order.State.Should().HaveFlag(OrderState.Refunded);
             }
 
             #endregion
