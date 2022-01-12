@@ -21,11 +21,11 @@ namespace Shop.Sales.Spec.Orders
             [InlineData(5, 20)]
             [InlineData(10, 15)]
             [InlineData(30, 0)]
-            public void ThenDueIsDifferenceOfDueAndPaymentWithMinimumOfZero(decimal payment, decimal expected)
+            public void ThenBalanceIsDifferenceOfBalanceAndPaymentWithMinimumOfZero(decimal payment, decimal expected)
             {
                 _finances = _finances.ApplyPayment(payment);
 
-                _finances.Due.Should().Be((Money) expected);
+                _finances.Balance.Should().Be((Money) expected);
             }
 
             [Theory]
@@ -42,7 +42,7 @@ namespace Shop.Sales.Spec.Orders
             [Theory]
             [InlineData(30, 5)]
             [InlineData(32, 7)]
-            public void WithMoreThanDue_ThenTipIsExcessPayment(decimal payment, decimal excess)
+            public void WithMoreThanBalance_ThenTipIsExcessPayment(decimal payment, decimal excess)
             {
                 _finances = _finances.ApplyPayment(payment);
 

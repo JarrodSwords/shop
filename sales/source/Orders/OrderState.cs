@@ -10,7 +10,8 @@ namespace Shop.Sales.Orders
         AwaitingPayment = 1 << 1,
         Canceled = 1 << 2,
         Refunded = 1 << 3,
-        SaleComplete = 1 << 4
+        RefundRequired = 1 << 4,
+        SaleComplete = 1 << 5
     }
 
     public static class OrderStateExtensions

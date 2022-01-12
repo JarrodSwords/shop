@@ -45,7 +45,7 @@ namespace Shop.Sales.Spec.Orders
             }
 
             [Fact]
-            public void WithSufficientAmount_ThenOrderIsAwaitingFulfillment()
+            public void WithSufficientAmount_ThenOrderIsSaleComplete()
             {
                 _order.ApplyPayment(30);
 
@@ -91,9 +91,9 @@ namespace Shop.Sales.Spec.Orders
             #region Test Methods
 
             [Fact]
-            public void ThenAmountDueIsSubtotal()
+            public void ThenBalanceIsSubtotal()
             {
-                _order.Finances.Due.Should().Be(_order.Finances.Subtotal);
+                _order.Finances.Balance.Should().Be(_order.Finances.Subtotal);
             }
 
             [Fact]

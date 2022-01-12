@@ -49,7 +49,7 @@ namespace Shop.Sales.Spec.Orders
             }
 
             [Fact]
-            public void WithSufficientAmount_ThenOrderIsAwaitingFulfillment()
+            public void WithSufficientAmount_ThenOrderIsSaleComplete()
             {
                 _order.ApplyPayment(30);
 

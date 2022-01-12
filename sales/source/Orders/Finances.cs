@@ -13,14 +13,14 @@ namespace Shop.Sales.Orders
         #region Creation
 
         public Finances(
-            Money due = default,
+            Money balance = default,
             Money paid = default,
             Money refunded = default,
             Money subtotal = default,
             Money tip = default
         )
         {
-            Due = due ?? Money.Zero;
+            Balance = balance ?? Money.Zero;
             Paid = paid ?? Money.Zero;
             Refunded = refunded ?? Money.Zero;
             Subtotal = subtotal ?? Money.Zero;
@@ -47,7 +47,7 @@ namespace Shop.Sales.Orders
 
         #region Public Interface
 
-        public Money Due { get; }
+        public Money Balance { get; }
         public bool IsPaidInFull => Paid >= Subtotal;
         public Money Paid { get; }
         public Money Refunded { get; }
@@ -56,13 +56,13 @@ namespace Shop.Sales.Orders
 
         public Finances ApplyPayment(Money payment)
         {
-            var difference = Due - payment;
+            var remainingBalance = Balance - payment;
 
             return new(
-                Math.Max(difference, 0),
+                Math.Max(remainingBalance, 0),
                 Paid + payment,
                 subtotal: Subtotal,
-                tip: Math.Max(Tip - difference, 0)
+                tip: Math.Max(Tip - remainingBalance, 0)
             );
         }
 
@@ -81,7 +81,7 @@ namespace Shop.Sales.Orders
 
         public override IEnumerable<object> GetEqualityComponents()
         {
-            yield return Due;
+            yield return Balance;
             yield return Paid;
             yield return Refunded;
             yield return Subtotal;
