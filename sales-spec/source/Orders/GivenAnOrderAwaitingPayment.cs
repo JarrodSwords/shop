@@ -15,7 +15,7 @@ namespace Shop.Sales.Spec.Orders
             Order = Order.From(
                 CustomerId,
                 CustomerIds,
-                OrderState.AwaitingPayment,
+                OrderStatus.AwaitingPayment,
                 new LineItem(25m, new Id(), 1)
             ).Value;
 
@@ -43,7 +43,7 @@ namespace Shop.Sales.Spec.Orders
             {
                 Order.ApplyPayment(5);
 
-                Order.State.Should().Be(OrderState.AwaitingPayment);
+                Order.Status.Should().Be(OrderStatus.AwaitingPayment);
             }
 
             [Fact]
@@ -51,7 +51,7 @@ namespace Shop.Sales.Spec.Orders
             {
                 Order.ApplyPayment(30);
 
-                Order.State.Should().Be(OrderState.SaleComplete);
+                Order.Status.Should().Be(OrderStatus.SaleComplete);
             }
 
             #endregion
@@ -66,7 +66,7 @@ namespace Shop.Sales.Spec.Orders
             {
                 Order.Cancel();
 
-                Order.State.Should().Be(OrderState.Canceled);
+                Order.Status.Should().Be(OrderStatus.Canceled);
             }
 
             #endregion
@@ -96,7 +96,7 @@ namespace Shop.Sales.Spec.Orders
             {
                 Order.IssueRefund();
 
-                Order.State.Should().HaveFlag(OrderState.Refunded);
+                Order.Status.Should().HaveFlag(OrderStatus.Refunded);
             }
 
             #endregion

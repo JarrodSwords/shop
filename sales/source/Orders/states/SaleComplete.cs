@@ -5,11 +5,11 @@ using static Shop.Shared.Error;
 
 namespace Shop.Sales.Orders
 {
-    public class SaleComplete : Orderable
+    public class SaleComplete : State
     {
         #region Creation
 
-        public SaleComplete(Finances finances, OrderState state) : base(finances, state)
+        public SaleComplete(Finances finances, OrderStatus status) : base(finances, status)
         {
         }
 
@@ -22,7 +22,7 @@ namespace Shop.Sales.Orders
 
         public override Result<Error> Cancel()
         {
-            State = OrderState.Canceled;
+            Status = OrderStatus.Canceled;
             return Success();
         }
 
@@ -30,7 +30,7 @@ namespace Shop.Sales.Orders
 
         public override Result<Error> IssueRefund()
         {
-            State = OrderState.Canceled | OrderState.Refunded;
+            Status = OrderStatus.Canceled | OrderStatus.Refunded;
             return Success();
         }
 

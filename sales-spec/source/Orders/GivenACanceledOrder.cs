@@ -16,7 +16,7 @@ namespace Shop.Sales.Spec.Orders
             _order = Order.From(
                 CustomerId,
                 CustomerIds,
-                OrderState.Canceled
+                OrderStatus.Canceled
             ).Value;
         }
 

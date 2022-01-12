@@ -5,11 +5,11 @@ using static Shop.Shared.Error;
 
 namespace Shop.Sales.Orders
 {
-    public class AwaitingPayment : Orderable
+    public class AwaitingPayment : State
     {
         #region Creation
 
-        public AwaitingPayment(Finances finances, OrderState state) : base(finances, state)
+        public AwaitingPayment(Finances finances, OrderStatus status) : base(finances, status)
         {
         }
 
@@ -22,14 +22,14 @@ namespace Shop.Sales.Orders
             Finances = Finances.ApplyPayment(value);
 
             if (Finances.IsPaidInFull)
-                State = OrderState.SaleComplete;
+                Status = OrderStatus.SaleComplete;
 
             return Success();
         }
 
         public override Result<Error> Cancel()
         {
-            State = OrderState.Canceled;
+            Status = OrderStatus.Canceled;
             return Success();
         }
 
@@ -37,7 +37,7 @@ namespace Shop.Sales.Orders
 
         public override Result<Error> IssueRefund()
         {
-            State = OrderState.Canceled | OrderState.Refunded;
+            Status = OrderStatus.Canceled | OrderStatus.Refunded;
             return Success();
         }
 

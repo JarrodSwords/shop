@@ -17,7 +17,7 @@ namespace Shop.Sales.Spec.Orders
             _order = Order.From(
                 CustomerId,
                 CustomerIds,
-                OrderState.AwaitingConfirmation,
+                OrderStatus.AwaitingConfirmation,
                 new LineItem(25, new Id(), 1)
             ).Value;
         }
@@ -41,7 +41,7 @@ namespace Shop.Sales.Spec.Orders
             {
                 _order.ApplyPayment(5);
 
-                _order.State.Should().Be(OrderState.AwaitingPayment);
+                _order.Status.Should().Be(OrderStatus.AwaitingPayment);
             }
 
             [Fact]
@@ -49,7 +49,7 @@ namespace Shop.Sales.Spec.Orders
             {
                 _order.ApplyPayment(30);
 
-                _order.State.Should().Be(OrderState.SaleComplete);
+                _order.Status.Should().Be(OrderStatus.SaleComplete);
             }
 
             #endregion
@@ -71,7 +71,7 @@ namespace Shop.Sales.Spec.Orders
             [Fact]
             public void ThenOrderIsCanceled()
             {
-                _order.State.Should().Be(OrderState.Canceled);
+                _order.Status.Should().Be(OrderStatus.Canceled);
             }
 
             #endregion
@@ -99,7 +99,7 @@ namespace Shop.Sales.Spec.Orders
             [Fact]
             public void ThenOrderIsAwaitingPayment()
             {
-                _order.State.Should().Be(OrderState.AwaitingPayment);
+                _order.Status.Should().Be(OrderStatus.AwaitingPayment);
             }
 
             #endregion

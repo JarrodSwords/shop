@@ -5,11 +5,11 @@ using static Shop.Shared.Error;
 
 namespace Shop.Sales.Orders
 {
-    public class Canceled : Orderable
+    public class Canceled : State
     {
         #region Creation
 
-        public Canceled(Finances finances, OrderState state) : base(finances, state)
+        public Canceled(Finances finances, OrderStatus status) : base(finances, status)
         {
         }
 

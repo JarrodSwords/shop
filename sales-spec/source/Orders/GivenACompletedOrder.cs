@@ -14,7 +14,7 @@ namespace Shop.Sales.Spec.Orders
             Order = Order.From(
                 CustomerId,
                 CustomerIds,
-                OrderState.SaleComplete
+                OrderStatus.SaleComplete
             ).Value;
         }
 
@@ -56,7 +56,7 @@ namespace Shop.Sales.Spec.Orders
             [Fact]
             public void ThenOrderIsCanceled()
             {
-                Order.State.Should().HaveFlag(OrderState.Canceled);
+                Order.Status.Should().HaveFlag(OrderStatus.Canceled);
             }
 
             #endregion

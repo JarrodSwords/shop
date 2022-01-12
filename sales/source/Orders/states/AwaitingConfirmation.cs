@@ -5,11 +5,11 @@ using static Shop.Shared.Error;
 
 namespace Shop.Sales.Orders
 {
-    public class AwaitingConfirmation : Orderable
+    public class AwaitingConfirmation : State
     {
         #region Creation
 
-        public AwaitingConfirmation(Finances finances, OrderState state) : base(finances, state)
+        public AwaitingConfirmation(Finances finances, OrderStatus status) : base(finances, status)
         {
         }
 
@@ -21,22 +21,22 @@ namespace Shop.Sales.Orders
         {
             Finances = Finances.ApplyPayment(value);
 
-            State = Finances.IsPaidInFull
-                ? OrderState.SaleComplete
-                : OrderState.AwaitingPayment;
+            Status = Finances.IsPaidInFull
+                ? OrderStatus.SaleComplete
+                : OrderStatus.AwaitingPayment;
 
             return Success();
         }
 
         public override Result<Error> Cancel()
         {
-            State = OrderState.Canceled;
+            Status = OrderStatus.Canceled;
             return Success();
         }
 
         public override Result<Error> Confirm()
         {
-            State = OrderState.AwaitingPayment;
+            Status = OrderStatus.AwaitingPayment;
             return Success();
         }
 

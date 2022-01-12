@@ -3,7 +3,7 @@
 namespace Shop.Sales.Orders
 {
     [Flags]
-    public enum OrderState
+    public enum OrderStatus
     {
         New = 0,
         AwaitingConfirmation = 1 << 0,
@@ -18,7 +18,7 @@ namespace Shop.Sales.Orders
     {
         #region Static Interface
 
-        public static OrderState With(this OrderState state, OrderState additional) => state | additional;
+        public static OrderStatus With(this OrderStatus status, OrderStatus additional) => status | additional;
 
         #endregion
     }
