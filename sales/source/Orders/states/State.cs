@@ -5,7 +5,7 @@ using Shop.Shared;
 
 namespace Shop.Sales.Orders
 {
-    public abstract class State : IOrderable
+    public abstract class State
     {
         private static readonly Dictionary<OrderStatus, Func<Finances, OrderStatus, State>>
             OperatingStateFactory =
@@ -43,10 +43,6 @@ namespace Shop.Sales.Orders
 
         public Finances Finances { get; protected set; }
         public OrderStatus Status { get; protected set; }
-
-        #endregion
-
-        #region IOrderable Implementation
 
         public abstract Result<Error> ApplyPayment(Money value);
         public abstract Result<Error> Cancel();

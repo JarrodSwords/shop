@@ -7,7 +7,7 @@ using static Shop.Shared.Error;
 
 namespace Shop.Sales.Orders
 {
-    public partial class Order : Aggregate, IOrderable
+    public partial class Order : Aggregate
     {
         private readonly List<LineItem> _lineItems = new();
         private readonly State _state;
@@ -54,10 +54,6 @@ namespace Shop.Sales.Orders
         public Finances Finances => _state.Finances;
         public IReadOnlyCollection<LineItem> LineItems => _lineItems.AsReadOnly();
         public OrderStatus Status => _state.Status;
-
-        #endregion
-
-        #region IOrderable Implementation
 
         public Result<Error> ApplyPayment(Money value) => _state.ApplyPayment(value);
         public Result<Error> Cancel() => _state.Cancel();
