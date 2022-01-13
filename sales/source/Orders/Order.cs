@@ -17,7 +17,7 @@ namespace Shop.Sales.Orders
         private Order(
             Id customerId,
             OrderStatus status,
-            Finances finances = default,
+            Finances finances,
             params LineItem[] lineItems
         )
         {
@@ -34,6 +34,7 @@ namespace Shop.Sales.Orders
             Id customerId,
             List<Id> customerIds,
             OrderStatus status = OrderStatus.AwaitingConfirmation,
+            Finances finances = default,
             params LineItem[] lineItems
         )
         {
@@ -43,7 +44,7 @@ namespace Shop.Sales.Orders
             if (customerIds.All(x => x != customerId))
                 return ErrorExtensions.CustomerNotFound();
 
-            return new Order(customerId, status, lineItems: lineItems);
+            return new Order(customerId, status, finances, lineItems);
         }
 
         #endregion

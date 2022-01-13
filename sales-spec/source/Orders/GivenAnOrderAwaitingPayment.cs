@@ -16,7 +16,7 @@ namespace Shop.Sales.Spec.Orders
                 CustomerId,
                 CustomerIds,
                 OrderStatus.AwaitingPayment,
-                new LineItem(25m, new Id(), 1)
+                lineItems: new LineItem(25m, new Id(), 1)
             ).Value;
 
             Order.Confirm();

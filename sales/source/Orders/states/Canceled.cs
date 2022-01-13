@@ -1,6 +1,6 @@
-﻿using System;
-using Jgs.Functional.Explicit;
+﻿using Jgs.Functional.Explicit;
 using Shop.Shared;
+using static Jgs.Functional.Explicit.Result<Shop.Shared.Error>;
 using static Shop.Shared.Error;
 
 namespace Shop.Sales.Orders
@@ -22,7 +22,13 @@ namespace Shop.Sales.Orders
 
         public override Result<Error> Cancel() => InvalidOperation("Order already canceled.");
         public override Result<Error> Confirm() => InvalidOperation("Canceled order cannot be confirmed.");
-        public override Result<Error> IssueRefund() => throw new NotImplementedException();
+
+        public override Result<Error> IssueRefund()
+        {
+            Finances = Finances.IssueRefund();
+            Status = OrderStatus.Refunded;
+            return Success();
+        }
 
         #endregion
     }

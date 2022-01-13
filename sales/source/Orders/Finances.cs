@@ -66,7 +66,7 @@ namespace Shop.Sales.Orders
             );
         }
 
-        public Finances Refund() =>
+        public Finances IssueRefund() =>
             new(
                 0,
                 Paid,

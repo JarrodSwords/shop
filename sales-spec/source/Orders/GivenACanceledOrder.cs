@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using Jgs.Ddd;
 using Shop.Sales.Orders;
 using Shop.Shared;
 using Xunit;
@@ -49,5 +50,37 @@ namespace Shop.Sales.Spec.Orders
         }
 
         #endregion
+
+        public class WithOutstandingRefund : Context
+        {
+            #region Core
+
+            private readonly Order _order;
+
+            public WithOutstandingRefund()
+            {
+                _order = Order.From(
+                    CustomerId,
+                    CustomerIds,
+                    OrderStatus.Canceled,
+                    new Finances(paid: 25),
+                    new LineItem(25, new Id(), 1)
+                ).Value;
+            }
+
+            #endregion
+
+            #region Test Methods
+
+            [Fact]
+            public void WhenRefunded_ThenOrderIsRefunded()
+            {
+                _order.IssueRefund();
+
+                _order.Status.Should().Be(OrderStatus.Refunded);
+            }
+
+            #endregion
+        }
     }
 }

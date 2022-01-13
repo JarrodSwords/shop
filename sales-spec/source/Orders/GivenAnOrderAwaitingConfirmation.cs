@@ -18,7 +18,7 @@ namespace Shop.Sales.Spec.Orders
                 CustomerId,
                 CustomerIds,
                 OrderStatus.AwaitingConfirmation,
-                new LineItem(25, new Id(), 1)
+                lineItems: new LineItem(25, new Id(), 1)
             ).Value;
         }
 
