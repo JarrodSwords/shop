@@ -1,59 +1,105 @@
 ﻿using FluentAssertions;
 using Jgs.Ddd;
 using Shop.Sales.Orders;
-using Shop.Shared;
 using Xunit;
+using static Shop.Shared.Error;
 
 namespace Shop.Sales.Spec.Orders
 {
-    public class GivenAnOrderAwaitingPayment : Context
+    public abstract class GivenAnOrderAwaitingPayment : Context
     {
-        #region Core
+        #region Creation
 
-        private readonly Order _order;
-
-        public GivenAnOrderAwaitingPayment()
+        protected GivenAnOrderAwaitingPayment()
         {
-            _order = Order.From(
+            Order = Order.From(
                 CustomerId,
                 CustomerIds,
-                default,
-                new LineItem(25m, new Id(), 1)
+                OrderStatus.AwaitingPayment,
+                lineItems: new LineItem(25m, new Id(), 1)
             ).Value;
 
-            _order.Confirm();
+            Order.Confirm();
         }
 
         #endregion
 
-        #region Test Methods
-
-        [Fact]
-        public void WhenCanceled_ThenOrderIsCanceled()
+        public class WhenApplyingPayment : GivenAnOrderAwaitingPayment
         {
-            _order.Cancel();
+            #region Test Methods
 
-            _order.State.Should().Be(OrderState.Canceled);
+            [Fact]
+            public void ThenFinancesAreUpdated()
+            {
+                var expected = new Finances(0, 30, 0, 25, 5);
+
+                Order.ApplyPayment(30);
+
+                Order.Finances.Should().Be(expected);
+            }
+
+            [Fact]
+            public void WithInsufficientAmount_ThenOrderIsAwaitingPayment()
+            {
+                Order.ApplyPayment(5);
+
+                Order.Status.Should().Be(OrderStatus.AwaitingPayment);
+            }
+
+            [Fact]
+            public void WithSufficientAmount_ThenOrderIsSaleComplete()
+            {
+                Order.ApplyPayment(30);
+
+                Order.Status.Should().Be(OrderStatus.SaleComplete);
+            }
+
+            #endregion
         }
 
-        [Fact]
-        public void WhenConfirmed_ThenReturnInvalidOperationError()
+        public class WhenCanceled : GivenAnOrderAwaitingPayment
         {
-            var error = _order.Confirm().Error;
+            #region Test Methods
 
-            error.Should().Be(Error.InvalidOperation());
+            [Fact]
+            public void ThenOrderIsCanceled()
+            {
+                Order.Cancel();
+
+                Order.Status.Should().Be(OrderStatus.Canceled);
+            }
+
+            #endregion
         }
 
-        [Fact]
-        public void WhenPaymentReceived_ThenFinancesAreUpdated()
+        public class WhenConfirmed : GivenAnOrderAwaitingPayment
         {
-            var expected = new Finances(0, 30, 25, 5);
+            #region Test Methods
 
-            _order.ApplyPayment(30);
+            [Fact]
+            public void ThenReturnInvalidOperationError()
+            {
+                var error = Order.Confirm().Error;
 
-            _order.Finances.Should().Be(expected);
+                error.Should().Be(InvalidOperation());
+            }
+
+            #endregion
         }
 
-        #endregion
+        public class WhenRefunded : GivenAnOrderAwaitingPayment
+        {
+            #region Test Methods
+
+            [Fact]
+            public void ThenOrderIsRefunded()
+            {
+                Order.IssueRefund();
+
+                Order.Status.Should().HaveFlag(OrderStatus.Refunded);
+            }
+
+            #endregion
+        }
     }
 }

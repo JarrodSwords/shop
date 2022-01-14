@@ -1,11 +1,13 @@
 ﻿using FluentAssertions;
 using Shop.Sales.Orders;
-using Shop.Shared;
 using Xunit;
+using static Shop.Sales.Spec.Orders.OrderProvider;
+using static Shop.Shared.Error;
+using static Shop.Shared.Money;
 
 namespace Shop.Sales.Spec.Orders
 {
-    public class GivenACanceledOrder : Context
+    public class GivenACanceledOrder
     {
         #region Core
 
@@ -13,11 +15,8 @@ namespace Shop.Sales.Spec.Orders
 
         public GivenACanceledOrder()
         {
-            _order = Order.From(
-                CustomerId,
-                CustomerIds,
-                OrderState.Canceled
-            ).Value;
+            _order = CreateOrder();
+            _order.Cancel();
         }
 
         #endregion
@@ -25,11 +24,17 @@ namespace Shop.Sales.Spec.Orders
         #region Test Methods
 
         [Fact]
+        public void ThenBalanceIsZero()
+        {
+            _order.Finances.Balance.Should().Be(Zero);
+        }
+
+        [Fact]
         public void WhenApplyingPayment_ThenReturnInvalidOperationError()
         {
             var error = _order.ApplyPayment(1).Error;
 
-            error.Should().Be(Error.InvalidOperation());
+            error.Should().Be(InvalidOperation());
         }
 
         [Fact]
@@ -37,7 +42,7 @@ namespace Shop.Sales.Spec.Orders
         {
             var error = _order.Cancel().Error;
 
-            error.Should().Be(Error.InvalidOperation());
+            error.Should().Be(InvalidOperation());
         }
 
         [Fact]
@@ -45,9 +50,45 @@ namespace Shop.Sales.Spec.Orders
         {
             var error = _order.Confirm().Error;
 
-            error.Should().Be(Error.InvalidOperation());
+            error.Should().Be(InvalidOperation());
+        }
+
+        [Fact]
+        public void WhenRefunded_ThenReturnInvalidOperationError()
+        {
+            var error = _order.IssueRefund().Error;
+
+            error.Should().Be(InvalidOperation());
         }
 
         #endregion
+
+        public class WithOutstandingRefund
+        {
+            #region Core
+
+            private readonly Order _order;
+
+            public WithOutstandingRefund()
+            {
+                _order = CreateOrder();
+                _order.ApplyPayment(20);
+                _order.Cancel();
+            }
+
+            #endregion
+
+            #region Test Methods
+
+            [Fact]
+            public void WhenRefunded_ThenOrderIsRefunded()
+            {
+                _order.IssueRefund();
+
+                _order.Status.Should().Be(OrderStatus.Refunded);
+            }
+
+            #endregion
+        }
     }
 }

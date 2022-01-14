@@ -3,6 +3,8 @@ using FluentAssertions;
 using Shop.Sales.Orders;
 using Shop.Shared;
 using Xunit;
+using static Shop.Shared.Error;
+using static Shop.Shared.Money;
 
 namespace Shop.Sales.Spec.Orders
 {
@@ -16,6 +18,7 @@ namespace Shop.Sales.Spec.Orders
             var order = Order.From(
                 CustomerId,
                 CustomerIds,
+                OrderStatus.AwaitingConfirmation,
                 default,
                 new LineItem(25m, new Guid(), 1),
                 new LineItem(49m, new Guid(), 2)
@@ -32,7 +35,7 @@ namespace Shop.Sales.Spec.Orders
                 null
             ).Error;
 
-            error.Should().Be(Error.Required());
+            error.Should().Be(Required());
         }
 
         [Fact]
@@ -43,7 +46,7 @@ namespace Shop.Sales.Spec.Orders
                 CustomerIds
             ).Value;
 
-            order.State.Should().Be(OrderState.AwaitingConfirmation);
+            order.Status.Should().Be(OrderStatus.AwaitingConfirmation);
         }
 
         [Fact]
@@ -54,7 +57,7 @@ namespace Shop.Sales.Spec.Orders
                 CustomerIds
             ).Value;
 
-            order.Finances.Tip.Should().Be(Money.Zero);
+            order.Finances.Tip.Should().Be(Zero);
         }
 
         [Fact]
@@ -63,10 +66,10 @@ namespace Shop.Sales.Spec.Orders
             var order = Order.From(
                 CustomerId,
                 CustomerIds,
-                OrderState.Canceled
+                OrderStatus.Canceled
             ).Value;
 
-            order.State.Should().Be(OrderState.Canceled);
+            order.Status.Should().Be(OrderStatus.Canceled);
         }
 
         [Fact]
