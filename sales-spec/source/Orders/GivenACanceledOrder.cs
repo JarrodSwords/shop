@@ -3,6 +3,7 @@ using Shop.Sales.Orders;
 using Xunit;
 using static Shop.Sales.Spec.Orders.OrderProvider;
 using static Shop.Shared.Error;
+using static Shop.Shared.Money;
 
 namespace Shop.Sales.Spec.Orders
 {
@@ -21,6 +22,12 @@ namespace Shop.Sales.Spec.Orders
         #endregion
 
         #region Test Methods
+
+        [Fact]
+        public void ThenBalanceIsZero()
+        {
+            _order.Finances.Balance.Should().Be(Zero);
+        }
 
         [Fact]
         public void WhenApplyingPayment_ThenReturnInvalidOperationError()

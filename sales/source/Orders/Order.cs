@@ -63,6 +63,7 @@ namespace Shop.Sales.Orders
             {
                 _status = value;
                 _state = State.From(this);
+                _state.EnterState();
             }
         }
 

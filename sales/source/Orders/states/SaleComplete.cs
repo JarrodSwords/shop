@@ -30,6 +30,10 @@ namespace Shop.Sales.Orders
 
             public override Result<Error> Confirm() => InvalidOperation("Cannot confirm a completed order.");
 
+            public override void EnterState()
+            {
+            }
+
             public override Result<Error> IssueRefund()
             {
                 Status = OrderStatus.Canceled | OrderStatus.Refunded;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Jgs.Ddd;
 using Shop.Shared;
+using static Shop.Shared.Money;
 
 namespace Shop.Sales.Orders
 {
@@ -20,11 +21,11 @@ namespace Shop.Sales.Orders
             Money tip = default
         )
         {
-            Balance = balance ?? Money.Zero;
-            Paid = paid ?? Money.Zero;
-            Refunded = refunded ?? Money.Zero;
-            Subtotal = subtotal ?? Money.Zero;
-            Tip = tip ?? Money.Zero;
+            Balance = balance ?? Zero;
+            Paid = paid ?? Zero;
+            Refunded = refunded ?? Zero;
+            Subtotal = subtotal ?? Zero;
+            Tip = tip ?? Zero;
         }
 
         public static Finances From(params LineItem[] lineItems)
@@ -33,7 +34,7 @@ namespace Shop.Sales.Orders
                 return Default;
 
             var subtotal = lineItems.Aggregate(
-                Money.Zero,
+                Zero,
                 (current, x) => current += x.Price * x.Quantity
             );
 
@@ -65,6 +66,8 @@ namespace Shop.Sales.Orders
                 tip: Math.Max(Tip - remainingBalance, 0)
             );
         }
+
+        public Finances Cancel() => new(Zero, Paid, Subtotal, Tip, Paid);
 
         public Finances IssueRefund() =>
             new(

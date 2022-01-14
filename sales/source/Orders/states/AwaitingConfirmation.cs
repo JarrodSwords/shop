@@ -42,6 +42,10 @@ namespace Shop.Sales.Orders
                 return Success();
             }
 
+            public override void EnterState()
+            {
+            }
+
             public override Result<Error> IssueRefund() =>
                 InvalidOperation("Cannot refund an order awaiting confirmation.");
 

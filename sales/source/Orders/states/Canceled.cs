@@ -25,6 +25,11 @@ namespace Shop.Sales.Orders
             public override Result<Error> Cancel() => InvalidOperation("Order already canceled.");
             public override Result<Error> Confirm() => InvalidOperation("Canceled order cannot be confirmed.");
 
+            public override void EnterState()
+            {
+                Finances = Finances.Cancel();
+            }
+
             public override Result<Error> IssueRefund()
             {
                 if (Finances.Paid == 0 || Finances.Paid == Finances.Refunded)

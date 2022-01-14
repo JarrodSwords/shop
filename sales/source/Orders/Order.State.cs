@@ -50,6 +50,7 @@ namespace Shop.Sales.Orders
             public abstract Result<Error> ApplyPayment(Money value);
             public abstract Result<Error> Cancel();
             public abstract Result<Error> Confirm();
+            public abstract void EnterState();
             public abstract Result<Error> IssueRefund();
 
             #endregion
