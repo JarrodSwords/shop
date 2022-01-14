@@ -5,44 +5,47 @@ using static Shop.Shared.Error;
 
 namespace Shop.Sales.Orders
 {
-    public class AwaitingConfirmation : State
+    public partial class Order
     {
-        #region Creation
-
-        public AwaitingConfirmation(Finances finances, OrderStatus status) : base(finances, status)
+        public class AwaitingConfirmation : State
         {
+            #region Creation
+
+            public AwaitingConfirmation(Order order) : base(order)
+            {
+            }
+
+            #endregion
+
+            #region Public Interface
+
+            public override Result<Error> ApplyPayment(Money value)
+            {
+                Finances = Finances.ApplyPayment(value);
+
+                Status = Finances.IsPaidInFull
+                    ? OrderStatus.SaleComplete
+                    : OrderStatus.AwaitingPayment;
+
+                return Success();
+            }
+
+            public override Result<Error> Cancel()
+            {
+                Status = OrderStatus.Canceled;
+                return Success();
+            }
+
+            public override Result<Error> Confirm()
+            {
+                Status = OrderStatus.AwaitingPayment;
+                return Success();
+            }
+
+            public override Result<Error> IssueRefund() =>
+                InvalidOperation("Cannot refund an order awaiting confirmation.");
+
+            #endregion
         }
-
-        #endregion
-
-        #region Public Interface
-
-        public override Result<Error> ApplyPayment(Money value)
-        {
-            Finances = Finances.ApplyPayment(value);
-
-            Status = Finances.IsPaidInFull
-                ? OrderStatus.SaleComplete
-                : OrderStatus.AwaitingPayment;
-
-            return Success();
-        }
-
-        public override Result<Error> Cancel()
-        {
-            Status = OrderStatus.Canceled;
-            return Success();
-        }
-
-        public override Result<Error> Confirm()
-        {
-            Status = OrderStatus.AwaitingPayment;
-            return Success();
-        }
-
-        public override Result<Error> IssueRefund() =>
-            InvalidOperation("Cannot refund an order awaiting confirmation.");
-
-        #endregion
     }
 }

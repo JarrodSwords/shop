@@ -5,42 +5,45 @@ using static Shop.Shared.Error;
 
 namespace Shop.Sales.Orders
 {
-    public class AwaitingPayment : State
+    public partial class Order
     {
-        #region Creation
-
-        public AwaitingPayment(Finances finances, OrderStatus status) : base(finances, status)
+        public class AwaitingPayment : State
         {
+            #region Creation
+
+            public AwaitingPayment(Order order) : base(order)
+            {
+            }
+
+            #endregion
+
+            #region Public Interface
+
+            public override Result<Error> ApplyPayment(Money value)
+            {
+                Finances = Finances.ApplyPayment(value);
+
+                if (Finances.IsPaidInFull)
+                    Status = OrderStatus.SaleComplete;
+
+                return Success();
+            }
+
+            public override Result<Error> Cancel()
+            {
+                Status = OrderStatus.Canceled;
+                return Success();
+            }
+
+            public override Result<Error> Confirm() => InvalidOperation("Order already confirmed.");
+
+            public override Result<Error> IssueRefund()
+            {
+                Status = OrderStatus.Canceled | OrderStatus.Refunded;
+                return Success();
+            }
+
+            #endregion
         }
-
-        #endregion
-
-        #region Public Interface
-
-        public override Result<Error> ApplyPayment(Money value)
-        {
-            Finances = Finances.ApplyPayment(value);
-
-            if (Finances.IsPaidInFull)
-                Status = OrderStatus.SaleComplete;
-
-            return Success();
-        }
-
-        public override Result<Error> Cancel()
-        {
-            Status = OrderStatus.Canceled;
-            return Success();
-        }
-
-        public override Result<Error> Confirm() => InvalidOperation("Order already confirmed.");
-
-        public override Result<Error> IssueRefund()
-        {
-            Status = OrderStatus.Canceled | OrderStatus.Refunded;
-            return Success();
-        }
-
-        #endregion
     }
 }

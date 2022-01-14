@@ -10,7 +10,8 @@ namespace Shop.Sales.Orders
     public partial class Order : Aggregate
     {
         private readonly List<LineItem> _lineItems = new();
-        private readonly State _state;
+        private State _state;
+        private OrderStatus _status;
 
         #region Creation
 
@@ -26,8 +27,8 @@ namespace Shop.Sales.Orders
             if (lineItems != null)
                 _lineItems.AddRange(lineItems);
 
-            finances ??= Finances.From(_lineItems.ToArray());
-            _state = State.From(finances, status);
+            Finances = finances ?? Finances.From(_lineItems.ToArray());
+            Status = status;
         }
 
         public static Result<Order, Error> From(
@@ -52,9 +53,18 @@ namespace Shop.Sales.Orders
         #region Public Interface
 
         public Id CustomerId { get; }
-        public Finances Finances => _state.Finances;
+        public Finances Finances { get; private set; }
         public IReadOnlyCollection<LineItem> LineItems => _lineItems.AsReadOnly();
-        public OrderStatus Status => _state.Status;
+
+        public OrderStatus Status
+        {
+            get => _status;
+            set
+            {
+                _status = value;
+                _state = State.From(this);
+            }
+        }
 
         public Result<Error> ApplyPayment(Money value) => _state.ApplyPayment(value);
         public Result<Error> Cancel() => _state.Cancel();

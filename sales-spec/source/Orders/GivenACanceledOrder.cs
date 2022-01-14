@@ -1,12 +1,12 @@
 ﻿using FluentAssertions;
-using Jgs.Ddd;
 using Shop.Sales.Orders;
-using Shop.Shared;
 using Xunit;
+using static Shop.Sales.Spec.Orders.OrderProvider;
+using static Shop.Shared.Error;
 
 namespace Shop.Sales.Spec.Orders
 {
-    public class GivenACanceledOrder : Context
+    public class GivenACanceledOrder
     {
         #region Core
 
@@ -14,11 +14,8 @@ namespace Shop.Sales.Spec.Orders
 
         public GivenACanceledOrder()
         {
-            _order = Order.From(
-                CustomerId,
-                CustomerIds,
-                OrderStatus.Canceled
-            ).Value;
+            _order = CreateOrder();
+            _order.Cancel();
         }
 
         #endregion
@@ -30,7 +27,7 @@ namespace Shop.Sales.Spec.Orders
         {
             var error = _order.ApplyPayment(1).Error;
 
-            error.Should().Be(Error.InvalidOperation());
+            error.Should().Be(InvalidOperation());
         }
 
         [Fact]
@@ -38,7 +35,7 @@ namespace Shop.Sales.Spec.Orders
         {
             var error = _order.Cancel().Error;
 
-            error.Should().Be(Error.InvalidOperation());
+            error.Should().Be(InvalidOperation());
         }
 
         [Fact]
@@ -46,12 +43,20 @@ namespace Shop.Sales.Spec.Orders
         {
             var error = _order.Confirm().Error;
 
-            error.Should().Be(Error.InvalidOperation());
+            error.Should().Be(InvalidOperation());
+        }
+
+        [Fact]
+        public void WhenRefunded_ThenReturnInvalidOperationError()
+        {
+            var error = _order.IssueRefund().Error;
+
+            error.Should().Be(InvalidOperation());
         }
 
         #endregion
 
-        public class WithOutstandingRefund : Context
+        public class WithOutstandingRefund
         {
             #region Core
 
@@ -59,13 +64,9 @@ namespace Shop.Sales.Spec.Orders
 
             public WithOutstandingRefund()
             {
-                _order = Order.From(
-                    CustomerId,
-                    CustomerIds,
-                    OrderStatus.Canceled,
-                    new Finances(paid: 25),
-                    new LineItem(25, new Id(), 1)
-                ).Value;
+                _order = CreateOrder();
+                _order.ApplyPayment(20);
+                _order.Cancel();
             }
 
             #endregion

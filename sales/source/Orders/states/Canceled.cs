@@ -5,31 +5,37 @@ using static Shop.Shared.Error;
 
 namespace Shop.Sales.Orders
 {
-    public class Canceled : State
+    public partial class Order
     {
-        #region Creation
-
-        public Canceled(Finances finances, OrderStatus status) : base(finances, status)
+        public class Canceled : State
         {
+            #region Creation
+
+            public Canceled(Order order) : base(order)
+            {
+            }
+
+            #endregion
+
+            #region Public Interface
+
+            public override Result<Error> ApplyPayment(Money value) =>
+                InvalidOperation("Cannot apply payment to a canceled order.");
+
+            public override Result<Error> Cancel() => InvalidOperation("Order already canceled.");
+            public override Result<Error> Confirm() => InvalidOperation("Canceled order cannot be confirmed.");
+
+            public override Result<Error> IssueRefund()
+            {
+                if (Finances.Paid == 0 || Finances.Paid == Finances.Refunded)
+                    return InvalidOperation("No refund necessary.");
+
+                Finances = Finances.IssueRefund();
+                Status = OrderStatus.Refunded;
+                return Success();
+            }
+
+            #endregion
         }
-
-        #endregion
-
-        #region Public Interface
-
-        public override Result<Error> ApplyPayment(Money value) =>
-            InvalidOperation("Cannot apply payment to a canceled order.");
-
-        public override Result<Error> Cancel() => InvalidOperation("Order already canceled.");
-        public override Result<Error> Confirm() => InvalidOperation("Canceled order cannot be confirmed.");
-
-        public override Result<Error> IssueRefund()
-        {
-            Finances = Finances.IssueRefund();
-            Status = OrderStatus.Refunded;
-            return Success();
-        }
-
-        #endregion
     }
 }
