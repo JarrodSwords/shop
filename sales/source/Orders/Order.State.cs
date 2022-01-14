@@ -9,6 +9,8 @@ namespace Shop.Sales.Orders
     {
         public abstract class State
         {
+            private readonly Order _order;
+
             private static readonly Dictionary<OrderStatus, Func<Order, State>>
                 OperatingStateFactory =
                     new()
@@ -20,13 +22,11 @@ namespace Shop.Sales.Orders
                         { OrderStatus.SaleComplete, x => new SaleComplete(x) }
                     };
 
-            protected Order Order;
-
             #region Creation
 
             protected State(Order order)
             {
-                Order = order;
+                _order = order;
             }
 
             public static State From(Order order) => OperatingStateFactory[order.Status](order);
@@ -37,14 +37,14 @@ namespace Shop.Sales.Orders
 
             public Finances Finances
             {
-                get => Order.Finances;
-                set => Order.Finances = value;
+                get => _order.Finances;
+                set => _order.Finances = value;
             }
 
             public OrderStatus Status
             {
-                get => Order.Status;
-                set => Order.Status = value;
+                get => _order.Status;
+                set => _order.Status = value;
             }
 
             public abstract Result<Error> ApplyPayment(Money value);

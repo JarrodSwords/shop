@@ -1,8 +1,8 @@
 ﻿using FluentAssertions;
 using Jgs.Ddd;
 using Shop.Sales.Orders;
-using Shop.Shared;
 using Xunit;
+using static Shop.Shared.Error;
 
 namespace Shop.Sales.Spec.Orders
 {
@@ -114,7 +114,7 @@ namespace Shop.Sales.Spec.Orders
             {
                 var error = _order.IssueRefund().Error;
 
-                error.Should().Be(Error.InvalidOperation());
+                error.Should().Be(InvalidOperation());
             }
 
             #endregion
