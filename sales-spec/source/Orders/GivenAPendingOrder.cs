@@ -25,6 +25,14 @@ namespace Shop.Sales.Spec.Orders
         }
 
         [Fact]
+        public void WhenCanceled_ThenOrderIsCanceled()
+        {
+            Order.Cancel();
+
+            Order.Status.Should().Be(OrderStatus.Canceled);
+        }
+
+        [Fact]
         public void WhenConfirmed_ThenReturnInvalidOperationError()
         {
             var error = Order.Confirm().Error;
