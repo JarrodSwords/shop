@@ -1,9 +1,9 @@
 ﻿using System.Linq;
 using FluentAssertions;
-using Jgs.Ddd;
 using Shop.Sales.Orders;
 using Shop.Shared;
 using Xunit;
+using static Shop.Sales.Spec.Orders.ObjectProvider;
 using static Shop.Shared.Error;
 
 namespace Shop.Sales.Spec.Orders
@@ -35,7 +35,7 @@ namespace Shop.Sales.Spec.Orders
         [Fact]
         public void WhenAddingALineItem_ThenBalanceIsUpdated()
         {
-            Order.Add(new(25, new Id(), 1));
+            Order.Add(CreateLunchBox());
 
             var balance = CalculateBalance();
 
@@ -82,8 +82,8 @@ namespace Shop.Sales.Spec.Orders
 
             public WithLineItems()
             {
-                Order = OrderProvider.PendingOrder();
-                Order.Add(new(25, new Id(), 1));
+                Order = CreatePendingOrder();
+                Order.Add(CreateLunchBox());
             }
 
             #endregion
@@ -107,7 +107,7 @@ namespace Shop.Sales.Spec.Orders
 
             public WithoutLineItems()
             {
-                Order = OrderProvider.PendingOrder();
+                Order = CreatePendingOrder();
             }
 
             #endregion

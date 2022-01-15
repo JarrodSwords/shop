@@ -13,7 +13,7 @@ namespace Shop.Sales.Spec.Orders
 
         public GivenACompletedOrder()
         {
-            Order = OrderProvider.CompletedOrder();
+            Order = ObjectProvider.CompletedOrder();
         }
 
         #endregion

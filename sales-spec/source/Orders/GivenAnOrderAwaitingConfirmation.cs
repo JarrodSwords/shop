@@ -7,7 +7,7 @@ namespace Shop.Sales.Spec.Orders
 {
     public abstract class GivenAnOrderAwaitingConfirmation
     {
-        public Order Order = OrderProvider.OrderAwaitingConfirmation();
+        public Order Order = ObjectProvider.CreateOrderAwaitingConfirmation();
 
         public class WhenApplyingPayment : GivenAnOrderAwaitingConfirmation
         {

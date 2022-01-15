@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
 using Shop.Sales.Orders;
 using Xunit;
-using static Shop.Sales.Spec.Orders.OrderProvider;
+using static Shop.Sales.Spec.Orders.ObjectProvider;
 using static Shop.Shared.Error;
 using static Shop.Shared.Money;
 
@@ -15,7 +15,7 @@ namespace Shop.Sales.Spec.Orders
 
         public GivenACanceledOrder()
         {
-            _order = OrderAwaitingConfirmation();
+            _order = CreateOrderAwaitingConfirmation();
             _order.Cancel();
         }
 
@@ -71,7 +71,7 @@ namespace Shop.Sales.Spec.Orders
 
             public WithOutstandingRefund()
             {
-                _order = OrderAwaitingConfirmation();
+                _order = CreateOrderAwaitingConfirmation();
                 _order.ApplyPayment(20);
                 _order.Cancel();
             }

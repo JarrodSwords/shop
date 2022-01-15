@@ -5,22 +5,24 @@ using Shop.Sales.Orders;
 
 namespace Shop.Sales.Spec.Orders
 {
-    public class OrderProvider
+    public class ObjectProvider
     {
         private static readonly List<Id> CustomerIds = new() { new Id() };
 
         #region Static Interface
 
-        public static Order PendingOrder() =>
+        public static Order CreatePendingOrder() =>
             Order.From(
                 CustomerIds.First(),
                 CustomerIds,
                 OrderStatus.Pending
             ).Value;
 
-        public static Order OrderAwaitingConfirmation(params LineItem[] lineItems)
+        public static LineItem CreateLunchBox(ushort quantity = 1) => new(25, new Id(), quantity);
+
+        public static Order CreateOrderAwaitingConfirmation(params LineItem[] lineItems)
         {
-            var order = PendingOrder();
+            var order = CreatePendingOrder();
 
             if (lineItems.Length == 0)
             {
@@ -40,7 +42,7 @@ namespace Shop.Sales.Spec.Orders
 
         public static Order CompletedOrder()
         {
-            var order = OrderAwaitingConfirmation();
+            var order = CreateOrderAwaitingConfirmation();
             order.Confirm();
             order.ApplyPayment(99);
             return order;

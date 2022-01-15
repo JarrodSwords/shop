@@ -13,7 +13,7 @@ namespace Shop.Sales.Spec.Orders
 
         protected GivenAnOrderAwaitingPayment()
         {
-            Order = OrderProvider.OrderAwaitingConfirmation();
+            Order = ObjectProvider.CreateOrderAwaitingConfirmation();
             Order.Confirm();
         }
 
