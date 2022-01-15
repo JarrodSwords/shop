@@ -6,17 +6,11 @@ using static Shop.Shared.Error;
 
 namespace Shop.Sales.Spec.Orders
 {
-    public class GivenAPendingOrder
+    public abstract class GivenAPendingOrder
     {
         #region Core
 
-        private readonly Order _order;
-
-        public GivenAPendingOrder()
-        {
-            _order = OrderProvider.CreateOrder();
-            _order.Add(new LineItem(25, new Id(), 1));
-        }
+        protected Order Order;
 
         #endregion
 
@@ -25,7 +19,7 @@ namespace Shop.Sales.Spec.Orders
         [Fact]
         public void WhenApplyingPayment_ThenReturnInvalidOperationError()
         {
-            var error = _order.ApplyPayment(1).Error;
+            var error = Order.ApplyPayment(1).Error;
 
             error.Should().Be(InvalidOperation());
         }
@@ -33,7 +27,7 @@ namespace Shop.Sales.Spec.Orders
         [Fact]
         public void WhenConfirmed_ThenReturnInvalidOperationError()
         {
-            var error = _order.Confirm().Error;
+            var error = Order.Confirm().Error;
 
             error.Should().Be(InvalidOperation());
         }
@@ -41,19 +35,60 @@ namespace Shop.Sales.Spec.Orders
         [Fact]
         public void WhenRefundIssued_ThenReturnInvalidOperationError()
         {
-            var error = _order.IssueRefund().Error;
+            var error = Order.IssueRefund().Error;
 
             error.Should().Be(InvalidOperation());
         }
 
-        [Fact]
-        public void WhenSubmitted_ThenOrderIsAwaitingConfirmation()
-        {
-            _order.Submit();
+        #endregion
 
-            _order.Status.Should().Be(OrderStatus.AwaitingConfirmation);
+        public class WithLineItems : GivenAPendingOrder
+        {
+            #region Core
+
+            public WithLineItems()
+            {
+                Order = OrderProvider.PendingOrder();
+                Order.Add(new(25, new Id(), 1));
+            }
+
+            #endregion
+
+            #region Test Methods
+
+            [Fact]
+            public void WhenSubmitted_ThenOrderIsAwaitingConfirmation()
+            {
+                Order.Submit();
+
+                Order.Status.Should().Be(OrderStatus.AwaitingConfirmation);
+            }
+
+            #endregion
         }
 
-        #endregion
+        public class WithoutLineItems : GivenAPendingOrder
+        {
+            #region Core
+
+            public WithoutLineItems()
+            {
+                Order = OrderProvider.PendingOrder();
+            }
+
+            #endregion
+
+            #region Test Methods
+
+            [Fact]
+            public void WhenSubmitted_ThenReturnInvalidOperationError()
+            {
+                var error = Order.Submit().Error;
+
+                error.Should().Be(InvalidOperation());
+            }
+
+            #endregion
+        }
     }
 }

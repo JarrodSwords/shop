@@ -15,7 +15,7 @@ namespace Shop.Sales.Spec.Orders
 
         public GivenACanceledOrder()
         {
-            _order = CreateOrder();
+            _order = OrderAwaitingConfirmation();
             _order.Cancel();
         }
 
@@ -71,7 +71,7 @@ namespace Shop.Sales.Spec.Orders
 
             public WithOutstandingRefund()
             {
-                _order = CreateOrder();
+                _order = OrderAwaitingConfirmation();
                 _order.ApplyPayment(20);
                 _order.Cancel();
             }

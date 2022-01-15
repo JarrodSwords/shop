@@ -11,12 +11,32 @@ namespace Shop.Sales.Spec.Orders
 
         #region Static Interface
 
-        public static Order CreateOrder() =>
+        public static Order PendingOrder() =>
             Order.From(
                 CustomerIds.First(),
                 CustomerIds,
                 OrderStatus.Pending
             ).Value;
+
+        public static Order OrderAwaitingConfirmation(params LineItem[] lineItems)
+        {
+            var order = PendingOrder();
+
+            if (lineItems.Length == 0)
+            {
+                order.Add(new(25, new Id(), 2));
+                order.Add(new(49, new Id(), 1));
+            }
+            else
+            {
+                foreach (var i in lineItems)
+                    order.Add(i);
+            }
+
+            order.Submit();
+
+            return order;
+        }
 
         #endregion
     }
