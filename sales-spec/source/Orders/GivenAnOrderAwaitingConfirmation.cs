@@ -32,7 +32,7 @@ namespace Shop.Sales.Spec.Orders
             [Fact]
             public void WithSufficientAmount_ThenOrderIsSaleComplete()
             {
-                Order.ApplyPayment(30);
+                Order.ApplyPayment(99);
 
                 Order.Status.Should().Be(OrderStatus.SaleComplete);
             }
