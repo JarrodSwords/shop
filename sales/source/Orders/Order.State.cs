@@ -9,7 +9,7 @@ namespace Shop.Sales.Orders
     {
         public abstract class State
         {
-            private readonly Order _order;
+            protected readonly Order Order;
 
             private static readonly Dictionary<OrderStatus, Func<Order, State>>
                 OperatingStateFactory =
@@ -27,7 +27,7 @@ namespace Shop.Sales.Orders
 
             protected State(Order order)
             {
-                _order = order;
+                Order = order;
             }
 
             public static State From(Order order) => OperatingStateFactory[order.Status](order);
@@ -38,16 +38,17 @@ namespace Shop.Sales.Orders
 
             public Finances Finances
             {
-                get => _order.Finances;
-                set => _order.Finances = value;
+                get => Order.Finances;
+                set => Order.Finances = value;
             }
 
             public OrderStatus Status
             {
-                get => _order.Status;
-                set => _order.Status = value;
+                get => Order.Status;
+                set => Order.Status = value;
             }
 
+            public abstract Result<Error> Add(LineItem lineItem);
             public abstract Result<Error> ApplyPayment(Money value);
             public abstract Result<Error> Cancel();
             public abstract Result<Error> Confirm();

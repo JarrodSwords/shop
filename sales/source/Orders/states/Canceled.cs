@@ -20,6 +20,8 @@ namespace Shop.Sales.Orders
 
             #region Public Interface
 
+            public override Result<Error> Add(LineItem lineItem) => throw new NotImplementedException();
+
             public override Result<Error> ApplyPayment(Money value) =>
                 InvalidOperation("Cannot apply payment to a canceled order.");
 

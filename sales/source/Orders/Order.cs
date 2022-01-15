@@ -54,6 +54,8 @@ namespace Shop.Sales.Orders
 
         public Id CustomerId { get; }
         public Finances Finances { get; private set; }
+
+        public bool HasLineItems => _lineItems.Count > 0;
         public IReadOnlyCollection<LineItem> LineItems => _lineItems.AsReadOnly();
 
         public OrderStatus Status
@@ -67,6 +69,7 @@ namespace Shop.Sales.Orders
             }
         }
 
+        public Result<Error> Add(LineItem lineItem) => _state.Add(lineItem);
         public Result<Error> ApplyPayment(Money value) => _state.ApplyPayment(value);
         public Result<Error> Cancel() => _state.Cancel();
         public Result<Error> Confirm() => _state.Confirm();
