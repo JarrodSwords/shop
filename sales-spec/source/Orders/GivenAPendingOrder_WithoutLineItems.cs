@@ -24,6 +24,22 @@ namespace Shop.Sales.Spec.Orders
         }
 
         [Fact]
+        public void WhenConfirmed_ThenReturnInvalidOperationError()
+        {
+            var error = _order.Confirm().Error;
+
+            error.Should().Be(InvalidOperation());
+        }
+
+        [Fact]
+        public void WhenRefundIssued_ThenReturnInvalidOperationError()
+        {
+            var error = _order.IssueRefund().Error;
+
+            error.Should().Be(InvalidOperation());
+        }
+
+        [Fact]
         public void WhenSubmitted_ThenReturnInvalidOperationError()
         {
             var error = _order.Submit().Error;

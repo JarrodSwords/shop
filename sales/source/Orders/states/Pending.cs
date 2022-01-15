@@ -27,12 +27,9 @@ namespace Shop.Sales.Orders
             }
 
             public override Result<Error> ApplyPayment(Money value) => InvalidOperation();
-
             public override Result<Error> Cancel() => throw new NotImplementedException();
-
-            public override Result<Error> Confirm() => throw new NotImplementedException();
-
-            public override Result<Error> IssueRefund() => throw new NotImplementedException();
+            public override Result<Error> Confirm() => InvalidOperation();
+            public override Result<Error> IssueRefund() => InvalidOperation();
 
             public override Result<Error> Submit()
             {
