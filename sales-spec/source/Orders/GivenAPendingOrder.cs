@@ -1,6 +1,8 @@
-﻿using FluentAssertions;
+﻿using System.Linq;
+using FluentAssertions;
 using Jgs.Ddd;
 using Shop.Sales.Orders;
+using Shop.Shared;
 using Xunit;
 using static Shop.Shared.Error;
 
@@ -14,7 +16,31 @@ namespace Shop.Sales.Spec.Orders
 
         #endregion
 
+        #region Private Interface
+
+        private Money CalculateBalance() => Order.LineItems.Aggregate(Money.Zero, (current, x) => current += x.Total);
+
+        #endregion
+
         #region Test Methods
+
+        [Fact]
+        public void ThenBalanceIsSumOfLineItems()
+        {
+            var balance = CalculateBalance();
+
+            Order.Finances.Balance.Should().Be(balance);
+        }
+
+        [Fact]
+        public void WhenAddingALineItem_ThenBalanceIsUpdated()
+        {
+            Order.Add(new(25, new Id(), 1));
+
+            var balance = CalculateBalance();
+
+            Order.Finances.Balance.Should().Be(balance);
+        }
 
         [Fact]
         public void WhenApplyingPayment_ThenReturnInvalidOperationError()
