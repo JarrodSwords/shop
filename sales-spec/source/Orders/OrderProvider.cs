@@ -38,6 +38,14 @@ namespace Shop.Sales.Spec.Orders
             return order;
         }
 
+        public static Order CompletedOrder()
+        {
+            var order = OrderAwaitingConfirmation();
+            order.Confirm();
+            order.ApplyPayment(99);
+            return order;
+        }
+
         #endregion
     }
 }

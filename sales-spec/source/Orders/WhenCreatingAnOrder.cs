@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using FluentAssertions;
+using Jgs.Ddd;
 using Shop.Sales.Orders;
 using Shop.Shared;
 using Xunit;
@@ -8,8 +11,20 @@ using static Shop.Shared.Money;
 
 namespace Shop.Sales.Spec.Orders
 {
-    public class WhenCreatingAnOrder : Context
+    public class WhenCreatingAnOrder
     {
+        #region Core
+
+        private readonly Id CustomerId;
+        private readonly List<Id> CustomerIds = new() { new Id() };
+
+        public WhenCreatingAnOrder()
+        {
+            CustomerId = CustomerIds.First();
+        }
+
+        #endregion
+
         #region Test Methods
 
         [Fact]

@@ -5,17 +5,15 @@ using static Shop.Shared.Error;
 
 namespace Shop.Sales.Spec.Orders
 {
-    public class GivenACompletedOrder : Context
+    public class GivenACompletedOrder
     {
         #region Core
 
+        protected Order Order;
+
         public GivenACompletedOrder()
         {
-            Order = Order.From(
-                CustomerId,
-                CustomerIds,
-                OrderStatus.SaleComplete
-            ).Value;
+            Order = OrderProvider.CompletedOrder();
         }
 
         #endregion
