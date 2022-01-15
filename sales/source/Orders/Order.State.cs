@@ -9,7 +9,7 @@ namespace Shop.Sales.Orders
     {
         public abstract class State
         {
-            private readonly Order _order;
+            protected readonly Order Order;
 
             private static readonly Dictionary<OrderStatus, Func<Order, State>>
                 OperatingStateFactory =
@@ -19,6 +19,7 @@ namespace Shop.Sales.Orders
                         { OrderStatus.AwaitingPayment, x => new AwaitingPayment(x) },
                         { OrderStatus.Canceled, x => new Canceled(x) },
                         { OrderStatus.Canceled | OrderStatus.Refunded, x => new Canceled(x) },
+                        { OrderStatus.Pending, x => new Pending(x) },
                         { OrderStatus.SaleComplete, x => new SaleComplete(x) }
                     };
 
@@ -26,7 +27,7 @@ namespace Shop.Sales.Orders
 
             protected State(Order order)
             {
-                _order = order;
+                Order = order;
             }
 
             public static State From(Order order) => OperatingStateFactory[order.Status](order);
@@ -37,21 +38,27 @@ namespace Shop.Sales.Orders
 
             public Finances Finances
             {
-                get => _order.Finances;
-                set => _order.Finances = value;
+                get => Order.Finances;
+                set => Order.Finances = value;
             }
 
             public OrderStatus Status
             {
-                get => _order.Status;
-                set => _order.Status = value;
+                get => Order.Status;
+                set => Order.Status = value;
             }
 
+            public abstract Result<Error> Add(LineItem lineItem);
             public abstract Result<Error> ApplyPayment(Money value);
             public abstract Result<Error> Cancel();
             public abstract Result<Error> Confirm();
-            public abstract void EnterState();
+
+            public virtual void EnterState()
+            {
+            }
+
             public abstract Result<Error> IssueRefund();
+            public abstract Result<Error> Submit();
 
             #endregion
         }

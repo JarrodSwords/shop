@@ -5,7 +5,7 @@ namespace Shop.Sales.Orders
     [Flags]
     public enum OrderStatus
     {
-        New = 0,
+        Pending = 0,
         AwaitingConfirmation = 1 << 0,
         AwaitingPayment = 1 << 1,
         Canceled = 1 << 2,

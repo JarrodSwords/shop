@@ -1,24 +1,19 @@
 ﻿using FluentAssertions;
-using Jgs.Ddd;
 using Shop.Sales.Orders;
 using Xunit;
 using static Shop.Shared.Error;
 
 namespace Shop.Sales.Spec.Orders
 {
-    public abstract class GivenAnOrderAwaitingPayment : Context
+    public abstract class GivenAnOrderAwaitingPayment
     {
+        protected Order Order;
+
         #region Creation
 
         protected GivenAnOrderAwaitingPayment()
         {
-            Order = Order.From(
-                CustomerId,
-                CustomerIds,
-                OrderStatus.AwaitingPayment,
-                lineItems: new LineItem(25m, new Id(), 1)
-            ).Value;
-
+            Order = ObjectProvider.CreateOrderAwaitingConfirmation();
             Order.Confirm();
         }
 
@@ -31,7 +26,7 @@ namespace Shop.Sales.Spec.Orders
             [Fact]
             public void ThenFinancesAreUpdated()
             {
-                var expected = new Finances(0, 30, 0, 25, 5);
+                var expected = new Finances(69, 30, 0, 99, 0);
 
                 Order.ApplyPayment(30);
 
@@ -49,7 +44,7 @@ namespace Shop.Sales.Spec.Orders
             [Fact]
             public void WithSufficientAmount_ThenOrderIsSaleComplete()
             {
-                Order.ApplyPayment(30);
+                Order.ApplyPayment(99);
 
                 Order.Status.Should().Be(OrderStatus.SaleComplete);
             }
@@ -81,7 +76,7 @@ namespace Shop.Sales.Spec.Orders
             {
                 var error = Order.Confirm().Error;
 
-                error.Should().Be(InvalidOperation());
+                error.Should().Be(InvalidOperation);
             }
 
             #endregion

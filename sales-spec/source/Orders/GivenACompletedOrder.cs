@@ -5,17 +5,15 @@ using static Shop.Shared.Error;
 
 namespace Shop.Sales.Spec.Orders
 {
-    public class GivenACompletedOrder : Context
+    public class GivenACompletedOrder
     {
         #region Core
 
+        protected Order Order;
+
         public GivenACompletedOrder()
         {
-            Order = Order.From(
-                CustomerId,
-                CustomerIds,
-                OrderStatus.SaleComplete
-            ).Value;
+            Order = ObjectProvider.CompletedOrder();
         }
 
         #endregion
@@ -27,7 +25,7 @@ namespace Shop.Sales.Spec.Orders
         {
             var error = Order.ApplyPayment(1).Error;
 
-            error.Should().Be(InvalidOperation());
+            error.Should().Be(InvalidOperation);
         }
 
         [Fact]
@@ -35,7 +33,7 @@ namespace Shop.Sales.Spec.Orders
         {
             var error = Order.Confirm().Error;
 
-            error.Should().Be(InvalidOperation());
+            error.Should().Be(InvalidOperation);
         }
 
         #endregion

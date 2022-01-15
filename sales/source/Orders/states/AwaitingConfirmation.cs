@@ -1,4 +1,5 @@
-﻿using Jgs.Functional.Explicit;
+﻿using System;
+using Jgs.Functional.Explicit;
 using Shop.Shared;
 using static Jgs.Functional.Explicit.Result<Shop.Shared.Error>;
 using static Shop.Shared.Error;
@@ -18,6 +19,8 @@ namespace Shop.Sales.Orders
             #endregion
 
             #region Public Interface
+
+            public override Result<Error> Add(LineItem lineItem) => throw new NotImplementedException();
 
             public override Result<Error> ApplyPayment(Money value)
             {
@@ -42,12 +45,10 @@ namespace Shop.Sales.Orders
                 return Success();
             }
 
-            public override void EnterState()
-            {
-            }
-
             public override Result<Error> IssueRefund() =>
-                InvalidOperation("Cannot refund an order awaiting confirmation.");
+                CreateInvalidOperation("Cannot refund an order awaiting confirmation.");
+
+            public override Result<Error> Submit() => throw new NotImplementedException();
 
             #endregion
         }

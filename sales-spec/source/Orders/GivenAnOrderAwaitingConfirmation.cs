@@ -1,28 +1,13 @@
 ﻿using FluentAssertions;
-using Jgs.Ddd;
 using Shop.Sales.Orders;
 using Xunit;
 using static Shop.Shared.Error;
 
 namespace Shop.Sales.Spec.Orders
 {
-    public class GivenAnOrderAwaitingConfirmation : Context
+    public abstract class GivenAnOrderAwaitingConfirmation
     {
-        private readonly Order _order;
-
-        #region Creation
-
-        public GivenAnOrderAwaitingConfirmation()
-        {
-            _order = Order.From(
-                CustomerId,
-                CustomerIds,
-                OrderStatus.AwaitingConfirmation,
-                lineItems: new LineItem(25, new Id(), 1)
-            ).Value;
-        }
-
-        #endregion
+        public Order Order = ObjectProvider.CreateOrderAwaitingConfirmation();
 
         public class WhenApplyingPayment : GivenAnOrderAwaitingConfirmation
         {
@@ -31,25 +16,25 @@ namespace Shop.Sales.Spec.Orders
             [Fact]
             public void ThenFinancesAreUpdated()
             {
-                _order.ApplyPayment(5);
+                Order.ApplyPayment(5);
 
-                _order.Finances.Should().Be(new Finances(20, 5, 0, 25, 0));
+                Order.Finances.Should().Be(new Finances(94, 5, 0, 99, 0));
             }
 
             [Fact]
             public void WithInsufficientAmount_ThenOrderIsConfirmed()
             {
-                _order.ApplyPayment(5);
+                Order.ApplyPayment(5);
 
-                _order.Status.Should().Be(OrderStatus.AwaitingPayment);
+                Order.Status.Should().Be(OrderStatus.AwaitingPayment);
             }
 
             [Fact]
             public void WithSufficientAmount_ThenOrderIsSaleComplete()
             {
-                _order.ApplyPayment(30);
+                Order.ApplyPayment(99);
 
-                _order.Status.Should().Be(OrderStatus.SaleComplete);
+                Order.Status.Should().Be(OrderStatus.SaleComplete);
             }
 
             #endregion
@@ -61,7 +46,7 @@ namespace Shop.Sales.Spec.Orders
 
             public WhenCanceled()
             {
-                _order.Cancel();
+                Order.Cancel();
             }
 
             #endregion
@@ -71,7 +56,7 @@ namespace Shop.Sales.Spec.Orders
             [Fact]
             public void ThenOrderIsCanceled()
             {
-                _order.Status.Should().Be(OrderStatus.Canceled);
+                Order.Status.Should().Be(OrderStatus.Canceled);
             }
 
             #endregion
@@ -83,7 +68,7 @@ namespace Shop.Sales.Spec.Orders
 
             public WhenConfirmed()
             {
-                _order.Confirm();
+                Order.Confirm();
             }
 
             #endregion
@@ -93,13 +78,13 @@ namespace Shop.Sales.Spec.Orders
             [Fact]
             public void ThenBalanceIsSubtotal()
             {
-                _order.Finances.Balance.Should().Be(_order.Finances.Subtotal);
+                Order.Finances.Balance.Should().Be(Order.Finances.Subtotal);
             }
 
             [Fact]
             public void ThenOrderIsAwaitingPayment()
             {
-                _order.Status.Should().Be(OrderStatus.AwaitingPayment);
+                Order.Status.Should().Be(OrderStatus.AwaitingPayment);
             }
 
             #endregion
@@ -112,9 +97,9 @@ namespace Shop.Sales.Spec.Orders
             [Fact]
             public void ThenReturnInvalidOperationError()
             {
-                var error = _order.IssueRefund().Error;
+                var error = Order.IssueRefund().Error;
 
-                error.Should().Be(InvalidOperation());
+                error.Should().Be(InvalidOperation);
             }
 
             #endregion

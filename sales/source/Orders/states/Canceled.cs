@@ -1,4 +1,5 @@
-﻿using Jgs.Functional.Explicit;
+﻿using System;
+using Jgs.Functional.Explicit;
 using Shop.Shared;
 using static Jgs.Functional.Explicit.Result<Shop.Shared.Error>;
 using static Shop.Shared.Error;
@@ -19,11 +20,13 @@ namespace Shop.Sales.Orders
 
             #region Public Interface
 
-            public override Result<Error> ApplyPayment(Money value) =>
-                InvalidOperation("Cannot apply payment to a canceled order.");
+            public override Result<Error> Add(LineItem lineItem) => throw new NotImplementedException();
 
-            public override Result<Error> Cancel() => InvalidOperation("Order already canceled.");
-            public override Result<Error> Confirm() => InvalidOperation("Canceled order cannot be confirmed.");
+            public override Result<Error> ApplyPayment(Money value) =>
+                CreateInvalidOperation("Cannot apply payment to a canceled order.");
+
+            public override Result<Error> Cancel() => CreateInvalidOperation("Order already canceled.");
+            public override Result<Error> Confirm() => CreateInvalidOperation("Canceled order cannot be confirmed.");
 
             public override void EnterState()
             {
@@ -33,12 +36,14 @@ namespace Shop.Sales.Orders
             public override Result<Error> IssueRefund()
             {
                 if (Finances.Paid == 0 || Finances.Paid == Finances.Refunded)
-                    return InvalidOperation("No refund necessary.");
+                    return CreateInvalidOperation("No refund necessary.");
 
                 Finances = Finances.IssueRefund();
                 Status = OrderStatus.Refunded;
                 return Success();
             }
+
+            public override Result<Error> Submit() => throw new NotImplementedException();
 
             #endregion
         }
