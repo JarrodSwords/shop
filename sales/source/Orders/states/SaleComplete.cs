@@ -1,4 +1,5 @@
-﻿using Jgs.Functional.Explicit;
+﻿using System;
+using Jgs.Functional.Explicit;
 using Shop.Shared;
 using static Jgs.Functional.Explicit.Result<Shop.Shared.Error>;
 using static Shop.Shared.Error;
@@ -30,15 +31,13 @@ namespace Shop.Sales.Orders
 
             public override Result<Error> Confirm() => InvalidOperation("Cannot confirm a completed order.");
 
-            public override void EnterState()
-            {
-            }
-
             public override Result<Error> IssueRefund()
             {
                 Status = OrderStatus.Canceled | OrderStatus.Refunded;
                 return Success();
             }
+
+            public override Result<Error> Submit() => throw new NotImplementedException();
 
             #endregion
         }

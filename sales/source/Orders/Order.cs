@@ -71,6 +71,7 @@ namespace Shop.Sales.Orders
         public Result<Error> Cancel() => _state.Cancel();
         public Result<Error> Confirm() => _state.Confirm();
         public Result<Error> IssueRefund() => _state.IssueRefund();
+        public Result<Error> Submit() => _state.Submit();
 
         #endregion
     }

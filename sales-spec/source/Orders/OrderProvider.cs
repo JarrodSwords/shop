@@ -15,9 +15,7 @@ namespace Shop.Sales.Spec.Orders
             Order.From(
                 CustomerIds.First(),
                 CustomerIds,
-                OrderStatus.AwaitingConfirmation,
-                default,
-                new LineItem(25, new Id(), 1)
+                OrderStatus.Pending
             ).Value;
 
         #endregion

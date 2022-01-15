@@ -19,6 +19,7 @@ namespace Shop.Sales.Orders
                         { OrderStatus.AwaitingPayment, x => new AwaitingPayment(x) },
                         { OrderStatus.Canceled, x => new Canceled(x) },
                         { OrderStatus.Canceled | OrderStatus.Refunded, x => new Canceled(x) },
+                        { OrderStatus.Pending, x => new Pending(x) },
                         { OrderStatus.SaleComplete, x => new SaleComplete(x) }
                     };
 
@@ -50,8 +51,13 @@ namespace Shop.Sales.Orders
             public abstract Result<Error> ApplyPayment(Money value);
             public abstract Result<Error> Cancel();
             public abstract Result<Error> Confirm();
-            public abstract void EnterState();
+
+            public virtual void EnterState()
+            {
+            }
+
             public abstract Result<Error> IssueRefund();
+            public abstract Result<Error> Submit();
 
             #endregion
         }

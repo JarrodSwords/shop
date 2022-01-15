@@ -1,4 +1,5 @@
-﻿using Jgs.Functional.Explicit;
+﻿using System;
+using Jgs.Functional.Explicit;
 using Shop.Shared;
 using static Jgs.Functional.Explicit.Result<Shop.Shared.Error>;
 using static Shop.Shared.Error;
@@ -39,6 +40,8 @@ namespace Shop.Sales.Orders
                 Status = OrderStatus.Refunded;
                 return Success();
             }
+
+            public override Result<Error> Submit() => throw new NotImplementedException();
 
             #endregion
         }
