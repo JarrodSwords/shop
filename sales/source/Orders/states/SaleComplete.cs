@@ -23,7 +23,7 @@ namespace Shop.Sales.Orders
             public override Result<Error> Add(LineItem lineItem) => throw new NotImplementedException();
 
             public override Result<Error> ApplyPayment(Money value) =>
-                InvalidOperation("Cannot apply payment to a completed order.");
+                CreateInvalidOperation("Cannot apply payment to a completed order.");
 
             public override Result<Error> Cancel()
             {
@@ -31,7 +31,7 @@ namespace Shop.Sales.Orders
                 return Success();
             }
 
-            public override Result<Error> Confirm() => InvalidOperation("Cannot confirm a completed order.");
+            public override Result<Error> Confirm() => CreateInvalidOperation("Cannot confirm a completed order.");
 
             public override Result<Error> IssueRefund()
             {

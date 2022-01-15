@@ -38,7 +38,7 @@ namespace Shop.Sales.Orders
                 return Success();
             }
 
-            public override Result<Error> Confirm() => InvalidOperation("Order already confirmed.");
+            public override Result<Error> Confirm() => CreateInvalidOperation("Order already confirmed.");
 
 
             public override Result<Error> IssueRefund()

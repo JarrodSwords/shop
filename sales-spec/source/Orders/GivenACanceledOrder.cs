@@ -34,7 +34,7 @@ namespace Shop.Sales.Spec.Orders
         {
             var error = _order.ApplyPayment(1).Error;
 
-            error.Should().Be(InvalidOperation());
+            error.Should().Be(InvalidOperation);
         }
 
         [Fact]
@@ -42,7 +42,7 @@ namespace Shop.Sales.Spec.Orders
         {
             var error = _order.Cancel().Error;
 
-            error.Should().Be(InvalidOperation());
+            error.Should().Be(InvalidOperation);
         }
 
         [Fact]
@@ -50,7 +50,7 @@ namespace Shop.Sales.Spec.Orders
         {
             var error = _order.Confirm().Error;
 
-            error.Should().Be(InvalidOperation());
+            error.Should().Be(InvalidOperation);
         }
 
         [Fact]
@@ -58,7 +58,7 @@ namespace Shop.Sales.Spec.Orders
         {
             var error = _order.IssueRefund().Error;
 
-            error.Should().Be(InvalidOperation());
+            error.Should().Be(InvalidOperation);
         }
 
         #endregion

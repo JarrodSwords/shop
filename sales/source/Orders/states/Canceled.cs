@@ -23,10 +23,10 @@ namespace Shop.Sales.Orders
             public override Result<Error> Add(LineItem lineItem) => throw new NotImplementedException();
 
             public override Result<Error> ApplyPayment(Money value) =>
-                InvalidOperation("Cannot apply payment to a canceled order.");
+                CreateInvalidOperation("Cannot apply payment to a canceled order.");
 
-            public override Result<Error> Cancel() => InvalidOperation("Order already canceled.");
-            public override Result<Error> Confirm() => InvalidOperation("Canceled order cannot be confirmed.");
+            public override Result<Error> Cancel() => CreateInvalidOperation("Order already canceled.");
+            public override Result<Error> Confirm() => CreateInvalidOperation("Canceled order cannot be confirmed.");
 
             public override void EnterState()
             {
@@ -36,7 +36,7 @@ namespace Shop.Sales.Orders
             public override Result<Error> IssueRefund()
             {
                 if (Finances.Paid == 0 || Finances.Paid == Finances.Refunded)
-                    return InvalidOperation("No refund necessary.");
+                    return CreateInvalidOperation("No refund necessary.");
 
                 Finances = Finances.IssueRefund();
                 Status = OrderStatus.Refunded;

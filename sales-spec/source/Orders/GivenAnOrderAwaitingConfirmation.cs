@@ -114,7 +114,7 @@ namespace Shop.Sales.Spec.Orders
             {
                 var error = _order.IssueRefund().Error;
 
-                error.Should().Be(InvalidOperation());
+                error.Should().Be(InvalidOperation);
             }
 
             #endregion

@@ -81,7 +81,7 @@ namespace Shop.Sales.Spec.Orders
             {
                 var error = Order.Confirm().Error;
 
-                error.Should().Be(InvalidOperation());
+                error.Should().Be(InvalidOperation);
             }
 
             #endregion

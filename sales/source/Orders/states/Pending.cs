@@ -25,7 +25,7 @@ namespace Shop.Sales.Orders
                 return Success();
             }
 
-            public override Result<Error> ApplyPayment(Money value) => InvalidOperation();
+            public override Result<Error> ApplyPayment(Money value) => CreateInvalidOperation();
 
             public override Result<Error> Cancel()
             {
@@ -33,13 +33,13 @@ namespace Shop.Sales.Orders
                 return Success();
             }
 
-            public override Result<Error> Confirm() => InvalidOperation();
-            public override Result<Error> IssueRefund() => InvalidOperation();
+            public override Result<Error> Confirm() => CreateInvalidOperation();
+            public override Result<Error> IssueRefund() => CreateInvalidOperation();
 
             public override Result<Error> Submit()
             {
                 if (!Order.HasLineItems)
-                    return InvalidOperation();
+                    return CreateInvalidOperation();
 
                 Status = OrderStatus.AwaitingConfirmation;
 

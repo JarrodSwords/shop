@@ -5,6 +5,8 @@ namespace Shop.Shared
 {
     public class Error : ValueObject
     {
+        public static Error InvalidOperation = CreateInvalidOperation();
+
         #region Creation
 
         public Error(string code, string message)
@@ -42,7 +44,7 @@ namespace Shop.Shared
                 : new(invalid, $"{identifier} is {invalid}.");
         }
 
-        public static Error InvalidOperation(string reason = default)
+        public static Error CreateInvalidOperation(string reason = default)
         {
             const string invalid = "invalid.operation";
 

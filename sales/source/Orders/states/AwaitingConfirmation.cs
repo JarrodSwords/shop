@@ -46,7 +46,7 @@ namespace Shop.Sales.Orders
             }
 
             public override Result<Error> IssueRefund() =>
-                InvalidOperation("Cannot refund an order awaiting confirmation.");
+                CreateInvalidOperation("Cannot refund an order awaiting confirmation.");
 
             public override Result<Error> Submit() => throw new NotImplementedException();
 
