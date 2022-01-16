@@ -76,7 +76,7 @@ namespace Shop.Sales.Spec.Orders
         }
 
         [Fact]
-        public void WithState_ThenStateIsSet()
+        public void WithStatus_ThenStatusIsSet()
         {
             var order = Order.From(
                 CustomerId,

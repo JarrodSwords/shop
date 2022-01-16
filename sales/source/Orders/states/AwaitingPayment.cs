@@ -40,14 +40,7 @@ namespace Shop.Sales.Orders
             }
 
             public override Result<Error> Confirm() => CreateInvalidOperation("Order already confirmed.");
-
-
-            public override Result<Error> IssueRefund()
-            {
-                Status = OrderStatus.Canceled | OrderStatus.Refunded;
-                return Success();
-            }
-
+            public override Result<Error> IssueRefund() => CreateInvalidOperation("Cancel order first.");
             public override Result<Error> Submit() => throw new NotImplementedException();
 
             #endregion

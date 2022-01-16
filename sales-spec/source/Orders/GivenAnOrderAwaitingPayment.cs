@@ -73,11 +73,11 @@ namespace Shop.Sales.Spec.Orders
         }
 
         [Fact]
-        public void WhenRefundIssued_ThenOrderIsRefunded()
+        public void WhenRefundIssued_ThenReturnInvalidOperationError()
         {
-            _order.IssueRefund();
+            var error = _order.IssueRefund().Error;
 
-            _order.Status.Should().HaveFlag(OrderStatus.Refunded);
+            error.Should().Be(InvalidOperation);
         }
 
         #endregion
