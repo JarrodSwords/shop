@@ -20,7 +20,7 @@ namespace Shop.Sales.Orders
                         { OrderStatus.Canceled, x => new Canceled(x) },
                         { OrderStatus.Canceled | OrderStatus.Refunded, x => new Canceled(x) },
                         { OrderStatus.Pending, x => new Pending(x) },
-                        { OrderStatus.SaleComplete, x => new AwaitingFulfillment(x) }
+                        { OrderStatus.AwaitingFulfillment, x => new AwaitingFulfillment(x) }
                     };
 
             #region Creation

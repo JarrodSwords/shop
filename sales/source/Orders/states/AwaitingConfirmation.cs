@@ -30,7 +30,7 @@ namespace Shop.Sales.Orders
                 Finances = Finances.ApplyPayment(payment);
 
                 Status = Finances.IsPaidInFull
-                    ? OrderStatus.SaleComplete
+                    ? OrderStatus.AwaitingFulfillment
                     : OrderStatus.AwaitingPayment;
 
                 return Success();

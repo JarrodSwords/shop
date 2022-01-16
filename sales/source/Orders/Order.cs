@@ -30,12 +30,13 @@ namespace Shop.Sales.Orders
 
             CustomerId = customerId;
             Finances = finances ?? Finances.Default;
-
-            if (lineItems != null)
-                foreach (var i in lineItems)
-                    _lineItems.Add(i);
-
             Status = status;
+
+            if (lineItems == null)
+                return;
+
+            foreach (var i in lineItems)
+                _lineItems.Add(i);
         }
 
         public static Result<Order, Error> From(

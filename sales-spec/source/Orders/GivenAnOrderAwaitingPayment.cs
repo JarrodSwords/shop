@@ -45,7 +45,7 @@ namespace Shop.Sales.Spec.Orders
         {
             _order.ApplyPayment(99);
 
-            _order.Status.Should().Be(OrderStatus.SaleComplete);
+            _order.Status.Should().Be(OrderStatus.AwaitingFulfillment);
         }
 
         [Fact]

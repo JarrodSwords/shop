@@ -7,10 +7,10 @@ namespace Shop.Sales.Orders
     {
         Pending = 0,
         AwaitingConfirmation = 1 << 0,
-        AwaitingPayment = 1 << 1,
-        Canceled = 1 << 2,
-        RefundDue = (1 << 3) | Canceled,
-        Refunded = (1 << 4) | Canceled,
-        SaleComplete = 1 << 5
+        AwaitingFulfillment = 1 << 1,
+        AwaitingPayment = 1 << 2,
+        Canceled = 1 << 3,
+        RefundDue = (1 << 4) | Canceled,
+        Refunded = (1 << 5) | Canceled
     }
 }
