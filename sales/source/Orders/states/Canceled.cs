@@ -43,8 +43,7 @@ namespace Shop.Sales.Orders
                 return Success();
             }
 
-            public override Result<Error> Remove(LineItem lineItem) => throw new NotImplementedException();
-
+            public override Result<Error> Remove(LineItem lineItem) => CreateInvalidOperation();
             public override Result<Error> Submit() => CreateInvalidOperation("Order already submitted.");
 
             #endregion

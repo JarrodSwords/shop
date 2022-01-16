@@ -1,7 +1,7 @@
-﻿using System;
-using Jgs.Functional.Explicit;
+﻿using Jgs.Functional.Explicit;
 using Shop.Shared;
 using static Jgs.Functional.Explicit.Result<Shop.Shared.Error>;
+using static Shop.Sales.Orders.ErrorExtensions;
 using static Shop.Shared.Error;
 
 namespace Shop.Sales.Orders
@@ -36,7 +36,18 @@ namespace Shop.Sales.Orders
 
             public override Result<Error> Confirm() => CreateInvalidOperation();
             public override Result<Error> IssueRefund() => CreateInvalidOperation();
-            public override Result<Error> Remove(LineItem lineItem) => throw new NotImplementedException();
+
+            public override Result<Error> Remove(LineItem lineItem)
+            {
+                var lineItemEntity = Order.GetFirst(lineItem);
+
+                if (lineItemEntity is null)
+                    return LineItemNotFound();
+
+                Order.Remove(lineItemEntity);
+
+                return Success();
+            }
 
             public override Result<Error> Submit()
             {

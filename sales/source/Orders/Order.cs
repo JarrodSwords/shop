@@ -12,7 +12,7 @@ namespace Shop.Sales.Orders
 {
     public partial class Order : Aggregate
     {
-        private readonly ObservableCollection<LineItem> _lineItems;
+        private readonly ObservableCollection<LineItemEntity> _lineItems;
         private State _state;
         private OrderStatus _status;
 
@@ -63,7 +63,7 @@ namespace Shop.Sales.Orders
         public Id CustomerId { get; }
         public Finances Finances { get; private set; }
         public bool HasLineItems => _lineItems.Count > 0;
-        public IReadOnlyCollection<LineItem> LineItems => _lineItems.ToList().AsReadOnly();
+        public IReadOnlyCollection<LineItem> LineItems => _lineItems.Select(x => x.LineItem).ToList().AsReadOnly();
 
         public OrderStatus Status
         {
@@ -88,12 +88,19 @@ namespace Shop.Sales.Orders
 
         #region Private Interface
 
+        private LineItemEntity GetFirst(LineItem lineItem) => _lineItems.FirstOrDefault(x => x.LineItem == lineItem);
+
         private void LineItemsChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            Finances = Finances.From(Finances, _lineItems.ToArray());
+            Finances = Finances.From(Finances, LineItems.ToArray());
 
-            if (_lineItems.Count == 0)
+            if (!HasLineItems)
                 Status = OrderStatus.Canceled;
+        }
+
+        private void Remove(LineItemEntity lineItem)
+        {
+            _lineItems.Remove(lineItem);
         }
 
         #endregion
