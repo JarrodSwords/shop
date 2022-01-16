@@ -88,12 +88,19 @@ namespace Shop.Sales.Orders
 
         #region Private Interface
 
+        private LineItemEntity GetFirst(LineItem lineItem) => _lineItems.FirstOrDefault(x => x.LineItem == lineItem);
+
         private void LineItemsChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             Finances = Finances.From(Finances, LineItems.ToArray());
 
-            if (_lineItems.Count == 0)
+            if (!HasLineItems)
                 Status = OrderStatus.Canceled;
+        }
+
+        private void Remove(LineItemEntity lineItem)
+        {
+            _lineItems.Remove(lineItem);
         }
 
         #endregion

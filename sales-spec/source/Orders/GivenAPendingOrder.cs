@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using Shop.Sales.Orders;
 using Xunit;
+using static Shop.Sales.Orders.ErrorExtensions;
 using static Shop.Sales.Spec.ObjectProvider;
 using static Shop.Sales.Spec.OrderHelper;
 using static Shop.Shared.Error;
@@ -94,6 +95,34 @@ namespace Shop.Sales.Spec.Orders
             #region Test Methods
 
             [Fact]
+            public void WhenRemovingALineItem_ThenFinancesAreUpdated()
+            {
+                Order.Remove(LunchBox);
+
+                var balance = CalculateBalance(Order);
+
+                Order.Finances.Balance.Should().Be(balance);
+            }
+
+            [Fact]
+            public void WhenRemovingALineItem_ThenLineItemsAreUpdated()
+            {
+                var count = Order.LineItems.Count;
+
+                Order.Remove(LunchBox);
+
+                Order.LineItems.Count.Should().Be(count - 1);
+            }
+
+            [Fact]
+            public void WhenRemovingALineItem_WithNoItemsLeft_ThenOrderIsCanceled()
+            {
+                Order.Remove(LunchBox);
+
+                Order.Status.Should().Be(OrderStatus.Canceled);
+            }
+
+            [Fact]
             public void WhenSubmitted_ThenOrderIsAwaitingConfirmation()
             {
                 Order.Submit();
@@ -116,6 +145,14 @@ namespace Shop.Sales.Spec.Orders
             #endregion
 
             #region Test Methods
+
+            [Fact]
+            public void WhenRemovingALineItem_ThenReturnLineItemNotFound()
+            {
+                var error = Order.Remove(LunchBox).Error;
+
+                error.Should().Be(LineItemNotFound());
+            }
 
             [Fact]
             public void WhenSubmitted_ThenReturnInvalidOperationError()

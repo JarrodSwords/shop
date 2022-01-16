@@ -81,7 +81,6 @@ namespace Shop.Sales.Orders
         }
 
         public Finances Cancel() => new(Zero, Paid, Refunded, Subtotal, Tip);
-
         public Finances IssueRefund() => new(Zero, Paid, Paid, Subtotal, Tip);
 
         public override string ToString() =>
