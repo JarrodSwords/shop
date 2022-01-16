@@ -12,7 +12,7 @@ namespace Shop.Sales.Orders
 {
     public partial class Order : Aggregate
     {
-        private readonly ObservableCollection<LineItem> _lineItems;
+        private readonly ObservableCollection<LineItemEntity> _lineItems;
         private State _state;
         private OrderStatus _status;
 
@@ -63,7 +63,7 @@ namespace Shop.Sales.Orders
         public Id CustomerId { get; }
         public Finances Finances { get; private set; }
         public bool HasLineItems => _lineItems.Count > 0;
-        public IReadOnlyCollection<LineItem> LineItems => _lineItems.ToList().AsReadOnly();
+        public IReadOnlyCollection<LineItem> LineItems => _lineItems.Select(x => x.LineItem).ToList().AsReadOnly();
 
         public OrderStatus Status
         {
@@ -90,12 +90,36 @@ namespace Shop.Sales.Orders
 
         private void LineItemsChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            Finances = Finances.From(Finances, _lineItems.ToArray());
+            Finances = Finances.From(Finances, LineItems.ToArray());
 
             if (_lineItems.Count == 0)
                 Status = OrderStatus.Canceled;
         }
 
         #endregion
+
+        private class LineItemEntity : Entity
+        {
+            #region Creation
+
+            public LineItemEntity(LineItem lineItem, Id id = default) : base(id)
+            {
+                LineItem = lineItem;
+            }
+
+            #endregion
+
+            #region Public Interface
+
+            public LineItem LineItem { get; }
+
+            #endregion
+
+            #region Static Interface
+
+            public static implicit operator LineItemEntity(LineItem source) => new(source);
+
+            #endregion
+        }
     }
 }

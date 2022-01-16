@@ -54,7 +54,7 @@ namespace Shop.Sales.Orders
 
             public override Result<Error> Remove(LineItem lineItem)
             {
-                var itemToRemove = Order._lineItems.First(x => x == lineItem);
+                var itemToRemove = Order._lineItems.First(x => x.LineItem == lineItem);
 
                 Order._lineItems.Remove(itemToRemove);
                 return Success();
