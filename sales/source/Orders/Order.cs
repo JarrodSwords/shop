@@ -87,7 +87,7 @@ namespace Shop.Sales.Orders
 
         private void LineItemsChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            Finances = Finances.From(_lineItems.ToArray());
+            Finances = Finances.From(Finances, _lineItems.ToArray());
         }
 
         #endregion

@@ -44,6 +44,19 @@ namespace Shop.Sales.Orders
             );
         }
 
+        public static Finances From(Finances previous, params LineItem[] lineItems)
+        {
+            var finances = From(lineItems);
+
+            return new(
+                finances.Balance,
+                previous.Paid,
+                previous.Refunded,
+                finances.Subtotal,
+                previous.Tip
+            );
+        }
+
         #endregion
 
         #region Public Interface
