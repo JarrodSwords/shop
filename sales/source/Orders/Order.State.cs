@@ -58,6 +58,7 @@ namespace Shop.Sales.Orders
             }
 
             public abstract Result<Error> IssueRefund();
+            public abstract Result<Error> Remove(LineItem lineItem);
             public abstract Result<Error> Submit();
 
             #endregion

@@ -57,6 +57,14 @@ namespace Shop.Sales.Spec.Orders
         }
 
         [Fact]
+        public void WhenRemovingALineItem_ThenReturnInvalidOperationError()
+        {
+            var error = _order.Remove(CreateLunchBox()).Error;
+
+            error.Should().Be(InvalidOperation);
+        }
+
+        [Fact]
         public void WhenSubmitted_ThenReturnInvalidOperationError()
         {
             var error = _order.Submit().Error;
