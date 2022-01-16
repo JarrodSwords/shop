@@ -1,23 +1,17 @@
 ﻿using FluentAssertions;
 using Shop.Sales.Orders;
 using Xunit;
-using static Shop.Sales.Spec.Orders.ObjectProvider;
+using static Shop.Sales.Spec.ObjectProvider;
 using static Shop.Shared.Error;
 using static Shop.Shared.Money;
 
 namespace Shop.Sales.Spec.Orders
 {
-    public class GivenACanceledOrder
+    public abstract class GivenACanceledOrder
     {
         #region Core
 
-        private readonly Order _order;
-
-        public GivenACanceledOrder()
-        {
-            _order = CreateOrderAwaitingConfirmation();
-            _order.Cancel();
-        }
+        protected Order Order;
 
         #endregion
 
@@ -26,13 +20,13 @@ namespace Shop.Sales.Spec.Orders
         [Fact]
         public void ThenBalanceIsZero()
         {
-            _order.Finances.Balance.Should().Be(Zero);
+            Order.Finances.Balance.Should().Be(Zero);
         }
 
         [Fact]
         public void WhenApplyingPayment_ThenReturnInvalidOperationError()
         {
-            var error = _order.ApplyPayment(1).Error;
+            var error = Order.ApplyPayment(1).Error;
 
             error.Should().Be(InvalidOperation);
         }
@@ -40,7 +34,7 @@ namespace Shop.Sales.Spec.Orders
         [Fact]
         public void WhenCanceled_ThenReturnInvalidOperationError()
         {
-            var error = _order.Cancel().Error;
+            var error = Order.Cancel().Error;
 
             error.Should().Be(InvalidOperation);
         }
@@ -48,32 +42,29 @@ namespace Shop.Sales.Spec.Orders
         [Fact]
         public void WhenConfirmed_ThenReturnInvalidOperationError()
         {
-            var error = _order.Confirm().Error;
+            var error = Order.Confirm().Error;
 
             error.Should().Be(InvalidOperation);
         }
 
         [Fact]
-        public void WhenRefunded_ThenReturnInvalidOperationError()
+        public void WhenSubmitted_ThenReturnInvalidOperationError()
         {
-            var error = _order.IssueRefund().Error;
+            var error = Order.Submit().Error;
 
             error.Should().Be(InvalidOperation);
         }
 
         #endregion
 
-        public class WithOutstandingRefund
+        public class WithoutRefundDue : GivenACanceledOrder
         {
             #region Core
 
-            private readonly Order _order;
-
-            public WithOutstandingRefund()
+            public WithoutRefundDue()
             {
-                _order = CreateOrderAwaitingConfirmation();
-                _order.ApplyPayment(20);
-                _order.Cancel();
+                Order = CreateOrderAwaitingConfirmation();
+                Order.Cancel();
             }
 
             #endregion
@@ -81,11 +72,45 @@ namespace Shop.Sales.Spec.Orders
             #region Test Methods
 
             [Fact]
-            public void WhenRefunded_ThenOrderIsRefunded()
+            public void WhenRefundIssued_ThenReturnInvalidOperationError()
             {
-                _order.IssueRefund();
+                var error = Order.IssueRefund().Error;
 
-                _order.Status.Should().Be(OrderStatus.Refunded);
+                error.Should().Be(InvalidOperation);
+            }
+
+            #endregion
+        }
+
+        public class WithRefundDue : GivenACanceledOrder
+        {
+            #region Core
+
+            public WithRefundDue()
+            {
+                Order = CreateOrderAwaitingConfirmation();
+                Order.ApplyPayment(20);
+                Order.Cancel();
+            }
+
+            #endregion
+
+            #region Test Methods
+
+            [Fact]
+            public void WhenRefundIssued_ThenFinancesAreUpdated()
+            {
+                Order.IssueRefund();
+
+                Order.Finances.Refunded.Should().Be(Order.Finances.Paid);
+            }
+
+            [Fact]
+            public void WhenRefundIssued_ThenOrderIsRefunded()
+            {
+                Order.IssueRefund();
+
+                Order.Status.Should().Be(OrderStatus.Refunded);
             }
 
             #endregion

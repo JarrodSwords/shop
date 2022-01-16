@@ -3,7 +3,7 @@ using System.Linq;
 using Jgs.Ddd;
 using Shop.Sales.Orders;
 
-namespace Shop.Sales.Spec.Orders
+namespace Shop.Sales.Spec
 {
     public class ObjectProvider
     {

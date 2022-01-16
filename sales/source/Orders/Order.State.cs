@@ -20,7 +20,7 @@ namespace Shop.Sales.Orders
                         { OrderStatus.Canceled, x => new Canceled(x) },
                         { OrderStatus.Canceled | OrderStatus.Refunded, x => new Canceled(x) },
                         { OrderStatus.Pending, x => new Pending(x) },
-                        { OrderStatus.SaleComplete, x => new SaleComplete(x) }
+                        { OrderStatus.SaleComplete, x => new AwaitingFulfillment(x) }
                     };
 
             #region Creation
@@ -49,7 +49,7 @@ namespace Shop.Sales.Orders
             }
 
             public abstract Result<Error> Add(LineItem lineItem);
-            public abstract Result<Error> ApplyPayment(Money value);
+            public abstract Result<Error> ApplyPayment(Money payment);
             public abstract Result<Error> Cancel();
             public abstract Result<Error> Confirm();
 

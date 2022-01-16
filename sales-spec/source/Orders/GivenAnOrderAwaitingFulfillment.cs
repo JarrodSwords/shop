@@ -6,17 +6,11 @@ using static Shop.Shared.Error;
 
 namespace Shop.Sales.Spec.Orders
 {
-    public class GivenAnOrderAwaitingPayment
+    public class GivenAnOrderAwaitingFulfillment
     {
         #region Core
 
-        private readonly Order _order;
-
-        public GivenAnOrderAwaitingPayment()
-        {
-            _order = CreateOrderAwaitingConfirmation();
-            _order.Confirm();
-        }
+        private readonly Order _order = CompletedOrder();
 
         #endregion
 
@@ -31,29 +25,11 @@ namespace Shop.Sales.Spec.Orders
         }
 
         [Fact]
-        public void WhenApplyingPayment_ThenFinancesAreUpdated()
+        public void WhenApplyingPayment_ThenReturnInvalidOperationError()
         {
-            var expected = new Finances(69, 30, 0, 99, 0);
+            var error = _order.ApplyPayment(1).Error;
 
-            _order.ApplyPayment(30);
-
-            _order.Finances.Should().Be(expected);
-        }
-
-        [Fact]
-        public void WhenApplyingPayment_WithFullPayment_ThenOrderIsSaleComplete()
-        {
-            _order.ApplyPayment(99);
-
-            _order.Status.Should().Be(OrderStatus.SaleComplete);
-        }
-
-        [Fact]
-        public void WhenApplyingPayment_WithPartialPayment_ThenOrderIsAwaitingPayment()
-        {
-            _order.ApplyPayment(5);
-
-            _order.Status.Should().Be(OrderStatus.AwaitingPayment);
+            error.Should().Be(InvalidOperation);
         }
 
         [Fact]
@@ -61,7 +37,7 @@ namespace Shop.Sales.Spec.Orders
         {
             _order.Cancel();
 
-            _order.Status.Should().Be(OrderStatus.Canceled);
+            _order.Status.Should().HaveFlag(OrderStatus.Canceled);
         }
 
         [Fact]

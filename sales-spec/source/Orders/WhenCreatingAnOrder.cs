@@ -33,7 +33,7 @@ namespace Shop.Sales.Spec.Orders
             var order = Order.From(
                 CustomerId,
                 CustomerIds,
-                OrderStatus.AwaitingConfirmation,
+                OrderStatus.Pending,
                 default,
                 new LineItem(25m, new Guid(), 1),
                 new LineItem(49m, new Guid(), 2)
@@ -76,7 +76,7 @@ namespace Shop.Sales.Spec.Orders
         }
 
         [Fact]
-        public void WithState_ThenStateIsSet()
+        public void WithStatus_ThenStatusIsSet()
         {
             var order = Order.From(
                 CustomerId,

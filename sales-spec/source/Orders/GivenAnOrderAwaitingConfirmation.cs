@@ -1,108 +1,98 @@
 ﻿using FluentAssertions;
 using Shop.Sales.Orders;
 using Xunit;
+using static Shop.Sales.Spec.ObjectProvider;
+using static Shop.Sales.Spec.OrderHelper;
 using static Shop.Shared.Error;
 
 namespace Shop.Sales.Spec.Orders
 {
-    public abstract class GivenAnOrderAwaitingConfirmation
+    public class GivenAnOrderAwaitingConfirmation
     {
-        public Order Order = ObjectProvider.CreateOrderAwaitingConfirmation();
+        #region Core
 
-        public class WhenApplyingPayment : GivenAnOrderAwaitingConfirmation
+        private readonly Order _order = CreateOrderAwaitingConfirmation();
+
+        #endregion
+
+        #region Test Methods
+
+        [Fact]
+        public void WhenAddingALineItem_ThenFinancesAreUpdated()
         {
-            #region Test Methods
+            _order.Add(CreateLunchBox());
 
-            [Fact]
-            public void ThenFinancesAreUpdated()
-            {
-                Order.ApplyPayment(5);
+            var balance = CalculateBalance(_order);
 
-                Order.Finances.Should().Be(new Finances(94, 5, 0, 99, 0));
-            }
-
-            [Fact]
-            public void WithInsufficientAmount_ThenOrderIsConfirmed()
-            {
-                Order.ApplyPayment(5);
-
-                Order.Status.Should().Be(OrderStatus.AwaitingPayment);
-            }
-
-            [Fact]
-            public void WithSufficientAmount_ThenOrderIsSaleComplete()
-            {
-                Order.ApplyPayment(99);
-
-                Order.Status.Should().Be(OrderStatus.SaleComplete);
-            }
-
-            #endregion
+            _order.Finances.Balance.Should().Be(balance);
         }
 
-        public class WhenCanceled : GivenAnOrderAwaitingConfirmation
+        [Fact]
+        public void WhenAddingALineItem_ThenLineItemsAreUpdated()
         {
-            #region Core
+            var count = _order.LineItems.Count;
 
-            public WhenCanceled()
-            {
-                Order.Cancel();
-            }
+            _order.Add(CreateLunchBox());
 
-            #endregion
-
-            #region Test Methods
-
-            [Fact]
-            public void ThenOrderIsCanceled()
-            {
-                Order.Status.Should().Be(OrderStatus.Canceled);
-            }
-
-            #endregion
+            _order.LineItems.Count.Should().Be(count + 1);
         }
 
-        public class WhenConfirmed : GivenAnOrderAwaitingConfirmation
+        [Fact]
+        public void WhenApplyingPayment_ThenFinancesAreUpdated()
         {
-            #region Core
+            _order.ApplyPayment(110);
 
-            public WhenConfirmed()
-            {
-                Order.Confirm();
-            }
-
-            #endregion
-
-            #region Test Methods
-
-            [Fact]
-            public void ThenBalanceIsSubtotal()
-            {
-                Order.Finances.Balance.Should().Be(Order.Finances.Subtotal);
-            }
-
-            [Fact]
-            public void ThenOrderIsAwaitingPayment()
-            {
-                Order.Status.Should().Be(OrderStatus.AwaitingPayment);
-            }
-
-            #endregion
+            _order.Finances.Should().Be(new Finances(0, 110, 0, 99, 11));
         }
 
-        public class WhenRefunded : GivenAnOrderAwaitingConfirmation
+        [Fact]
+        public void WhenApplyingPayment_WithFullPayment_ThenOrderIsSaleComplete()
         {
-            #region Test Methods
+            _order.ApplyPayment(99);
 
-            [Fact]
-            public void ThenReturnInvalidOperationError()
-            {
-                var error = Order.IssueRefund().Error;
-
-                error.Should().Be(InvalidOperation);
-            }
-
-            #endregion
+            _order.Status.Should().Be(OrderStatus.SaleComplete);
         }
+
+        [Fact]
+        public void WhenApplyingPayment_WithPartialPayment_ThenOrderIsAwaitingPayment()
+        {
+            _order.ApplyPayment(5);
+
+            _order.Status.Should().Be(OrderStatus.AwaitingPayment);
+        }
+
+        [Fact]
+        public void WhenCanceled_ThenOrderIsCanceled()
+        {
+            _order.Cancel();
+
+            _order.Status.Should().Be(OrderStatus.Canceled);
+        }
+
+        [Fact]
+        public void WhenConfirmed_ThenOrderIsAwaitingPayment()
+        {
+            _order.Confirm();
+
+            _order.Status.Should().Be(OrderStatus.AwaitingPayment);
+        }
+
+        [Fact]
+        public void WhenRefundIssued_ThenReturnInvalidOperationError()
+        {
+            var error = _order.IssueRefund().Error;
+
+            error.Should().Be(InvalidOperation);
+        }
+
+        [Fact]
+        public void WhenSubmitted_ThenReturnInvalidOperationError()
+        {
+            var error = _order.Submit().Error;
+
+            error.Should().Be(InvalidOperation);
+        }
+
+        #endregion
     }
 }

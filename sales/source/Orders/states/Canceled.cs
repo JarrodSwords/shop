@@ -22,7 +22,7 @@ namespace Shop.Sales.Orders
 
             public override Result<Error> Add(LineItem lineItem) => throw new NotImplementedException();
 
-            public override Result<Error> ApplyPayment(Money value) =>
+            public override Result<Error> ApplyPayment(Money payment) =>
                 CreateInvalidOperation("Cannot apply payment to a canceled order.");
 
             public override Result<Error> Cancel() => CreateInvalidOperation("Order already canceled.");
@@ -43,7 +43,7 @@ namespace Shop.Sales.Orders
                 return Success();
             }
 
-            public override Result<Error> Submit() => throw new NotImplementedException();
+            public override Result<Error> Submit() => CreateInvalidOperation("Order already submitted.");
 
             #endregion
         }

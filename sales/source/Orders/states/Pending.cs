@@ -22,11 +22,10 @@ namespace Shop.Sales.Orders
             public override Result<Error> Add(LineItem lineItem)
             {
                 Order._lineItems.Add(lineItem);
-                Finances = Finances.From(Order._lineItems.ToArray());
                 return Success();
             }
 
-            public override Result<Error> ApplyPayment(Money value) => CreateInvalidOperation();
+            public override Result<Error> ApplyPayment(Money payment) => CreateInvalidOperation();
 
             public override Result<Error> Cancel()
             {
@@ -40,7 +39,7 @@ namespace Shop.Sales.Orders
             public override Result<Error> Submit()
             {
                 if (!Order.HasLineItems)
-                    return CreateInvalidOperation();
+                    return CreateInvalidOperation("Cannot submit empty order.");
 
                 Status = OrderStatus.AwaitingConfirmation;
 

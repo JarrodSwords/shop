@@ -1,5 +1,4 @@
-﻿using System;
-using Jgs.Functional.Explicit;
+﻿using Jgs.Functional.Explicit;
 using Shop.Shared;
 using static Jgs.Functional.Explicit.Result<Shop.Shared.Error>;
 using static Shop.Shared.Error;
@@ -20,11 +19,15 @@ namespace Shop.Sales.Orders
 
             #region Public Interface
 
-            public override Result<Error> Add(LineItem lineItem) => throw new NotImplementedException();
-
-            public override Result<Error> ApplyPayment(Money value)
+            public override Result<Error> Add(LineItem lineItem)
             {
-                Finances = Finances.ApplyPayment(value);
+                Order._lineItems.Add(lineItem);
+                return Success();
+            }
+
+            public override Result<Error> ApplyPayment(Money payment)
+            {
+                Finances = Finances.ApplyPayment(payment);
 
                 Status = Finances.IsPaidInFull
                     ? OrderStatus.SaleComplete
@@ -48,7 +51,7 @@ namespace Shop.Sales.Orders
             public override Result<Error> IssueRefund() =>
                 CreateInvalidOperation("Cannot refund an order awaiting confirmation.");
 
-            public override Result<Error> Submit() => throw new NotImplementedException();
+            public override Result<Error> Submit() => CreateInvalidOperation("Order already submitted.");
 
             #endregion
         }
