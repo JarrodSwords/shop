@@ -30,8 +30,7 @@ namespace Shop.Sales.Orders
         public override string ToString() =>
             $@"{nameof(ProductId)}: {ProductId}; 
 {nameof(Price)}: {Price} 
-{nameof(Exclusions)}: {Exclusions}
-";
+{nameof(Exclusions)}: {Exclusions}";
 
         #endregion
 

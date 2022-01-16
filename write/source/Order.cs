@@ -16,17 +16,25 @@ namespace Shop.Write
             CustomerId = order.CustomerId;
             Subtotal = order.Finances.Subtotal;
             Tip = order.Finances.Tip;
-            Total = default;
         }
 
         #endregion
 
         #region Public Interface
 
+        public decimal Balance { get; set; }
         public Guid CustomerId { get; set; }
+        public bool IsAwaitingConfirmation { get; set; }
+        public bool IsAwaitingFulfillment { get; set; }
+        public bool IsAwaitingPayment { get; set; }
+        public bool IsCanceled { get; set; }
+        public bool IsPending { get; set; }
+        public bool IsRefundDue { get; set; }
+        public bool IsRefunded { get; set; }
+        public decimal Paid { get; set; }
+        public decimal Refunded { get; set; }
         public decimal Subtotal { get; set; }
         public decimal Tip { get; set; }
-        public decimal Total { get; set; }
 
         #endregion
 
