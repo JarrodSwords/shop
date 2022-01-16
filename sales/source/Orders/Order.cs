@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using Jgs.Ddd;
 using Jgs.Functional.Explicit;
@@ -9,7 +11,7 @@ namespace Shop.Sales.Orders
 {
     public partial class Order : Aggregate
     {
-        private readonly List<LineItem> _lineItems = new();
+        private readonly ObservableCollection<LineItem> _lineItems;
         private State _state;
         private OrderStatus _status;
 
@@ -22,10 +24,14 @@ namespace Shop.Sales.Orders
             params LineItem[] lineItems
         )
         {
+            _lineItems = new();
+            _lineItems.CollectionChanged += LineItemsChanged;
+
             CustomerId = customerId;
 
             if (lineItems != null)
-                _lineItems.AddRange(lineItems);
+                foreach (var i in lineItems)
+                    _lineItems.Add(i);
 
             Finances = finances ?? Finances.From(_lineItems.ToArray());
             Status = status;
@@ -54,9 +60,8 @@ namespace Shop.Sales.Orders
 
         public Id CustomerId { get; }
         public Finances Finances { get; private set; }
-
         public bool HasLineItems => _lineItems.Count > 0;
-        public IReadOnlyCollection<LineItem> LineItems => _lineItems.AsReadOnly();
+        public IReadOnlyCollection<LineItem> LineItems => _lineItems.ToList().AsReadOnly();
 
         public OrderStatus Status
         {
@@ -75,6 +80,15 @@ namespace Shop.Sales.Orders
         public Result<Error> Confirm() => _state.Confirm();
         public Result<Error> IssueRefund() => _state.IssueRefund();
         public Result<Error> Submit() => _state.Submit();
+
+        #endregion
+
+        #region Private Interface
+
+        private void LineItemsChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            Finances = Finances.From(_lineItems.ToArray());
+        }
 
         #endregion
     }
