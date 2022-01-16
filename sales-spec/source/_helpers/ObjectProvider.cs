@@ -11,6 +11,13 @@ namespace Shop.Sales.Spec
         private static readonly List<Id> CustomerIds = new() { new Id() };
         private static readonly Id LunchBoxId = new();
 
+        #region Public Interface
+
+        public static LineItem CouplesBox => new(49, CouplesBoxId);
+        public static LineItem LunchBox => new(25, LunchBoxId);
+
+        #endregion
+
         #region Static Interface
 
         public static Order CreatePendingOrder() =>
@@ -19,9 +26,6 @@ namespace Shop.Sales.Spec
                 CustomerIds,
                 OrderStatus.Pending
             ).Value;
-
-        public static LineItem CreateCouplesBox() => new(49, CouplesBoxId);
-        public static LineItem CreateLunchBox() => new(25, LunchBoxId);
 
         public static Order CreateOrderAwaitingConfirmation(params LineItem[] lineItems)
         {

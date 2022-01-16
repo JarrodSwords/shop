@@ -19,7 +19,7 @@ namespace Shop.Sales.Spec.Orders
         [Fact]
         public void WhenAddingALineItem_ThenReturnInvalidOperationError()
         {
-            var error = _order.Add(CreateLunchBox()).Error;
+            var error = _order.Add(LunchBox).Error;
 
             error.Should().Be(InvalidOperation);
         }
@@ -59,7 +59,7 @@ namespace Shop.Sales.Spec.Orders
         [Fact]
         public void WhenRemovingALineItem_ThenReturnInvalidOperationError()
         {
-            var error = _order.Remove(CreateLunchBox()).Error;
+            var error = _order.Remove(LunchBox).Error;
 
             error.Should().Be(InvalidOperation);
         }

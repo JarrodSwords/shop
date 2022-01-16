@@ -20,7 +20,7 @@ namespace Shop.Sales.Spec.Orders
         [Fact]
         public void WhenAddingALineItem_ThenFinancesAreUpdated()
         {
-            _order.Add(CreateLunchBox());
+            _order.Add(LunchBox);
 
             var balance = CalculateBalance(_order);
 
@@ -32,7 +32,7 @@ namespace Shop.Sales.Spec.Orders
         {
             var count = _order.LineItems.Count;
 
-            _order.Add(CreateLunchBox());
+            _order.Add(LunchBox);
 
             _order.LineItems.Count.Should().Be(count + 1);
         }
@@ -88,7 +88,7 @@ namespace Shop.Sales.Spec.Orders
         [Fact]
         public void WhenRemovingALineItem_ThenFinancesAreUpdated()
         {
-            _order.Remove(CreateLunchBox());
+            _order.Remove(LunchBox);
 
             var balance = CalculateBalance(_order);
 
@@ -100,7 +100,7 @@ namespace Shop.Sales.Spec.Orders
         {
             var count = _order.LineItems.Count;
 
-            _order.Remove(CreateLunchBox());
+            _order.Remove(LunchBox);
 
             _order.LineItems.Count.Should().Be(count - 1);
         }
@@ -108,9 +108,9 @@ namespace Shop.Sales.Spec.Orders
         [Fact]
         public void WhenRemovingALineItem_WithNoItemsLeft_ThenOrderIsCanceled()
         {
-            _order.Remove(CreateLunchBox());
-            _order.Remove(CreateLunchBox());
-            _order.Remove(CreateCouplesBox());
+            _order.Remove(LunchBox);
+            _order.Remove(LunchBox);
+            _order.Remove(CouplesBox);
 
             _order.Status.Should().Be(OrderStatus.Canceled);
         }
