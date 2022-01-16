@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using Shop.Sales.Orders;
 using Xunit;
+using static Shop.Sales.Spec.ObjectProvider;
 using static Shop.Shared.Error;
 
 namespace Shop.Sales.Spec.Orders
@@ -13,7 +14,7 @@ namespace Shop.Sales.Spec.Orders
 
         public GivenAnOrderAwaitingPayment()
         {
-            _order = ObjectProvider.CreateOrderAwaitingConfirmation();
+            _order = CreateOrderAwaitingConfirmation();
             _order.Confirm();
         }
 
@@ -22,11 +23,11 @@ namespace Shop.Sales.Spec.Orders
         #region Test Methods
 
         [Fact]
-        public void When_CanceledThenOrderIsCanceled()
+        public void WhenAddingALineItem_ThenReturnInvalidOperationError()
         {
-            _order.Cancel();
+            var error = _order.Add(CreateLunchBox()).Error;
 
-            _order.Status.Should().Be(OrderStatus.Canceled);
+            error.Should().Be(InvalidOperation);
         }
 
         [Fact]
@@ -56,6 +57,14 @@ namespace Shop.Sales.Spec.Orders
         }
 
         [Fact]
+        public void WhenCanceled_ThenOrderIsCanceled()
+        {
+            _order.Cancel();
+
+            _order.Status.Should().Be(OrderStatus.Canceled);
+        }
+
+        [Fact]
         public void WhenConfirmed_ThenReturnInvalidOperationError()
         {
             var error = _order.Confirm().Error;
@@ -64,7 +73,7 @@ namespace Shop.Sales.Spec.Orders
         }
 
         [Fact]
-        public void WhenRefunded_ThenOrderIsRefunded()
+        public void WhenRefundIssued_ThenOrderIsRefunded()
         {
             _order.IssueRefund();
 

@@ -78,7 +78,7 @@ namespace Shop.Sales.Spec.Orders
         }
 
         [Fact]
-        public void WhenRefunded_ThenReturnInvalidOperationError()
+        public void WhenRefundIssued_ThenReturnInvalidOperationError()
         {
             var error = _order.IssueRefund().Error;
 

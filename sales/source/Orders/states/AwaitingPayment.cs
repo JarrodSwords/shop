@@ -20,7 +20,8 @@ namespace Shop.Sales.Orders
 
             #region Public Interface
 
-            public override Result<Error> Add(LineItem lineItem) => throw new NotImplementedException();
+            public override Result<Error> Add(LineItem lineItem) =>
+                CreateInvalidOperation("Confirmed order cannot be altered.");
 
             public override Result<Error> ApplyPayment(Money payment)
             {
