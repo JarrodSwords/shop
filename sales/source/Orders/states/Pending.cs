@@ -39,7 +39,7 @@ namespace Shop.Sales.Orders
             public override Result<Error> Submit()
             {
                 if (!Order.HasLineItems)
-                    return CreateInvalidOperation();
+                    return CreateInvalidOperation("Cannot submit empty order.");
 
                 Status = OrderStatus.AwaitingConfirmation;
 

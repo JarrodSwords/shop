@@ -80,6 +80,14 @@ namespace Shop.Sales.Spec.Orders
             error.Should().Be(InvalidOperation);
         }
 
+        [Fact]
+        public void WhenSubmitted_ThenReturnInvalidOperationError()
+        {
+            var error = _order.Submit().Error;
+
+            error.Should().Be(InvalidOperation);
+        }
+
         #endregion
     }
 }

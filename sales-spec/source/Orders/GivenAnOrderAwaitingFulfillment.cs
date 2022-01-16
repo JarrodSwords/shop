@@ -10,12 +10,7 @@ namespace Shop.Sales.Spec.Orders
     {
         #region Core
 
-        protected Order Order;
-
-        public GivenAnOrderAwaitingFulfillment()
-        {
-            Order = CompletedOrder();
-        }
+        private readonly Order _order = CompletedOrder();
 
         #endregion
 
@@ -24,7 +19,7 @@ namespace Shop.Sales.Spec.Orders
         [Fact]
         public void WhenAddingALineItem_ThenReturnInvalidOperationError()
         {
-            var error = Order.Add(CreateLunchBox()).Error;
+            var error = _order.Add(CreateLunchBox()).Error;
 
             error.Should().Be(InvalidOperation);
         }
@@ -32,7 +27,7 @@ namespace Shop.Sales.Spec.Orders
         [Fact]
         public void WhenApplyingPayment_ThenReturnInvalidOperationError()
         {
-            var error = Order.ApplyPayment(1).Error;
+            var error = _order.ApplyPayment(1).Error;
 
             error.Should().Be(InvalidOperation);
         }
@@ -40,15 +35,15 @@ namespace Shop.Sales.Spec.Orders
         [Fact]
         public void WhenCanceled_ThenOrderIsCanceled()
         {
-            Order.Cancel();
+            _order.Cancel();
 
-            Order.Status.Should().HaveFlag(OrderStatus.Canceled);
+            _order.Status.Should().HaveFlag(OrderStatus.Canceled);
         }
 
         [Fact]
         public void WhenConfirmed_ThenReturnInvalidOperationError()
         {
-            var error = Order.Confirm().Error;
+            var error = _order.Confirm().Error;
 
             error.Should().Be(InvalidOperation);
         }
@@ -56,7 +51,15 @@ namespace Shop.Sales.Spec.Orders
         [Fact]
         public void WhenRefundIssued_ThenReturnInvalidOperationError()
         {
-            var error = Order.IssueRefund().Error;
+            var error = _order.IssueRefund().Error;
+
+            error.Should().Be(InvalidOperation);
+        }
+
+        [Fact]
+        public void WhenSubmitted_ThenReturnInvalidOperationError()
+        {
+            var error = _order.Submit().Error;
 
             error.Should().Be(InvalidOperation);
         }

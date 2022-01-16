@@ -47,6 +47,14 @@ namespace Shop.Sales.Spec.Orders
             error.Should().Be(InvalidOperation);
         }
 
+        [Fact]
+        public void WhenSubmitted_ThenReturnInvalidOperationError()
+        {
+            var error = Order.Submit().Error;
+
+            error.Should().Be(InvalidOperation);
+        }
+
         #endregion
 
         public class WithoutRefundDue : GivenACanceledOrder

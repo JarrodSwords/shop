@@ -43,7 +43,7 @@ namespace Shop.Sales.Orders
                 return Success();
             }
 
-            public override Result<Error> Submit() => throw new NotImplementedException();
+            public override Result<Error> Submit() => CreateInvalidOperation("Order already submitted.");
 
             #endregion
         }
