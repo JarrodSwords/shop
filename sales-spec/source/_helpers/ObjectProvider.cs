@@ -7,7 +7,9 @@ namespace Shop.Sales.Spec
 {
     public class ObjectProvider
     {
+        private static readonly Id CouplesBoxId = new();
         private static readonly List<Id> CustomerIds = new() { new Id() };
+        private static readonly Id LunchBoxId = new();
 
         #region Static Interface
 
@@ -18,7 +20,8 @@ namespace Shop.Sales.Spec
                 OrderStatus.Pending
             ).Value;
 
-        public static LineItem CreateLunchBox() => new(25, new Id());
+        public static LineItem CreateCouplesBox() => new(49, CouplesBoxId);
+        public static LineItem CreateLunchBox() => new(25, LunchBoxId);
 
         public static Order CreateOrderAwaitingConfirmation(params LineItem[] lineItems)
         {
@@ -26,9 +29,9 @@ namespace Shop.Sales.Spec
 
             if (lineItems.Length == 0)
             {
-                order.Add(new(25, new Id()));
-                order.Add(new(25, new Id()));
-                order.Add(new(49, new Id()));
+                order.Add(new(25, LunchBoxId));
+                order.Add(new(25, LunchBoxId));
+                order.Add(new(49, CouplesBoxId));
             }
             else
             {

@@ -91,6 +91,9 @@ namespace Shop.Sales.Orders
         private void LineItemsChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             Finances = Finances.From(Finances, _lineItems.ToArray());
+
+            if (_lineItems.Count == 0)
+                Status = OrderStatus.Canceled;
         }
 
         #endregion

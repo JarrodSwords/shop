@@ -86,6 +86,36 @@ namespace Shop.Sales.Spec.Orders
         }
 
         [Fact]
+        public void WhenRemovingALineItem_ThenFinancesAreUpdated()
+        {
+            _order.Remove(CreateLunchBox());
+
+            var balance = CalculateBalance(_order);
+
+            _order.Finances.Balance.Should().Be(balance);
+        }
+
+        [Fact]
+        public void WhenRemovingALineItem_ThenLineItemsAreUpdated()
+        {
+            var count = _order.LineItems.Count;
+
+            _order.Remove(CreateLunchBox());
+
+            _order.LineItems.Count.Should().Be(count - 1);
+        }
+
+        [Fact]
+        public void WhenRemovingALineItem_WithNoItemsLeft_ThenOrderIsCanceled()
+        {
+            _order.Remove(CreateLunchBox());
+            _order.Remove(CreateLunchBox());
+            _order.Remove(CreateCouplesBox());
+
+            _order.Status.Should().Be(OrderStatus.Canceled);
+        }
+
+        [Fact]
         public void WhenSubmitted_ThenReturnInvalidOperationError()
         {
             var error = _order.Submit().Error;
