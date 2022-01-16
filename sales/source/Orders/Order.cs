@@ -5,6 +5,7 @@ using System.Linq;
 using Jgs.Ddd;
 using Jgs.Functional.Explicit;
 using Shop.Shared;
+using static Shop.Sales.Orders.ErrorExtensions;
 using static Shop.Shared.Error;
 
 namespace Shop.Sales.Orders
@@ -49,7 +50,7 @@ namespace Shop.Sales.Orders
                 return Required(nameof(customerId));
 
             if (customerIds.All(x => x != customerId))
-                return ErrorExtensions.CustomerNotFound();
+                return CustomerNotFound();
 
             return new Order(customerId, status, finances, lineItems);
         }

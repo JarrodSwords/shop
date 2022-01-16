@@ -47,7 +47,7 @@ namespace Shop.Sales.Orders
 
             #region Private Interface
 
-            private void CreateLineItem(ushort quantity, Sku sku)
+            private void CreateLineItem(Quantity quantity, Sku sku)
             {
                 if (quantity == 0)
                     return;
@@ -57,7 +57,8 @@ namespace Shop.Sales.Orders
                     ? _command.Exclusions
                     : Options.None;
 
-                _builder.Add(new(product.Price, product.Id, quantity, exclusions));
+                for (var i = 0; i < quantity; i++)
+                    _builder.Add(new(product.Price, product.Id, exclusions));
             }
 
             #endregion

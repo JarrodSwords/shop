@@ -18,7 +18,7 @@ namespace Shop.Sales.Spec
                 OrderStatus.Pending
             ).Value;
 
-        public static LineItem CreateLunchBox(ushort quantity = 1) => new(25, new Id(), quantity);
+        public static LineItem CreateLunchBox() => new(25, new Id());
 
         public static Order CreateOrderAwaitingConfirmation(params LineItem[] lineItems)
         {
@@ -26,8 +26,9 @@ namespace Shop.Sales.Spec
 
             if (lineItems.Length == 0)
             {
-                order.Add(new(25, new Id(), 2));
-                order.Add(new(49, new Id(), 1));
+                order.Add(new(25, new Id()));
+                order.Add(new(25, new Id()));
+                order.Add(new(49, new Id()));
             }
             else
             {

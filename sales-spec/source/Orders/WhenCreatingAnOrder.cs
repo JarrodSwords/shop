@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
 using Jgs.Ddd;
@@ -35,11 +34,11 @@ namespace Shop.Sales.Spec.Orders
                 CustomerIds,
                 OrderStatus.Pending,
                 default,
-                new LineItem(25m, new Guid(), 1),
-                new LineItem(49m, new Guid(), 2)
+                new LineItem(25m, new Id()),
+                new LineItem(49m, new Id())
             ).Value;
 
-            order.Finances.Subtotal.Should().Be((Money) 123);
+            order.Finances.Subtotal.Should().Be((Money) 74);
         }
 
         [Fact]
