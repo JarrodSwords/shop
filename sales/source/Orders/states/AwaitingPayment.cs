@@ -27,7 +27,7 @@ namespace Shop.Sales.Orders
                 Finances = Finances.ApplyPayment(payment);
 
                 if (Finances.IsPaidInFull)
-                    Status = OrderStatus.SaleComplete;
+                    Status = OrderStatus.AwaitingFulfillment;
 
                 return Success();
             }
@@ -40,6 +40,10 @@ namespace Shop.Sales.Orders
 
             public override Result<Error> Confirm() => CreateInvalidOperation("Order already confirmed.");
             public override Result<Error> IssueRefund() => CreateInvalidOperation("Cancel order first.");
+
+            public override Result<Error> Remove(LineItem lineItem) =>
+                CreateInvalidOperation("Confirmed order cannot be altered.");
+
             public override Result<Error> Submit() => CreateInvalidOperation("Order already submitted.");
 
             #endregion

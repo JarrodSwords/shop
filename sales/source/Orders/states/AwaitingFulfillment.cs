@@ -33,6 +33,10 @@ namespace Shop.Sales.Orders
 
             public override Result<Error> Confirm() => CreateInvalidOperation("Cannot confirm a completed order.");
             public override Result<Error> IssueRefund() => CreateInvalidOperation("Cancel order first.");
+
+            public override Result<Error> Remove(LineItem lineItem) =>
+                CreateInvalidOperation("Order awaiting fulfillment cannot be altered.");
+
             public override Result<Error> Submit() => CreateInvalidOperation("Order already submitted.");
 
             #endregion

@@ -20,7 +20,7 @@ namespace Shop.Sales.Spec.Orders
         [Fact]
         public void WhenAddingALineItem_ThenFinancesAreUpdated()
         {
-            _order.Add(CreateLunchBox());
+            _order.Add(LunchBox);
 
             var balance = CalculateBalance(_order);
 
@@ -32,7 +32,7 @@ namespace Shop.Sales.Spec.Orders
         {
             var count = _order.LineItems.Count;
 
-            _order.Add(CreateLunchBox());
+            _order.Add(LunchBox);
 
             _order.LineItems.Count.Should().Be(count + 1);
         }
@@ -50,7 +50,7 @@ namespace Shop.Sales.Spec.Orders
         {
             _order.ApplyPayment(99);
 
-            _order.Status.Should().Be(OrderStatus.SaleComplete);
+            _order.Status.Should().Be(OrderStatus.AwaitingFulfillment);
         }
 
         [Fact]
@@ -83,6 +83,36 @@ namespace Shop.Sales.Spec.Orders
             var error = _order.IssueRefund().Error;
 
             error.Should().Be(InvalidOperation);
+        }
+
+        [Fact]
+        public void WhenRemovingALineItem_ThenFinancesAreUpdated()
+        {
+            _order.Remove(LunchBox);
+
+            var balance = CalculateBalance(_order);
+
+            _order.Finances.Balance.Should().Be(balance);
+        }
+
+        [Fact]
+        public void WhenRemovingALineItem_ThenLineItemsAreUpdated()
+        {
+            var count = _order.LineItems.Count;
+
+            _order.Remove(LunchBox);
+
+            _order.LineItems.Count.Should().Be(count - 1);
+        }
+
+        [Fact]
+        public void WhenRemovingALineItem_WithNoItemsLeft_ThenOrderIsCanceled()
+        {
+            _order.Remove(LunchBox);
+            _order.Remove(LunchBox);
+            _order.Remove(CouplesBox);
+
+            _order.Status.Should().Be(OrderStatus.Canceled);
         }
 
         [Fact]

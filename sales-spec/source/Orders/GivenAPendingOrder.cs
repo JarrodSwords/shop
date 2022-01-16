@@ -28,7 +28,7 @@ namespace Shop.Sales.Spec.Orders
         [Fact]
         public void WhenAddingALineItem_ThenFinancesAreUpdated()
         {
-            Order.Add(CreateLunchBox());
+            Order.Add(LunchBox);
 
             var balance = CalculateBalance(Order);
 
@@ -40,7 +40,7 @@ namespace Shop.Sales.Spec.Orders
         {
             var count = Order.LineItems.Count;
 
-            Order.Add(CreateLunchBox());
+            Order.Add(LunchBox);
 
             Order.LineItems.Count.Should().Be(count + 1);
         }
@@ -86,7 +86,7 @@ namespace Shop.Sales.Spec.Orders
             public WithLineItems()
             {
                 Order = CreatePendingOrder();
-                Order.Add(CreateLunchBox());
+                Order.Add(LunchBox);
             }
 
             #endregion

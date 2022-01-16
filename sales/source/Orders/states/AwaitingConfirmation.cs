@@ -1,4 +1,5 @@
-﻿using Jgs.Functional.Explicit;
+﻿using System.Linq;
+using Jgs.Functional.Explicit;
 using Shop.Shared;
 using static Jgs.Functional.Explicit.Result<Shop.Shared.Error>;
 using static Shop.Shared.Error;
@@ -30,7 +31,7 @@ namespace Shop.Sales.Orders
                 Finances = Finances.ApplyPayment(payment);
 
                 Status = Finances.IsPaidInFull
-                    ? OrderStatus.SaleComplete
+                    ? OrderStatus.AwaitingFulfillment
                     : OrderStatus.AwaitingPayment;
 
                 return Success();
@@ -50,6 +51,14 @@ namespace Shop.Sales.Orders
 
             public override Result<Error> IssueRefund() =>
                 CreateInvalidOperation("Cannot refund an order awaiting confirmation.");
+
+            public override Result<Error> Remove(LineItem lineItem)
+            {
+                var itemToRemove = Order._lineItems.First(x => x == lineItem);
+
+                Order._lineItems.Remove(itemToRemove);
+                return Success();
+            }
 
             public override Result<Error> Submit() => CreateInvalidOperation("Order already submitted.");
 

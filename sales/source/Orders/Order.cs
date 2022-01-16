@@ -30,12 +30,13 @@ namespace Shop.Sales.Orders
 
             CustomerId = customerId;
             Finances = finances ?? Finances.Default;
-
-            if (lineItems != null)
-                foreach (var i in lineItems)
-                    _lineItems.Add(i);
-
             Status = status;
+
+            if (lineItems == null)
+                return;
+
+            foreach (var i in lineItems)
+                _lineItems.Add(i);
         }
 
         public static Result<Order, Error> From(
@@ -80,6 +81,7 @@ namespace Shop.Sales.Orders
         public Result<Error> Cancel() => _state.Cancel();
         public Result<Error> Confirm() => _state.Confirm();
         public Result<Error> IssueRefund() => _state.IssueRefund();
+        public Result<Error> Remove(LineItem lineItem) => _state.Remove(lineItem);
         public Result<Error> Submit() => _state.Submit();
 
         #endregion
@@ -89,6 +91,9 @@ namespace Shop.Sales.Orders
         private void LineItemsChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             Finances = Finances.From(Finances, _lineItems.ToArray());
+
+            if (_lineItems.Count == 0)
+                Status = OrderStatus.Canceled;
         }
 
         #endregion
