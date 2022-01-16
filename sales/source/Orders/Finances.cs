@@ -80,16 +80,9 @@ namespace Shop.Sales.Orders
             );
         }
 
-        public Finances Cancel() => new(Zero, Paid, Subtotal, Tip, Paid);
+        public Finances Cancel() => new(Zero, Paid, Refunded, Subtotal, Tip);
 
-        public Finances IssueRefund() =>
-            new(
-                0,
-                Paid,
-                Subtotal,
-                Tip,
-                Paid
-            );
+        public Finances IssueRefund() => new(Zero, Paid, Paid, Subtotal, Tip);
 
         #endregion
 
