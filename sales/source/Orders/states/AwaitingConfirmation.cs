@@ -26,9 +26,9 @@ namespace Shop.Sales.Orders
                 return Success();
             }
 
-            public override Result<Error> ApplyPayment(Money value)
+            public override Result<Error> ApplyPayment(Money payment)
             {
-                Finances = Finances.ApplyPayment(value);
+                Finances = Finances.ApplyPayment(payment);
 
                 Status = Finances.IsPaidInFull
                     ? OrderStatus.SaleComplete

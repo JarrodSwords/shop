@@ -22,9 +22,9 @@ namespace Shop.Sales.Orders
 
             public override Result<Error> Add(LineItem lineItem) => throw new NotImplementedException();
 
-            public override Result<Error> ApplyPayment(Money value)
+            public override Result<Error> ApplyPayment(Money payment)
             {
-                Finances = Finances.ApplyPayment(value);
+                Finances = Finances.ApplyPayment(payment);
 
                 if (Finances.IsPaidInFull)
                     Status = OrderStatus.SaleComplete;

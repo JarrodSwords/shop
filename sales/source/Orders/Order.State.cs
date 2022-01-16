@@ -49,7 +49,7 @@ namespace Shop.Sales.Orders
             }
 
             public abstract Result<Error> Add(LineItem lineItem);
-            public abstract Result<Error> ApplyPayment(Money value);
+            public abstract Result<Error> ApplyPayment(Money payment);
             public abstract Result<Error> Cancel();
             public abstract Result<Error> Confirm();
 

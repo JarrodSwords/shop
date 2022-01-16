@@ -25,7 +25,7 @@ namespace Shop.Sales.Orders
                 return Success();
             }
 
-            public override Result<Error> ApplyPayment(Money value) => CreateInvalidOperation();
+            public override Result<Error> ApplyPayment(Money payment) => CreateInvalidOperation();
 
             public override Result<Error> Cancel()
             {

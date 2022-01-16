@@ -22,7 +22,7 @@ namespace Shop.Sales.Orders
 
             public override Result<Error> Add(LineItem lineItem) => throw new NotImplementedException();
 
-            public override Result<Error> ApplyPayment(Money value) =>
+            public override Result<Error> ApplyPayment(Money payment) =>
                 CreateInvalidOperation("Cannot apply payment to a completed order.");
 
             public override Result<Error> Cancel()
