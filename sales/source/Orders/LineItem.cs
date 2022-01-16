@@ -11,14 +11,12 @@ namespace Shop.Sales.Orders
         public LineItem(
             Money price,
             Id productId,
-            Quantity quantity,
             Options exclusions = default
         )
         {
             Exclusions = exclusions;
             Price = price;
             ProductId = productId;
-            Quantity = quantity;
         }
 
         #endregion
@@ -28,8 +26,6 @@ namespace Shop.Sales.Orders
         public Options Exclusions { get; }
         public Money Price { get; }
         public Id ProductId { get; }
-        public Quantity Quantity { get; }
-        public Money Total => Price * Quantity;
 
         #endregion
 
@@ -40,7 +36,6 @@ namespace Shop.Sales.Orders
             yield return Exclusions;
             yield return Price;
             yield return ProductId;
-            yield return Quantity;
         }
 
         #endregion

@@ -9,7 +9,7 @@ namespace Shop.Sales.Spec
         #region Static Interface
 
         public static Money CalculateBalance(Order order) =>
-            order.LineItems.Aggregate(Money.Zero, (current, x) => current += x.Total);
+            order.LineItems.Aggregate(Money.Zero, (current, x) => current += x.Price);
 
         #endregion
     }

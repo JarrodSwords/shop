@@ -35,7 +35,7 @@ namespace Shop.Sales.Orders
 
             var subtotal = lineItems.Aggregate(
                 Zero,
-                (current, x) => current += x.Price * x.Quantity
+                (current, x) => current += x.Price
             );
 
             return new(
