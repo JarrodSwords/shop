@@ -84,6 +84,13 @@ namespace Shop.Sales.Orders
 
         public Finances IssueRefund() => new(Zero, Paid, Paid, Subtotal, Tip);
 
+        public override string ToString() =>
+            $@"{nameof(Balance)}: {Balance}; 
+{nameof(Paid)}: {Paid}; 
+{nameof(Refunded)}: {Refunded}; 
+{nameof(Subtotal)}: {Subtotal}; 
+{nameof(Tip)}: {Tip}";
+
         #endregion
 
         #region Equality

@@ -27,6 +27,12 @@ namespace Shop.Sales.Orders
         public Money Price { get; }
         public Id ProductId { get; }
 
+        public override string ToString() =>
+            $@"{nameof(ProductId)}: {ProductId}; 
+{nameof(Price)}: {Price} 
+{nameof(Exclusions)}: {Exclusions}
+";
+
         #endregion
 
         #region Equality
