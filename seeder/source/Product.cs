@@ -1,7 +1,5 @@
 ﻿using Jgs.Ddd;
-using Shop.Catalog;
 using Shop.Shared;
-using Sku = Shop.Shared.Sku;
 
 namespace Shop.Seeder
 {
