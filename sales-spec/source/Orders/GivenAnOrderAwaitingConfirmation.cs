@@ -1,13 +1,48 @@
-﻿using FluentAssertions;
+﻿using System.Linq;
+using FluentAssertions;
 using Shop.Sales.Orders;
+using Shop.Shared;
 using Xunit;
+using static Shop.Sales.Spec.Orders.ObjectProvider;
 using static Shop.Shared.Error;
 
 namespace Shop.Sales.Spec.Orders
 {
     public abstract class GivenAnOrderAwaitingConfirmation
     {
-        public Order Order = ObjectProvider.CreateOrderAwaitingConfirmation();
+        public Order Order = CreateOrderAwaitingConfirmation();
+
+        #region Private Interface
+
+        private Money CalculateBalance() => Order.LineItems.Aggregate(Money.Zero, (current, x) => current += x.Total);
+
+        #endregion
+
+        public class WhenAddingALineItem : GivenAnOrderAwaitingConfirmation
+        {
+            #region Core
+
+            public WhenAddingALineItem()
+            {
+                Order.Add(CreateLunchBox());
+            }
+
+            #endregion
+
+            #region Test Methods
+
+            [Fact]
+            public void WhenAddingALineItem_ThenBalanceIsUpdated()
+            {
+                Order.Add(CreateLunchBox());
+
+                var balance = CalculateBalance();
+
+                Order.Finances.Balance.Should().Be(balance);
+            }
+
+            #endregion
+        }
 
         public class WhenApplyingPayment : GivenAnOrderAwaitingConfirmation
         {
@@ -22,19 +57,19 @@ namespace Shop.Sales.Spec.Orders
             }
 
             [Fact]
-            public void WithInsufficientAmount_ThenOrderIsConfirmed()
-            {
-                Order.ApplyPayment(5);
-
-                Order.Status.Should().Be(OrderStatus.AwaitingPayment);
-            }
-
-            [Fact]
-            public void WithSufficientAmount_ThenOrderIsSaleComplete()
+            public void WithFullPayment_ThenOrderIsSaleComplete()
             {
                 Order.ApplyPayment(99);
 
                 Order.Status.Should().Be(OrderStatus.SaleComplete);
+            }
+
+            [Fact]
+            public void WithPartialPayment_ThenOrderIsConfirmed()
+            {
+                Order.ApplyPayment(5);
+
+                Order.Status.Should().Be(OrderStatus.AwaitingPayment);
             }
 
             #endregion
@@ -74,12 +109,6 @@ namespace Shop.Sales.Spec.Orders
             #endregion
 
             #region Test Methods
-
-            [Fact]
-            public void ThenBalanceIsSubtotal()
-            {
-                Order.Finances.Balance.Should().Be(Order.Finances.Subtotal);
-            }
 
             [Fact]
             public void ThenOrderIsAwaitingPayment()

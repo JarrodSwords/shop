@@ -20,7 +20,12 @@ namespace Shop.Sales.Orders
 
             #region Public Interface
 
-            public override Result<Error> Add(LineItem lineItem) => throw new NotImplementedException();
+            public override Result<Error> Add(LineItem lineItem)
+            {
+                Order._lineItems.Add(lineItem);
+                Finances = Finances.From(Order._lineItems.ToArray());
+                return Success();
+            }
 
             public override Result<Error> ApplyPayment(Money value)
             {
