@@ -28,12 +28,12 @@ namespace Shop.Sales.Orders
             _lineItems.CollectionChanged += LineItemsChanged;
 
             CustomerId = customerId;
+            Finances = finances ?? Finances.Default;
 
             if (lineItems != null)
                 foreach (var i in lineItems)
                     _lineItems.Add(i);
 
-            Finances = finances ?? Finances.From(_lineItems.ToArray());
             Status = status;
         }
 

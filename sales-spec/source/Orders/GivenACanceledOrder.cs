@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
 using Shop.Sales.Orders;
 using Xunit;
-using static Shop.Sales.Spec.Orders.ObjectProvider;
+using static Shop.Sales.Spec.ObjectProvider;
 using static Shop.Shared.Error;
 using static Shop.Shared.Money;
 

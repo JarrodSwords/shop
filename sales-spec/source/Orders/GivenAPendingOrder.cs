@@ -1,9 +1,8 @@
-﻿using System.Linq;
-using FluentAssertions;
+﻿using FluentAssertions;
 using Shop.Sales.Orders;
-using Shop.Shared;
 using Xunit;
-using static Shop.Sales.Spec.Orders.ObjectProvider;
+using static Shop.Sales.Spec.ObjectProvider;
+using static Shop.Sales.Spec.OrderHelper;
 using static Shop.Shared.Error;
 
 namespace Shop.Sales.Spec.Orders
@@ -16,30 +15,34 @@ namespace Shop.Sales.Spec.Orders
 
         #endregion
 
-        #region Private Interface
-
-        private Money CalculateBalance() => Order.LineItems.Aggregate(Money.Zero, (current, x) => current += x.Total);
-
-        #endregion
-
         #region Test Methods
 
         [Fact]
         public void ThenBalanceIsSumOfLineItems()
         {
-            var balance = CalculateBalance();
+            var balance = CalculateBalance(Order);
 
             Order.Finances.Balance.Should().Be(balance);
         }
 
         [Fact]
-        public void WhenAddingALineItem_ThenBalanceIsUpdated()
+        public void WhenAddingALineItem_ThenFinancesAreUpdated()
         {
             Order.Add(CreateLunchBox());
 
-            var balance = CalculateBalance();
+            var balance = CalculateBalance(Order);
 
             Order.Finances.Balance.Should().Be(balance);
+        }
+
+        [Fact]
+        public void WhenAddingALineItem_ThenLineItemsAreUpdated()
+        {
+            var count = Order.LineItems.Count;
+
+            Order.Add(CreateLunchBox());
+
+            Order.LineItems.Count.Should().Be(count + 1);
         }
 
         [Fact]
