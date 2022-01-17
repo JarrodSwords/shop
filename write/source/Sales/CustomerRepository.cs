@@ -1,4 +1,6 @@
-﻿using Shop.Sales.Customers;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Shop.Sales.Customers;
 using Shop.Shared;
 using DomainCustomer = Shop.Sales.Customers.Customer;
 
@@ -23,6 +25,7 @@ namespace Shop.Write.Sales
         }
 
         public bool Exists(Email email) => Exists(x => x.Email == email);
+        public IEnumerable<DomainCustomer> Fetch() => base.Fetch().Select(x => (DomainCustomer) x);
         public DomainCustomer Find(Email email) => Find(x => x.Email == email);
 
         #endregion

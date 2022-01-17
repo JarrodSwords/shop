@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Jgs.Ddd;
 using Jgs.Functional;
-using Shop.Shared;
+using static Jgs.Functional.Result;
 
 namespace Shop.Sales.Orders
 {
@@ -9,9 +9,9 @@ namespace Shop.Sales.Orders
     {
         public class Builder
         {
+            private readonly List<Id> _customerIds = new();
             private readonly List<LineItem> _lineItems = new();
             private Id _customerId;
-            private Money _tip;
 
             #region Public Interface
 
@@ -23,18 +23,15 @@ namespace Shop.Sales.Orders
 
             public Result<Order> Build()
             {
-                var order = new Order(
+                var result = From(
                     _customerId,
-                    OrderStatus.AwaitingConfirmation,
-                    default,
-                    _lineItems.ToArray()
+                    _customerIds,
+                    lineItems: _lineItems.ToArray()
                 );
 
-                var validationResult = new Validator().Validate(order);
-
-                return validationResult.IsValid
-                    ? Result.Success(order)
-                    : Result.Failure<Order>(validationResult.ToString());
+                return result.IsSuccess
+                    ? Success(result.Value)
+                    : Failure<Order>("Could not construct");
             }
 
             public Builder With(Id customerId)
@@ -43,9 +40,9 @@ namespace Shop.Sales.Orders
                 return this;
             }
 
-            public Builder With(Money tip)
+            public Builder With(List<Id> customerIds)
             {
-                _tip = tip;
+                _customerIds.AddRange(customerIds);
                 return this;
             }
 
@@ -61,6 +58,7 @@ namespace Shop.Sales.Orders
             public Director ConfigureSubmitOrder()
             {
                 _builder.FindCustomer();
+                _builder.FetchCustomers();
                 _builder.CreateLineItems();
                 return this;
             }

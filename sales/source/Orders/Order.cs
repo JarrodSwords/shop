@@ -42,7 +42,7 @@ namespace Shop.Sales.Orders
         public static Result<Order, Error> From(
             Id customerId,
             List<Id> customerIds,
-            OrderStatus status = OrderStatus.AwaitingConfirmation,
+            OrderStatus status = OrderStatus.Pending,
             Finances finances = default,
             params LineItem[] lineItems
         )

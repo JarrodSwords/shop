@@ -1,4 +1,5 @@
-﻿using Jgs.Cqrs;
+﻿using System.Linq;
+using Jgs.Cqrs;
 using Jgs.Functional;
 using Shop.Sales.Customers;
 using Shop.Shared;
@@ -80,6 +81,14 @@ namespace Shop.Sales.Orders
                 CreateLineItem(strawberries, $"mlc-ds-stw-{strawberries}");
             }
 
+            public void FetchCustomers()
+            {
+                var customers = _uow.Customers.Fetch();
+                var customerIds = customers.Select(x => x.Id).ToList();
+
+                _builder.With(customerIds);
+            }
+
             public void FindCustomer()
             {
                 var email = _command.Email;
@@ -91,7 +100,10 @@ namespace Shop.Sales.Orders
                 else
                 {
                     var customer = Customer.From(email);
+
                     _uow.Customers.Create(customer);
+                    _uow.Commit();
+
                     _builder.With(customer.Id);
                 }
             }
