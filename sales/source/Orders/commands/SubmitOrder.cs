@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using Jgs.Cqrs;
-using Jgs.Functional;
+using Jgs.Functional.Explicit;
 using Shop.Sales.Customers;
 using Shop.Shared;
 
@@ -36,7 +36,7 @@ namespace Shop.Sales.Orders
 
             #region Public Interface
 
-            public Result<Order> Build() => _builder.Build();
+            public Result<Order, Error> Build() => _builder.Build();
 
             public OrderBuilder With(SubmitOrder command)
             {
@@ -69,8 +69,7 @@ namespace Shop.Sales.Orders
             public void CreateLineItems()
             {
                 var (_, _, baguettes, couplesBoxes, dessertBoxes, familyBoxes, lunchBoxes, partyBoxes, strawberries, _
-                        ) =
-                    _command;
+                    ) = _command;
 
                 CreateLineItem(baguettes, "mlc-s-b");
                 CreateLineItem(couplesBoxes, "mlc-b-cpl");

@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using Jgs.Ddd;
-using Jgs.Functional;
-using static Jgs.Functional.Result;
+using Jgs.Functional.Explicit;
+using Shop.Shared;
+using static Shop.Sales.Orders.ErrorExtensions;
 
 namespace Shop.Sales.Orders
 {
@@ -21,7 +22,7 @@ namespace Shop.Sales.Orders
                 return this;
             }
 
-            public Result<Order> Build()
+            public Result<Order, Error> Build()
             {
                 var result = From(
                     _customerId,
@@ -30,8 +31,8 @@ namespace Shop.Sales.Orders
                 );
 
                 return result.IsSuccess
-                    ? Success(result.Value)
-                    : Failure<Order>("Could not construct");
+                    ? result.Value
+                    : CouldNotCreateOrder();
             }
 
             public Builder With(Id customerId)
