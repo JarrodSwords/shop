@@ -1,4 +1,5 @@
-﻿using Jgs.Functional.Explicit;
+﻿using Jgs.Ddd;
+using Jgs.Functional.Explicit;
 using Shop.Shared;
 using static Jgs.Functional.Explicit.Result<Shop.Shared.Error>;
 using static Shop.Shared.Error;
@@ -19,7 +20,7 @@ namespace Shop.Sales.Orders
 
             #region Public Interface
 
-            public override Result<Error> Add(LineItem lineItem) =>
+            public override Result<Error> Add(Orders.LineItem lineItem) =>
                 CreateInvalidOperation("Confirmed order cannot be altered.");
 
             public override Result<Error> ApplyPayment(Money payment)
@@ -41,7 +42,7 @@ namespace Shop.Sales.Orders
             public override Result<Error> Confirm() => CreateInvalidOperation("Order already confirmed.");
             public override Result<Error> IssueRefund() => CreateInvalidOperation("Cancel order first.");
 
-            public override Result<Error> Remove(LineItem lineItem) =>
+            public override Result<Error> Remove(Id lineItemId) =>
                 CreateInvalidOperation("Confirmed order cannot be altered.");
 
             public override Result<Error> Submit() => CreateInvalidOperation("Order already submitted.");

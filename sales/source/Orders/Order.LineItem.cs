@@ -4,26 +4,26 @@ namespace Shop.Sales.Orders
 {
     public partial class Order
     {
-        private class LineItemEntity : Entity
+        private class LineItem : Entity
         {
             #region Creation
 
-            private LineItemEntity(LineItem lineItem, Id id = default) : base(id)
+            private LineItem(Orders.LineItem lineItem, Id id = default) : base(id)
             {
-                LineItem = lineItem;
+                Value = lineItem;
             }
 
             #endregion
 
             #region Public Interface
 
-            public LineItem LineItem { get; }
+            public Orders.LineItem Value { get; }
 
             #endregion
 
             #region Static Interface
 
-            public static implicit operator LineItemEntity(LineItem source) => new(source);
+            public static implicit operator LineItem(Orders.LineItem source) => new(source);
 
             #endregion
         }

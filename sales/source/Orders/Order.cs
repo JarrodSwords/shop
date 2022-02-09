@@ -12,7 +12,7 @@ namespace Shop.Sales.Orders
 {
     public partial class Order : Aggregate
     {
-        private readonly ObservableCollection<LineItemEntity> _lineItems;
+        private readonly ObservableCollection<LineItem> _lineItems;
         private State _state;
         private OrderStatus _status;
 
@@ -22,7 +22,7 @@ namespace Shop.Sales.Orders
             Id customerId,
             OrderStatus status,
             Finances finances,
-            params LineItem[] lineItems
+            params Orders.LineItem[] lineItems
         )
         {
             _lineItems = new();
@@ -44,7 +44,7 @@ namespace Shop.Sales.Orders
             List<Id> customerIds,
             OrderStatus status = OrderStatus.Pending,
             Finances finances = default,
-            params LineItem[] lineItems
+            params Orders.LineItem[] lineItems
         )
         {
             if (customerId is null)
@@ -63,7 +63,7 @@ namespace Shop.Sales.Orders
         public Id CustomerId { get; }
         public Finances Finances { get; private set; }
         public bool HasLineItems => _lineItems.Count > 0;
-        public IReadOnlyCollection<LineItem> LineItems => _lineItems.Select(x => x.LineItem).ToList().AsReadOnly();
+        public IReadOnlyCollection<Orders.LineItem> LineItems => _lineItems.Select(x => x.Value).ToList().AsReadOnly();
 
         public OrderStatus Status
         {
@@ -76,19 +76,17 @@ namespace Shop.Sales.Orders
             }
         }
 
-        public Result<Error> Add(LineItem lineItem) => _state.Add(lineItem);
+        public Result<Error> Add(Orders.LineItem lineItem) => _state.Add(lineItem);
         public Result<Error> ApplyPayment(Money value) => _state.ApplyPayment(value);
         public Result<Error> Cancel() => _state.Cancel();
         public Result<Error> Confirm() => _state.Confirm();
         public Result<Error> IssueRefund() => _state.IssueRefund();
-        public Result<Error> Remove(LineItem lineItem) => _state.Remove(lineItem);
+        public Result<Error> Remove(Id lineItemId) => _state.Remove(lineItemId);
         public Result<Error> Submit() => _state.Submit();
 
         #endregion
 
         #region Private Interface
-
-        private LineItemEntity GetFirst(LineItem lineItem) => _lineItems.FirstOrDefault(x => x.LineItem == lineItem);
 
         private void LineItemsChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
@@ -96,11 +94,6 @@ namespace Shop.Sales.Orders
 
             if (!HasLineItems)
                 Status = OrderStatus.Canceled;
-        }
-
-        private void Remove(LineItemEntity lineItem)
-        {
-            _lineItems.Remove(lineItem);
         }
 
         #endregion

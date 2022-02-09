@@ -1,4 +1,6 @@
-﻿using Jgs.Functional.Explicit;
+﻿using System.Linq;
+using Jgs.Ddd;
+using Jgs.Functional.Explicit;
 using Shop.Shared;
 using static Jgs.Functional.Explicit.Result<Shop.Shared.Error>;
 using static Shop.Sales.Orders.ErrorExtensions;
@@ -20,7 +22,7 @@ namespace Shop.Sales.Orders
 
             #region Public Interface
 
-            public override Result<Error> Add(LineItem lineItem)
+            public override Result<Error> Add(Orders.LineItem lineItem)
             {
                 Order._lineItems.Add(lineItem);
                 return Success();
@@ -37,14 +39,12 @@ namespace Shop.Sales.Orders
             public override Result<Error> Confirm() => CreateInvalidOperation();
             public override Result<Error> IssueRefund() => CreateInvalidOperation();
 
-            public override Result<Error> Remove(LineItem lineItem)
+            public override Result<Error> Remove(Id lineItemId)
             {
-                var lineItemEntity = Order.GetFirst(lineItem);
-
-                if (lineItemEntity is null)
+                if (Order._lineItems.All(x => x.Id != lineItemId))
                     return LineItemNotFound();
 
-                Order.Remove(lineItemEntity);
+                Order._lineItems.Remove(x => x.Id == lineItemId);
 
                 return Success();
             }

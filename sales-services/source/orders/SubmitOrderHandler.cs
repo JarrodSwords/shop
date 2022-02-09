@@ -1,10 +1,11 @@
 ﻿using Jgs.Cqrs;
-using Jgs.Functional;
+using Jgs.Functional.Explicit;
 using Shop.Sales.Orders;
+using Shop.Shared;
 
 namespace Shop.Sales.Services
 {
-    public class SubmitOrderHandler : ICommandHandler<SubmitOrder, Result<OrderSubmitted>>
+    public class SubmitOrderHandler : ICommandHandler<SubmitOrder, Result<OrderSubmitted, Error>>
     {
         private readonly SubmitOrder.OrderBuilder _builder;
         private readonly IUnitOfWork _uow;
@@ -22,9 +23,9 @@ namespace Shop.Sales.Services
 
         #endregion
 
-        #region ICommandHandler<SubmitOrder,Result<OrderSubmitted>> Implementation
+        #region ICommandHandler<SubmitOrder,Result<OrderSubmitted,Error>> Implementation
 
-        public Result<OrderSubmitted> Handle(SubmitOrder args)
+        public Result<OrderSubmitted, Error> Handle(SubmitOrder args)
         {
             _builder.With(args);
 
@@ -35,12 +36,15 @@ namespace Shop.Sales.Services
             var result = _builder.Build();
 
             if (result.IsFailure)
-                return Result.Failure<OrderSubmitted>("Order submission failed.");
+                return result.Error;
 
-            _uow.Orders.Create(result.Value);
+            var order = result.Value;
+            order.Submit();
+
+            _uow.Orders.Create(order);
             _uow.Commit();
 
-            return Result.Success(new OrderSubmitted(result.Value.Id));
+            return new OrderSubmitted(order.Id);
         }
 
         #endregion

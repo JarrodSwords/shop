@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using FluentAssertions;
 using Jgs.Cqrs;
-using Jgs.Functional;
+using Jgs.Functional.Explicit;
 using Shop.Sales.Orders;
 using Shop.Sales.Services;
+using Shop.Shared;
 using Xunit;
 
 namespace Shop.Api.Spec.Sales.Orders
@@ -14,12 +15,12 @@ namespace Shop.Api.Spec.Sales.Orders
         #region Core
 
         private readonly IQueryHandler<FetchCustomers, IEnumerable<CustomerDto>> _fetchCustomers;
-        private readonly ICommandHandler<SubmitOrder, Result<OrderSubmitted>> _submitOrder;
+        private readonly ICommandHandler<SubmitOrder, Result<OrderSubmitted, Error>> _submitOrder;
 
         public GivenAReturningCustomer(IntegrationTestingFactory<Startup> factory) : base(factory)
         {
             _fetchCustomers = Resolve<IQueryHandler<FetchCustomers, IEnumerable<CustomerDto>>>();
-            _submitOrder = Resolve<ICommandHandler<SubmitOrder, Result<OrderSubmitted>>>();
+            _submitOrder = Resolve<ICommandHandler<SubmitOrder, Result<OrderSubmitted, Error>>>();
         }
 
         #endregion

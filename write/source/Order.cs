@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Shop.Sales.Orders;
 using DomainOrder = Shop.Sales.Orders.Order;
+using DomainLineItem = Shop.Sales.Orders.LineItem;
+using LineItem = Shop.Write.Sales.LineItem;
 
 namespace Shop.Write
 {
@@ -16,6 +20,7 @@ namespace Shop.Write
         {
             CustomerId = order.CustomerId;
             UpdateFinances(order.Finances);
+            UpdateLineItems(order.LineItems);
             UpdateStatus(order.Status);
         }
 
@@ -32,6 +37,7 @@ namespace Shop.Write
         public bool IsPending { get; set; }
         public bool IsRefundDue { get; set; }
         public bool IsRefunded { get; set; }
+        public List<LineItem> LineItems { get; set; }
         public decimal Paid { get; set; }
         public decimal Refunded { get; set; }
         public decimal Subtotal { get; set; }
@@ -50,6 +56,11 @@ namespace Shop.Write
             Refunded = refunded;
             Subtotal = subtotal;
             Tip = tip;
+        }
+
+        private void UpdateLineItems(IEnumerable<DomainLineItem> lineItems)
+        {
+            LineItems = lineItems.Select(x => (LineItem) x).ToList();
         }
 
         private void UpdateStatus(OrderStatus status)
