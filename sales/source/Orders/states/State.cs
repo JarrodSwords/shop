@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Jgs.Ddd;
 using Jgs.Functional.Explicit;
 using Shop.Shared;
 
@@ -49,7 +48,7 @@ namespace Shop.Sales.Orders
                 set => Order.Status = value;
             }
 
-            public abstract Result<Error> Add(Orders.LineItem lineItem);
+            public abstract Result<Error> Add(LineItem lineItem);
             public abstract Result<Error> ApplyPayment(Money payment);
             public abstract Result<Error> Cancel();
             public abstract Result<Error> Confirm();
@@ -59,7 +58,7 @@ namespace Shop.Sales.Orders
             }
 
             public abstract Result<Error> IssueRefund();
-            public abstract Result<Error> Remove(Id lineItemId);
+            public abstract Result<Error> Remove(LineItem lineItem);
             public abstract Result<Error> Submit();
 
             #endregion

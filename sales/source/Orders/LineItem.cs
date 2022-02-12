@@ -27,6 +27,17 @@ namespace Shop.Sales.Orders
         public Money Price { get; }
         public Id ProductId { get; }
 
+        public void Deconstruct(
+            out Options exclusions,
+            out Money price,
+            out Id productId
+        )
+        {
+            exclusions = Exclusions;
+            price = Price;
+            productId = ProductId;
+        }
+
         public override string ToString() =>
             $@"{nameof(ProductId)}: {ProductId}; 
 {nameof(Price)}: {Price} 

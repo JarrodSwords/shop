@@ -39,7 +39,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "catalog-services", "catalog
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "seeder", "seeder", "{CBE69FB7-ED6C-4F71-BD32-B7452D6949DC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "seeder", "seeder\seeder.csproj", "{2553DAB9-1D31-4911-85F7-425E17896282}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "seeder", "seeder\seeder.csproj", "{2553DAB9-1D31-4911-85F7-425E17896282}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

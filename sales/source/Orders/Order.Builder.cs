@@ -11,12 +11,12 @@ namespace Shop.Sales.Orders
         public class Builder
         {
             private readonly List<Id> _customerIds = new();
-            private readonly List<Orders.LineItem> _lineItems = new();
+            private readonly List<LineItem> _lineItems = new();
             private Id _customerId;
 
             #region Public Interface
 
-            public Builder Add(Orders.LineItem lineItem)
+            public Builder Add(LineItem lineItem)
             {
                 _lineItems.Add(lineItem);
                 return this;

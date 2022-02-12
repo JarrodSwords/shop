@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using Jgs.Ddd;
 using Jgs.Functional.Explicit;
 using Shop.Shared;
 using static Jgs.Functional.Explicit.Result<Shop.Shared.Error>;
@@ -22,9 +21,9 @@ namespace Shop.Sales.Orders
 
             #region Public Interface
 
-            public override Result<Error> Add(Orders.LineItem lineItem)
+            public override Result<Error> Add(LineItem lineItem)
             {
-                Order._lineItems.Add(lineItem);
+                Order._lineItems.Add(LineItemEntity.From(lineItem, Order.Id));
                 return Success();
             }
 
@@ -54,12 +53,12 @@ namespace Shop.Sales.Orders
             public override Result<Error> IssueRefund() =>
                 CreateInvalidOperation("Cannot refund an order awaiting confirmation.");
 
-            public override Result<Error> Remove(Id lineItemId)
+            public override Result<Error> Remove(LineItem lineItem)
             {
-                if (Order._lineItems.All(x => x.Id != lineItemId))
+                if (Order._lineItems.Select(x => x.Value).All(x => x != lineItem))
                     return LineItemNotFound();
 
-                Order._lineItems.Remove(x => x.Id == lineItemId);
+                Order._lineItems.RemoveLast(x => x.Value == lineItem);
 
                 return Success();
             }

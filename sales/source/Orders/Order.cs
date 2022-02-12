@@ -12,7 +12,7 @@ namespace Shop.Sales.Orders
 {
     public partial class Order : Aggregate
     {
-        private readonly ObservableCollection<LineItem> _lineItems;
+        private readonly ObservableCollection<LineItemEntity> _lineItems;
         private State _state;
         private OrderStatus _status;
 
@@ -22,7 +22,7 @@ namespace Shop.Sales.Orders
             Id customerId,
             OrderStatus status,
             Finances finances,
-            params Orders.LineItem[] lineItems
+            params LineItem[] lineItems
         )
         {
             _lineItems = new();
@@ -35,8 +35,7 @@ namespace Shop.Sales.Orders
             if (lineItems == null)
                 return;
 
-            foreach (var i in lineItems)
-                _lineItems.Add(i);
+            _lineItems.AddRange(lineItems.Select(x => LineItemEntity.From(x, Id)));
         }
 
         public static Result<Order, Error> From(
@@ -44,7 +43,7 @@ namespace Shop.Sales.Orders
             List<Id> customerIds,
             OrderStatus status = OrderStatus.Pending,
             Finances finances = default,
-            params Orders.LineItem[] lineItems
+            params LineItem[] lineItems
         )
         {
             if (customerId is null)
@@ -63,7 +62,8 @@ namespace Shop.Sales.Orders
         public Id CustomerId { get; }
         public Finances Finances { get; private set; }
         public bool HasLineItems => _lineItems.Count > 0;
-        public IReadOnlyCollection<Orders.LineItem> LineItems => _lineItems.Select(x => x.Value).ToList().AsReadOnly();
+        public IReadOnlyCollection<LineItemEntity> LineItemEntities => _lineItems.ToList().AsReadOnly();
+        public IReadOnlyCollection<LineItem> LineItems => _lineItems.Select(x => x.Value).ToList().AsReadOnly();
 
         public OrderStatus Status
         {
@@ -76,12 +76,12 @@ namespace Shop.Sales.Orders
             }
         }
 
-        public Result<Error> Add(Orders.LineItem lineItem) => _state.Add(lineItem);
+        public Result<Error> Add(LineItem lineItem) => _state.Add(lineItem);
         public Result<Error> ApplyPayment(Money value) => _state.ApplyPayment(value);
         public Result<Error> Cancel() => _state.Cancel();
         public Result<Error> Confirm() => _state.Confirm();
         public Result<Error> IssueRefund() => _state.IssueRefund();
-        public Result<Error> Remove(Id lineItemId) => _state.Remove(lineItemId);
+        public Result<Error> Remove(LineItem lineItem) => _state.Remove(lineItem);
         public Result<Error> Submit() => _state.Submit();
 
         #endregion

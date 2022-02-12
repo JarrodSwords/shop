@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Shop.Sales.Orders;
 using DomainOrder = Shop.Sales.Orders.Order;
-using DomainLineItem = Shop.Sales.Orders.LineItem;
+using DomainLineItem = Shop.Sales.Orders.Order.LineItemEntity;
 using LineItem = Shop.Write.Sales.LineItem;
 
 namespace Shop.Write
@@ -16,12 +16,14 @@ namespace Shop.Write
         {
         }
 
-        public Order(DomainOrder order) : base(order.Id)
+        public Order(DomainOrder source) : base(source.Id)
         {
-            CustomerId = order.CustomerId;
-            UpdateFinances(order.Finances);
-            UpdateLineItems(order.LineItems);
-            UpdateStatus(order.Status);
+            CustomerId = source.CustomerId;
+            LineItems = new List<LineItem>();
+
+            Update(source.Finances);
+            Update(source.LineItemEntities);
+            Update(source.Status);
         }
 
         #endregion
@@ -47,7 +49,7 @@ namespace Shop.Write
 
         #region Private Interface
 
-        private void UpdateFinances(Finances finances)
+        private void Update(Finances finances)
         {
             var (balance, paid, refunded, subtotal, tip) = finances;
 
@@ -58,12 +60,21 @@ namespace Shop.Write
             Tip = tip;
         }
 
-        private void UpdateLineItems(IEnumerable<DomainLineItem> lineItems)
+        private void Update(IEnumerable<DomainLineItem> lineItems)
         {
-            LineItems = lineItems.Select(x => (LineItem) x).ToList();
+            var targetItems = lineItems.Select(LineItem.From).ToList();
+
+            foreach (var deletedItem in LineItems.Except(targetItems))
+                LineItems.Remove(deletedItem);
+
+            foreach (var item in LineItems)
+                item.Update(targetItems.Single(x => x.Id == item.Id));
+
+            foreach (var newItem in targetItems.Except(LineItems))
+                LineItems.Add(newItem);
         }
 
-        private void UpdateStatus(OrderStatus status)
+        private void Update(OrderStatus status)
         {
             IsAwaitingConfirmation = status.HasFlag(OrderStatus.AwaitingConfirmation);
             IsAwaitingFulfillment = status.HasFlag(OrderStatus.AwaitingFulfillment);

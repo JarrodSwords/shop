@@ -1,5 +1,5 @@
 ﻿using System;
-using DomainLineItem = Shop.Sales.Orders.LineItem;
+using DomainLineItem = Shop.Sales.Orders.Order.LineItemEntity;
 
 namespace Shop.Write.Sales
 {
@@ -13,9 +13,14 @@ namespace Shop.Write.Sales
 
         public LineItem(DomainLineItem source) : base(source.Id)
         {
-            Price = source.Price;
-            ProductId = source.ProductId;
+            var (_, price, productId) = source.Value;
+
+            OrderId = source.OrderId;
+            Price = price;
+            ProductId = productId;
         }
+
+        public static LineItem From(DomainLineItem source) => new(source);
 
         #endregion
 
@@ -24,6 +29,14 @@ namespace Shop.Write.Sales
         public Guid OrderId { get; set; }
         public decimal Price { get; set; }
         public Guid ProductId { get; set; }
+
+        public LineItem Update(LineItem source)
+        {
+            Price = source.Price;
+            ProductId = source.ProductId;
+
+            return this;
+        }
 
         #endregion
 
