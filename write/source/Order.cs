@@ -68,7 +68,7 @@ namespace Shop.Write
                 LineItems.Remove(deletedItem);
 
             foreach (var item in LineItems)
-                item.Update(targetItems.Single(x => x.Id == item.Id));
+                item.Update(targetItems.Single(x => x == item));
 
             foreach (var newItem in targetItems.Except(LineItems))
                 LineItems.Add(newItem);
