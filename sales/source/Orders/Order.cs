@@ -35,14 +35,13 @@ namespace Shop.Sales.Orders
             if (lineItems == null)
                 return;
 
-            foreach (var i in lineItems)
-                _lineItems.Add(i);
+            _lineItems.AddRange(lineItems.Select(x => LineItemEntity.From(x, Id)));
         }
 
         public static Result<Order, Error> From(
             Id customerId,
             List<Id> customerIds,
-            OrderStatus status = OrderStatus.AwaitingConfirmation,
+            OrderStatus status = OrderStatus.Pending,
             Finances finances = default,
             params LineItem[] lineItems
         )
@@ -63,7 +62,8 @@ namespace Shop.Sales.Orders
         public Id CustomerId { get; }
         public Finances Finances { get; private set; }
         public bool HasLineItems => _lineItems.Count > 0;
-        public IReadOnlyCollection<LineItem> LineItems => _lineItems.Select(x => x.LineItem).ToList().AsReadOnly();
+        public IReadOnlyCollection<LineItemEntity> LineItemEntities => _lineItems.ToList().AsReadOnly();
+        public IReadOnlyCollection<LineItem> LineItems => _lineItems.Select(x => x.Value).ToList().AsReadOnly();
 
         public OrderStatus Status
         {
@@ -88,19 +88,12 @@ namespace Shop.Sales.Orders
 
         #region Private Interface
 
-        private LineItemEntity GetFirst(LineItem lineItem) => _lineItems.FirstOrDefault(x => x.LineItem == lineItem);
-
         private void LineItemsChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             Finances = Finances.From(Finances, LineItems.ToArray());
 
             if (!HasLineItems)
                 Status = OrderStatus.Canceled;
-        }
-
-        private void Remove(LineItemEntity lineItem)
-        {
-            _lineItems.Remove(lineItem);
         }
 
         #endregion

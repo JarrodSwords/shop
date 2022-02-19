@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using Jgs.Ddd;
@@ -36,6 +37,8 @@ namespace Shop.Write
                 .Set<T>()
                 .AsQueryable()
                 .Any(predicate);
+
+        public IEnumerable<T> Fetch() => Context.Set<T>();
 
         public T Find(Id id) => Context.Set<T>().Find((Guid) id);
 

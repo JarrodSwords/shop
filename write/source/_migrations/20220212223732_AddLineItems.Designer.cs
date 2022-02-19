@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Shop.Write;
 
-namespace Shop.Write.source._migrations
+namespace Shop.Write._migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20220212223732_AddLineItems")]
+    partial class AddLineItems
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -126,75 +128,6 @@ namespace Shop.Write.source._migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("IsExcludingApricots")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsExcludingBerries")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsExcludingBleuCheese")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsExcludingBrie")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsExcludingCaramel")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsExcludingCherry")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsExcludingChocolate")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsExcludingDill")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsExcludingGarlic")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsExcludingGoatCheese")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsExcludingGrapes")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsExcludingGreenOlives")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsExcludingHoney")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsExcludingKalamataOlives")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsExcludingMustard")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsExcludingNuts")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsExcludingPeppers")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsExcludingPomegranateSeeds")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsExcludingProsciutto")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsExcludingSalami")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsExcludingSharpCheeses")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsExcludingSpicy")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsExcludingVanilla")
-                        .HasColumnType("bit");
 
                     b.Property<Guid>("OrderId")
                         .HasColumnType("uniqueidentifier");

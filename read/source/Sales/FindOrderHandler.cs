@@ -10,9 +10,11 @@ namespace Shop.Read.Sales
         private const string Query = @"
 select o.Id
      , c.Email
+     , o.Balance
+     , o.Paid
+     , o.Refunded
      , o.Subtotal
      , o.Tip
-     , o.Total
   from [order] o
   join customer c
     on c.Id = o.CustomerId

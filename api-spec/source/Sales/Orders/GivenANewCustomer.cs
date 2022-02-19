@@ -1,9 +1,10 @@
 ﻿using FluentAssertions;
 using Jgs.Cqrs;
-using Jgs.Functional;
+using Jgs.Functional.Explicit;
 using Shop.Sales;
 using Shop.Sales.Orders;
 using Shop.Sales.Services;
+using Shop.Shared;
 using Xunit;
 
 namespace Shop.Api.Spec.Sales.Orders
@@ -14,13 +15,13 @@ namespace Shop.Api.Spec.Sales.Orders
         #region Core
 
         private readonly IQueryHandler<FindOrder, OrderDto> _findOrder;
-        private readonly ICommandHandler<SubmitOrder, Result<OrderSubmitted>> _submitOrder;
+        private readonly ICommandHandler<SubmitOrder, Result<OrderSubmitted, Error>> _submitOrder;
         private readonly IUnitOfWork _uow;
 
         public GivenANewCustomer(IntegrationTestingFactory<Startup> factory) : base(factory)
         {
             _findOrder = Resolve<IQueryHandler<FindOrder, OrderDto>>();
-            _submitOrder = Resolve<ICommandHandler<SubmitOrder, Result<OrderSubmitted>>>();
+            _submitOrder = Resolve<ICommandHandler<SubmitOrder, Result<OrderSubmitted, Error>>>();
             _uow = Resolve<IUnitOfWork>();
         }
 

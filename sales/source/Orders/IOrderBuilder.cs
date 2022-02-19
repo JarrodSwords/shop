@@ -3,6 +3,7 @@
     public interface IOrderBuilder
     {
         void CreateLineItems();
+        void FetchCustomers();
         void FindCustomer();
     }
 }

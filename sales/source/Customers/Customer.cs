@@ -12,7 +12,7 @@ namespace Shop.Sales.Customers
             Email = email;
         }
 
-        public static Customer From(Email email, Id id = default) => new(email);
+        public static Customer From(Email email, Id id = default) => new(email, id);
 
         #endregion
 

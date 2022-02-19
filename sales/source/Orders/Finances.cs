@@ -81,6 +81,22 @@ namespace Shop.Sales.Orders
         }
 
         public Finances Cancel() => new(Zero, Paid, Refunded, Subtotal, Tip);
+
+        public void Deconstruct(
+            out Money balance,
+            out Money paid,
+            out Money refunded,
+            out Money subtotal,
+            out Money tip
+        )
+        {
+            balance = Balance;
+            paid = Paid;
+            refunded = Refunded;
+            subtotal = Subtotal;
+            tip = Tip;
+        }
+
         public Finances IssueRefund() => new(Zero, Paid, Paid, Subtotal, Tip);
 
         public override string ToString() =>

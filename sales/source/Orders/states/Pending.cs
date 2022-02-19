@@ -1,4 +1,5 @@
-﻿using Jgs.Functional.Explicit;
+﻿using System.Linq;
+using Jgs.Functional.Explicit;
 using Shop.Shared;
 using static Jgs.Functional.Explicit.Result<Shop.Shared.Error>;
 using static Shop.Sales.Orders.ErrorExtensions;
@@ -22,7 +23,7 @@ namespace Shop.Sales.Orders
 
             public override Result<Error> Add(LineItem lineItem)
             {
-                Order._lineItems.Add(lineItem);
+                Order._lineItems.Add(LineItemEntity.From(lineItem, Order.Id));
                 return Success();
             }
 
@@ -39,12 +40,10 @@ namespace Shop.Sales.Orders
 
             public override Result<Error> Remove(LineItem lineItem)
             {
-                var lineItemEntity = Order.GetFirst(lineItem);
-
-                if (lineItemEntity is null)
+                if (Order._lineItems.Select(x => x.Value).All(x => x != lineItem))
                     return LineItemNotFound();
 
-                Order.Remove(lineItemEntity);
+                Order._lineItems.RemoveLast(x => x.Value == lineItem);
 
                 return Success();
             }

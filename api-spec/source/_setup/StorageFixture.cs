@@ -1,5 +1,6 @@
 using System;
 using System.Data.Common;
+using System.Linq;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Shop.Write;
@@ -56,13 +57,21 @@ namespace Shop.Api.Spec
             }
         }
 
+        private void PriceProduct()
+        {
+            var lunchBox = Context.Product.First(x => x.Sku == Product.LunchBox.Sku);
+            lunchBox.Price = 25;
+            Context.Product.Update(lunchBox);
+            Context.SaveChanges();
+        }
+
         private void SeedDatabase()
         {
             Context.Vendor.Add(Vendor.ManyLoves);
-
             Context.Product.Add(Product.LunchBox);
-
             Context.SaveChanges();
+
+            PriceProduct();
         }
 
         #endregion

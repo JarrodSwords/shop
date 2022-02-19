@@ -53,14 +53,14 @@ namespace Shop.Sales.Spec.Orders
         }
 
         [Fact]
-        public void WithoutState_ThenStateIsAwaitingConfirmation()
+        public void WithoutState_ThenStateIsPending()
         {
             var order = Order.From(
                 CustomerId,
                 CustomerIds
             ).Value;
 
-            order.Status.Should().Be(OrderStatus.AwaitingConfirmation);
+            order.Status.Should().Be(OrderStatus.Pending);
         }
 
         [Fact]

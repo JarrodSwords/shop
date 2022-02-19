@@ -1,5 +1,6 @@
-﻿using Jgs.Cqrs;
-using Jgs.Functional;
+﻿using System.Linq;
+using Jgs.Cqrs;
+using Jgs.Functional.Explicit;
 using Shop.Sales.Customers;
 using Shop.Shared;
 
@@ -35,7 +36,7 @@ namespace Shop.Sales.Orders
 
             #region Public Interface
 
-            public Result<Order> Build() => _builder.Build();
+            public Result<Order, Error> Build() => _builder.Build();
 
             public OrderBuilder With(SubmitOrder command)
             {
@@ -68,8 +69,7 @@ namespace Shop.Sales.Orders
             public void CreateLineItems()
             {
                 var (_, _, baguettes, couplesBoxes, dessertBoxes, familyBoxes, lunchBoxes, partyBoxes, strawberries, _
-                        ) =
-                    _command;
+                    ) = _command;
 
                 CreateLineItem(baguettes, "mlc-s-b");
                 CreateLineItem(couplesBoxes, "mlc-b-cpl");
@@ -78,6 +78,14 @@ namespace Shop.Sales.Orders
                 CreateLineItem(lunchBoxes, "mlc-b-lun");
                 CreateLineItem(partyBoxes, "mlc-b-pty");
                 CreateLineItem(strawberries, $"mlc-ds-stw-{strawberries}");
+            }
+
+            public void FetchCustomers()
+            {
+                var customers = _uow.Customers.Fetch();
+                var customerIds = customers.Select(x => x.Id).ToList();
+
+                _builder.With(customerIds);
             }
 
             public void FindCustomer()
@@ -91,7 +99,10 @@ namespace Shop.Sales.Orders
                 else
                 {
                     var customer = Customer.From(email);
+
                     _uow.Customers.Create(customer);
+                    _uow.Commit();
+
                     _builder.With(customer.Id);
                 }
             }

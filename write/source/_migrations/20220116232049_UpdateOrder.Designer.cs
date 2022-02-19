@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Shop.Write;
 
-namespace Shop.Write.source._migrations
+namespace Shop.Write._migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20220116232049_UpdateOrder")]
+    partial class UpdateOrder
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -127,78 +129,6 @@ namespace Shop.Write.source._migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<bool>("IsExcludingApricots")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsExcludingBerries")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsExcludingBleuCheese")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsExcludingBrie")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsExcludingCaramel")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsExcludingCherry")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsExcludingChocolate")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsExcludingDill")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsExcludingGarlic")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsExcludingGoatCheese")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsExcludingGrapes")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsExcludingGreenOlives")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsExcludingHoney")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsExcludingKalamataOlives")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsExcludingMustard")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsExcludingNuts")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsExcludingPeppers")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsExcludingPomegranateSeeds")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsExcludingProsciutto")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsExcludingSalami")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsExcludingSharpCheeses")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsExcludingSpicy")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsExcludingVanilla")
-                        .HasColumnType("bit");
-
-                    b.Property<Guid>("OrderId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
@@ -206,8 +136,6 @@ namespace Shop.Write.source._migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("OrderId");
 
                     b.ToTable("LineItem");
                 });
@@ -227,20 +155,6 @@ namespace Shop.Write.source._migrations
                     b.HasKey("Id");
 
                     b.ToTable("Vendor");
-                });
-
-            modelBuilder.Entity("Shop.Write.Sales.LineItem", b =>
-                {
-                    b.HasOne("Shop.Write.Order", null)
-                        .WithMany("LineItems")
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Shop.Write.Order", b =>
-                {
-                    b.Navigation("LineItems");
                 });
 #pragma warning restore 612, 618
         }
