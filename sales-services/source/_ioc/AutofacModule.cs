@@ -17,7 +17,7 @@ namespace Shop.Sales.Services
                 .RegisterAssemblyTypes(_assembly)
                 .AsImplementedInterfaces();
 
-            builder.RegisterType<SubmitOrder.OrderBuilder>().AsSelf();
+            builder.RegisterType<Order.Builder>().AsSelf();
         }
 
         #endregion

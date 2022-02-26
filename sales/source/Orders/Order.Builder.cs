@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Jgs.Ddd;
 using Jgs.Functional.Explicit;
+using Shop.Sales.Customers;
 using Shop.Shared;
 using static Shop.Sales.Orders.ErrorExtensions;
 
@@ -10,23 +12,29 @@ namespace Shop.Sales.Orders
     {
         public class Builder
         {
-            private readonly List<Id> _customerIds = new();
             private readonly List<LineItem> _lineItems = new();
-            private Id _customerId;
+            private readonly IUnitOfWork _uow;
+            private Email _email;
+
+            #region Creation
+
+            public Builder(IUnitOfWork uow)
+            {
+                _uow = uow;
+            }
+
+            #endregion
 
             #region Public Interface
 
-            public Builder Add(LineItem lineItem)
-            {
-                _lineItems.Add(lineItem);
-                return this;
-            }
-
             public Result<Order, Error> Build()
             {
+                var customerId = FindCustomer();
+                var customerIds = FetchCustomers().ToList();
+
                 var result = From(
-                    _customerId,
-                    _customerIds,
+                    customerId,
+                    customerIds,
                     lineItems: _lineItems.ToArray()
                 );
 
@@ -35,39 +43,42 @@ namespace Shop.Sales.Orders
                     : CouldNotCreateOrder();
             }
 
-            public Builder With(Id customerId)
+            public Builder CreateLineItems(Quantity quantity, Sku sku, Options exclusions = Options.None)
             {
-                _customerId = customerId;
+                if (quantity == 0)
+                    return this;
+
+                var product = _uow.Products.Find(sku);
+
+                for (var i = 0; i < quantity; i++)
+                    _lineItems.Add(new(product.Price, product.Id, exclusions));
+
                 return this;
             }
 
-            public Builder With(List<Id> customerIds)
+            public Builder With(Email email)
             {
-                _customerIds.AddRange(customerIds);
+                _email = email;
                 return this;
             }
 
             #endregion
-        }
 
-        public class Director
-        {
-            private IOrderBuilder _builder;
+            #region Private Interface
 
-            #region Public Interface
+            private IEnumerable<Id> FetchCustomers() => _uow.Customers.Fetch().Select(x => x.Id);
 
-            public Director ConfigureSubmitOrder()
+            private Id FindCustomer()
             {
-                _builder.FindCustomer();
-                _builder.FetchCustomers();
-                _builder.CreateLineItems();
-                return this;
-            }
+                if (_uow.Customers.Exists(_email))
+                    return _uow.Customers.Find(_email).Id;
 
-            public Director With(IOrderBuilder builder)
-            {
-                _builder = builder;
-                return this;
+                var customer = Customer.From(_email);
+
+                _uow.Customers.Create(customer);
+                _uow.Commit();
+
+                return customer.Id;
             }
 
             #endregion

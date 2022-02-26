@@ -7,13 +7,13 @@ namespace Shop.Sales.Services
 {
     public class SubmitOrderHandler : ICommandHandler<SubmitOrder, Result<OrderSubmitted, Error>>
     {
-        private readonly SubmitOrder.OrderBuilder _builder;
+        private readonly Order.Builder _builder;
         private readonly IUnitOfWork _uow;
 
         #region Creation
 
         public SubmitOrderHandler(
-            SubmitOrder.OrderBuilder builder,
+            Order.Builder builder,
             IUnitOfWork uow
         )
         {
@@ -27,11 +27,19 @@ namespace Shop.Sales.Services
 
         public Result<OrderSubmitted, Error> Handle(SubmitOrder args)
         {
-            _builder.With(args);
+            _builder.With(args.Email);
 
-            new Order.Director()
-                .With(_builder)
-                .ConfigureSubmitOrder();
+            var (_, _, baguettes, couplesBoxes, dessertBoxes, familyBoxes, lunchBoxes, partyBoxes, strawberries, _
+                ) = args;
+
+            _builder
+                .CreateLineItems(baguettes, "mlc-s-b")
+                .CreateLineItems(couplesBoxes, "mlc-b-cpl")
+                .CreateLineItems(dessertBoxes, "mlc-bd-dst")
+                .CreateLineItems(familyBoxes, "mlc-b-fam")
+                .CreateLineItems(lunchBoxes, "mlc-b-lun")
+                .CreateLineItems(partyBoxes, "mlc-b-pty")
+                .CreateLineItems(strawberries, $"mlc-ds-stw-{strawberries}");
 
             var result = _builder.Build();
 
