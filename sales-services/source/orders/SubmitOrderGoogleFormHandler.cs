@@ -5,14 +5,14 @@ using Shop.Shared;
 
 namespace Shop.Sales.Services
 {
-    public class SubmitOrderHandler : ICommandHandler<SubmitOrder, Result<OrderSubmitted, Error>>
+    public class SubmitOrderGoogleFormHandler : ICommandHandler<SubmitOrderGoogleForm, Result<OrderSubmitted, Error>>
     {
         private readonly Order.Builder _builder;
         private readonly IUnitOfWork _uow;
 
         #region Creation
 
-        public SubmitOrderHandler(
+        public SubmitOrderGoogleFormHandler(
             Order.Builder builder,
             IUnitOfWork uow
         )
@@ -23,9 +23,9 @@ namespace Shop.Sales.Services
 
         #endregion
 
-        #region ICommandHandler<SubmitOrder,Result<OrderSubmitted,Error>> Implementation
+        #region ICommandHandler<SubmitOrderGoogleForm,Result<OrderSubmitted,Error>> Implementation
 
-        public Result<OrderSubmitted, Error> Handle(SubmitOrder args)
+        public Result<OrderSubmitted, Error> Handle(SubmitOrderGoogleForm args)
         {
             _builder.With(args.Email);
 
@@ -33,13 +33,13 @@ namespace Shop.Sales.Services
                 ) = args;
 
             _builder
-                .CreateLineItems(baguettes, "mlc-s-b")
-                .CreateLineItems(couplesBoxes, "mlc-b-cpl")
-                .CreateLineItems(dessertBoxes, "mlc-bd-dst")
-                .CreateLineItems(familyBoxes, "mlc-b-fam")
-                .CreateLineItems(lunchBoxes, "mlc-b-lun")
-                .CreateLineItems(partyBoxes, "mlc-b-pty")
-                .CreateLineItems(strawberries, $"mlc-ds-stw-{strawberries}");
+                .CreateLineItem("mlc-s-b", quantity: baguettes)
+                .CreateLineItem("mlc-b-cpl", quantity: couplesBoxes)
+                .CreateLineItem("mlc-bd-dst", quantity: dessertBoxes)
+                .CreateLineItem("mlc-b-fam", quantity: familyBoxes)
+                .CreateLineItem("mlc-b-lun", quantity: lunchBoxes)
+                .CreateLineItem("mlc-b-pty", quantity: partyBoxes)
+                .CreateLineItem($"mlc-ds-stw-{strawberries}", quantity: strawberries);
 
             var result = _builder.Build();
 

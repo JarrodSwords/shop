@@ -12,13 +12,13 @@ namespace Shop.Api.Sales
     public class OrdersController : ControllerBase
     {
         private readonly IQueryHandler<FindOrder, OrderDto> _findOrder;
-        private readonly ICommandHandler<SubmitOrder, Guid> _submitOrder;
+        private readonly ICommandHandler<SubmitOrderGoogleForm, Guid> _submitOrder;
 
         #region Creation
 
         public OrdersController(
             IQueryHandler<FindOrder, OrderDto> findOrder,
-            ICommandHandler<SubmitOrder, Guid> submitOrder
+            ICommandHandler<SubmitOrderGoogleForm, Guid> submitOrder
         )
         {
             _findOrder = findOrder;
@@ -36,7 +36,7 @@ namespace Shop.Api.Sales
         public ActionResult<OrderDto> FindOrder(Guid id) => _findOrder.Handle(id);
 
         [HttpPost]
-        public ActionResult<Guid> SubmitOrder([FromBody] SubmitOrder command) => _submitOrder.Handle(command);
+        public ActionResult<Guid> SubmitOrder([FromBody] SubmitOrderGoogleForm command) => _submitOrder.Handle(command);
 
         #endregion
     }

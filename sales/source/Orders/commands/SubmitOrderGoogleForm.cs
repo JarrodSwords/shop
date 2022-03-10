@@ -3,7 +3,7 @@ using Shop.Shared;
 
 namespace Shop.Sales.Orders
 {
-    public record SubmitOrder(
+    public record SubmitOrderGoogleForm(
         Email Email,
         Options Exclusions = default,
         ushort Baguettes = default,
