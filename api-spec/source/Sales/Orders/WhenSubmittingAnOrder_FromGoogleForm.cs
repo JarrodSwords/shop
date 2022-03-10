@@ -11,14 +11,14 @@ using Xunit;
 namespace Shop.Api.Spec.Sales.Orders
 {
     [Collection("storage")]
-    public abstract class WhenSubmittingAnOrder : ApplicationFixture
+    public abstract class WhenSubmittingAnOrder_FromGoogleForm : ApplicationFixture
     {
         #region Core
 
         private readonly IQueryHandler<FindOrder, OrderDto> _findOrder;
         protected readonly ICommandHandler<SubmitOrderGoogleForm, Result<OrderSubmitted, Error>> SubmitOrder;
 
-        protected WhenSubmittingAnOrder(IntegrationTestingFactory<Startup> factory) : base(factory)
+        protected WhenSubmittingAnOrder_FromGoogleForm(IntegrationTestingFactory<Startup> factory) : base(factory)
         {
             _findOrder = Resolve<IQueryHandler<FindOrder, OrderDto>>();
             SubmitOrder = Resolve<ICommandHandler<SubmitOrderGoogleForm, Result<OrderSubmitted, Error>>>();
@@ -44,7 +44,7 @@ namespace Shop.Api.Spec.Sales.Orders
 
         #endregion
 
-        public class WithARegisteredCustomer : WhenSubmittingAnOrder
+        public class WithARegisteredCustomer : WhenSubmittingAnOrder_FromGoogleForm
         {
             #region Core
 
@@ -79,7 +79,7 @@ namespace Shop.Api.Spec.Sales.Orders
             #endregion
         }
 
-        public class WithAnUnregisteredCustomer : WhenSubmittingAnOrder
+        public class WithAnUnregisteredCustomer : WhenSubmittingAnOrder_FromGoogleForm
         {
             #region Core
 
