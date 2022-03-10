@@ -33,13 +33,13 @@ namespace Shop.Sales.Services
                 ) = args;
 
             _builder
-                .CreateLineItems(baguettes, "mlc-s-b")
-                .CreateLineItems(couplesBoxes, "mlc-b-cpl")
-                .CreateLineItems(dessertBoxes, "mlc-bd-dst")
-                .CreateLineItems(familyBoxes, "mlc-b-fam")
-                .CreateLineItems(lunchBoxes, "mlc-b-lun")
-                .CreateLineItems(partyBoxes, "mlc-b-pty")
-                .CreateLineItems(strawberries, $"mlc-ds-stw-{strawberries}");
+                .CreateLineItem("mlc-s-b", quantity: baguettes)
+                .CreateLineItem("mlc-b-cpl", quantity: couplesBoxes)
+                .CreateLineItem("mlc-bd-dst", quantity: dessertBoxes)
+                .CreateLineItem("mlc-b-fam", quantity: familyBoxes)
+                .CreateLineItem("mlc-b-lun", quantity: lunchBoxes)
+                .CreateLineItem("mlc-b-pty", quantity: partyBoxes)
+                .CreateLineItem($"mlc-ds-stw-{strawberries}", quantity: strawberries);
 
             var result = _builder.Build();
 

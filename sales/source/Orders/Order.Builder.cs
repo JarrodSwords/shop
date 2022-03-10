@@ -43,8 +43,10 @@ namespace Shop.Sales.Orders
                     : CouldNotCreateOrder();
             }
 
-            public Builder CreateLineItems(Quantity quantity, Sku sku, Options exclusions = Options.None)
+            public Builder CreateLineItem(Sku sku, Options exclusions = Options.None, Quantity quantity = default)
             {
+                quantity ??= 1;
+
                 if (quantity == 0)
                     return this;
 
