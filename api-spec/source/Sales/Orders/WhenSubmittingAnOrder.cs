@@ -16,12 +16,12 @@ namespace Shop.Api.Spec.Sales.Orders
         #region Core
 
         private readonly IQueryHandler<FindOrder, OrderDto> _findOrder;
-        protected readonly ICommandHandler<SubmitOrder, Result<OrderSubmitted, Error>> SubmitOrder;
+        protected readonly ICommandHandler<SubmitOrderGoogleForm, Result<OrderSubmitted, Error>> SubmitOrder;
 
         protected WhenSubmittingAnOrder(IntegrationTestingFactory<Startup> factory) : base(factory)
         {
             _findOrder = Resolve<IQueryHandler<FindOrder, OrderDto>>();
-            SubmitOrder = Resolve<ICommandHandler<SubmitOrder, Result<OrderSubmitted, Error>>>();
+            SubmitOrder = Resolve<ICommandHandler<SubmitOrderGoogleForm, Result<OrderSubmitted, Error>>>();
         }
 
         #endregion
@@ -31,7 +31,7 @@ namespace Shop.Api.Spec.Sales.Orders
         [Fact]
         public void ThenTheOrderIsSaved()
         {
-            var candidateOrder = new SubmitOrder(
+            var candidateOrder = new SubmitOrderGoogleForm(
                 "chase.elliott@hms.com",
                 LunchBoxes: 1
             );
@@ -63,7 +63,7 @@ namespace Shop.Api.Spec.Sales.Orders
             [InlineData("william.byron@hms.com")]
             public void ThenTheCustomerIsNotRegisteredTwice(string email)
             {
-                var candidateOrder = new SubmitOrder(
+                var candidateOrder = new SubmitOrderGoogleForm(
                     email,
                     LunchBoxes: 1
                 );
@@ -98,7 +98,7 @@ namespace Shop.Api.Spec.Sales.Orders
             [InlineData("kyle.larson@hms.com")]
             public void ThenTheCustomerIsRegistered(string email)
             {
-                var candidateOrder = new SubmitOrder(
+                var candidateOrder = new SubmitOrderGoogleForm(
                     email,
                     LunchBoxes: 1
                 );

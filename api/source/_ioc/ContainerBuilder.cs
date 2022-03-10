@@ -13,7 +13,7 @@ namespace Shop.Api
         {
             typeof(Context).Assembly,
             typeof(FindOrderHandler).Assembly,
-            typeof(SubmitOrderHandler).Assembly,
+            typeof(SubmitOrderGoogleFormHandler).Assembly,
             typeof(RegisterProductHandler).Assembly
         };
 

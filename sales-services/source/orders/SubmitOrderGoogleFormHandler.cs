@@ -5,14 +5,14 @@ using Shop.Shared;
 
 namespace Shop.Sales.Services
 {
-    public class SubmitOrderHandler : ICommandHandler<SubmitOrder, Result<OrderSubmitted, Error>>
+    public class SubmitOrderGoogleFormHandler : ICommandHandler<SubmitOrderGoogleForm, Result<OrderSubmitted, Error>>
     {
         private readonly Order.Builder _builder;
         private readonly IUnitOfWork _uow;
 
         #region Creation
 
-        public SubmitOrderHandler(
+        public SubmitOrderGoogleFormHandler(
             Order.Builder builder,
             IUnitOfWork uow
         )
@@ -23,9 +23,9 @@ namespace Shop.Sales.Services
 
         #endregion
 
-        #region ICommandHandler<SubmitOrder,Result<OrderSubmitted,Error>> Implementation
+        #region ICommandHandler<SubmitOrderGoogleForm,Result<OrderSubmitted,Error>> Implementation
 
-        public Result<OrderSubmitted, Error> Handle(SubmitOrder args)
+        public Result<OrderSubmitted, Error> Handle(SubmitOrderGoogleForm args)
         {
             _builder.With(args.Email);
 

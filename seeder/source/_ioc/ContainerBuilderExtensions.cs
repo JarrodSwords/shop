@@ -13,7 +13,7 @@ namespace Shop.Seeder
         private static readonly Assembly[] Assemblies =
         {
             typeof(Program).Assembly,
-            typeof(SubmitOrder).Assembly,
+            typeof(SubmitOrderGoogleForm).Assembly,
             typeof(FindOrderHandler).Assembly,
             typeof(RegisterProductHandler).Assembly,
             typeof(Context).Assembly
